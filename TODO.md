@@ -49,6 +49,12 @@
         - remove mark from done button
         - remove cross out task text
         - increment number of items left
+        
+- edit task
+    - when double click to task
+        - remove task delete button
+        - replace task text with input field contains task text
+        - save task text when click enter
 
 - select all tasks
     - show all tasks, when click to all buttons
