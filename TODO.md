@@ -8,23 +8,23 @@
         input field
 
 - show task
-    - show task text
-    - show button for mark task as done/undone
-    - show button for delete task when hover
+    + show task text
+    + show button for mark task as done/undone
+    + show button for delete task when hover
 
 - show input field for add new task
-    - show placeholder "What needs to be done?"
-    - show button for mark all tasks as done
+    + show placeholder "What needs to be done?"
+    + show button for mark all tasks as done/undone
         - when click: mark all tasks as done
         - when double click: mark all tasks as undone
 
 - show number of items left
-    - use plural form, when items > 1
+    + use plural form, when items > 1
 
 - show task type buttons
-    - all
-    - active
-    - completed
+    + all
+    + active
+    + completed
 
 - add new task
     - add task by type text to input field and click to enter
