@@ -1,0 +1,31 @@
+- show task list
+- show input field for add new task
+    - show button for mark all tasks as done
+        - when click: mark all tasks as done
+        - when double click: mark all tasks as undone
+- add new task
+    - add task by inter click to enter
+        - not add task, when input field empty
+    - increment number of items left
+- delete task
+    - show delete button on task when hover
+    - delete task, when click delete button
+- delete completed tasks
+    - show delete button when at least one task is marked
+    - delete marked tasks, when click delete button
+- mark task as done
+    - show done button on task
+    - when click to done button:
+        - mark done button
+        - cross out task text
+        - decrement number of items left
+- mark task as undone
+    - show done button on task
+    - when click to done button:
+        - remove mark from done button
+        - remove cross out task text
+        - increment number of items left
+- show number of items left
+- show all button
+- show active button
+- show completed button
