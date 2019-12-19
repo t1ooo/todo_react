@@ -2,8 +2,8 @@
     - when there is at least one task:
         task_add_input_field
         task_list
-        items_left
-        show_tasks_by_type buttons
+        tasks_left_count
+        tasks_show_by_type buttons
         completed_tasks_delete_button
     - when there is no tasks:
         task_add_input_field
@@ -49,7 +49,7 @@
         - when click enter
             - if enter is empty: delete task, else: save task
 
-- show items_left
+- show tasks_left_count
     - use plural form, when items > 1
     - increment, when mark task as done
     - decrement, when mark task as undone
