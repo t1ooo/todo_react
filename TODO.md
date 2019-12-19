@@ -17,7 +17,7 @@
     + show task at the end of task_list
 
 - mark task as done/undone
-    - show task_done_checkbox the left of a task
+    + show task_done_checkbox the left of a task
         - when check:
             - mark task as done
             - add strikethrough to task_text
@@ -35,7 +35,8 @@
             - remove cross out from tasks text
 
 - delete task
-    - show task_delete_button the right of a task, when hover
+    + show task_delete_button the right of a task
+        - show only when when hover
     - delete task, when click on task_delete_button
    
 - delete completed tasks
