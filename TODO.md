@@ -8,13 +8,13 @@
     - when there is no tasks:
         task_add_input_field
 
-- add new task
-    - show task_add_input_field
-        - show placeholder "What needs to be done?"
-    - add task by type text to task_add_input_field and click to [enter]
-    - not add task, when input field empty
-    - clear task_add_input_field after task added
-    - show task at the end of task_list
++ add new task
+    + show task_add_input_field
+        + show placeholder "What needs to be done?"
+    + add task by type text to task_add_input_field and click to [enter]
+    + not add task, when input field empty
+    + clear task_add_input_field after task added
+    + show task at the end of task_list
 
 - mark task as done/undone
     - show task_done_checkbox the left of a task

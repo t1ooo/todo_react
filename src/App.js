@@ -1,35 +1,73 @@
 // http://todomvc.com/examples/react/#/
 
-import React from 'react';
-import './App.css';
-import PropTypes from 'prop-types';
+import React from "react";
+import "./App.css";
+import PropTypes from "prop-types";
+import { Todo, Task as TodoTask } from "./Todo";
 
 export class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      todo: new Todo(),
+    };
   }
 
   render() {
     return (
       <div className="App">
-        <InputField />
-        <Task />
-        <NumberOfTaskLeft num={3}/>
-        <TaskTypes />
+        <TaskAddInputField onSubmit={v=>this._addTask(v)}/>
+        <Tasks tasks={this.state.todo.getTasks()}/>
+        <TasksLeftCount num={3}/>
+        <TasksShowByType />
+      </div>
+    );
+  }
+  
+  _addTask(text) {
+    this.setState((state, props) => {
+      state.todo.add(new TodoTask(text));
+      return {todo: state.todo};
+    });
+  }
+}
+
+class TaskAddInputField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "",
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <button>done/undone tasks</button>
+          <form 
+            onSubmit={(event)=>{
+              event.preventDefault(); 
+              this.props.onSubmit(this.state.value);
+              this.setState({value: ''})
+            }}
+          >
+            <input 
+              value={this.state.value}
+              placeholder="What needs to be done?"
+              onChange={(event)=>this.setState({value: event.target.value})}
+            />
+          </form>
       </div>
     );
   }
 }
 
-class InputField extends React.Component {
+class Tasks extends React.Component {
   render() {
     return (
-      <div>
-        <button>done/undone tasks</button>
-        <input 
-          placeholder="What needs to be done?"
-        />
-      </div>
+      <ul>
+        {this.props.tasks.map((task,i)=>(<li key={i}><Task task={task}/></li>))}
+      </ul>
     );
   }
 }
@@ -38,16 +76,15 @@ class Task extends React.Component {
   render() {
     return (
       <div>
-        {/* <input type="checkbox" /> */}
-        <button>done/undone</button>
-        <span>some task</span>
+        <input type="checkbox" />
+        <span>{this.props.task.text}</span>
         <button>remove</button>
       </div>
     );
   }
 }
 
-class NumberOfTaskLeft extends React.Component {
+class TasksLeftCount extends React.Component {
   render() {
     const num = this.props.num;
     return (
@@ -64,7 +101,7 @@ class NumberOfTaskLeft extends React.Component {
   }
 }
 
-class TaskTypes extends React.Component {
+class TasksShowByType extends React.Component {
   render() {
     return (
       <div>
