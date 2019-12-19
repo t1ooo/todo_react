@@ -3,6 +3,10 @@ export class Todo {
     this._tasks = [];
   }
   
+  getUndone() {
+    return this.getTasks().filter(task=>task.done===false);
+  }
+  
   getTasks() {
     return this._tasks;
   }
