@@ -21,14 +21,16 @@
 - show number of items left
     + use plural form, when items > 1
 
-- show task type buttons
++ show task type buttons
     + all
     + active
     + completed
 
 - add new task
-    - add task by type text to input field and click to enter
-        - not add task, when input field empty
+    + add task by type text to input field and click to enter
+        + not add task, when input field empty
+            <!-- default behavior for input field -->
+    + clear input field after task add
     - increment number of items left
 
 - delete task
