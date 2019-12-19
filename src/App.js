@@ -18,7 +18,7 @@ export class App extends React.Component {
       <div className="App">
         <TaskAddInputField onSubmit={v=>this._addTask(v)}/>
         <Tasks tasks={this.state.todo.getTasks()}/>
-        <TasksLeftCount num={3}/>
+        <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
         <CompletedTasksClear />
       </div>
