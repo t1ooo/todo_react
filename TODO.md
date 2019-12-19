@@ -4,7 +4,7 @@
         task_list
         tasks_left_count
         tasks_show_by_type buttons
-        completed_tasks_delete_button
+        completed_tasks_clear_button
     - when there is no tasks:
         task_add_input_field
 
@@ -40,8 +40,9 @@
     - delete task, when click on task_delete_button
    
 - delete completed tasks
-    - show completed_tasks_delete_button when at least one task is marked
-    - delete done tasks, when click completed_tasks_delete_button button
+    + show completed_tasks_clear_button 
+        - show only when at least one task is marked
+    - delete done tasks, when click completed_tasks_clear_button button
 
 - edit task
     - when double click to task
