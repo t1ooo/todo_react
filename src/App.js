@@ -20,6 +20,7 @@ export class App extends React.Component {
         <Tasks tasks={this.state.todo.getTasks()}/>
         <TasksLeftCount num={3}/>
         <TasksShowByType />
+        <CompletedTasksClear />
       </div>
     );
   }
@@ -108,6 +109,16 @@ class TasksShowByType extends React.Component {
         <button>all</button>
         <button>active</button>
         <button>completed</button>
+      </div>
+    );
+  }
+}
+
+class CompletedTasksClear extends React.Component {
+  render() {
+    return (
+      <div>
+        <button>clear completed</button>
       </div>
     );
   }
