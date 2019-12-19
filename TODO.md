@@ -52,7 +52,7 @@
             - if enter is empty: delete task, else: save task
 
 - show tasks_left_count
-    - use plural form, when items > 1
+    + use plural form, when items > 1
     - increment, when mark task as done
     - decrement, when mark task as undone
 
