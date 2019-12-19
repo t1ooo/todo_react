@@ -58,8 +58,8 @@ class NumberOfTaskLeft extends React.Component {
   }
   _endOfWord(num) {
     switch(num) {
-      case(0): return '';
-      case(1): return 's';
+      case(0): return "";
+      case(1): return "s";
     }
   }
 }
