@@ -16,7 +16,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <TaskAddInputField onSubmit={v => this._addTask(v)}/>
+        <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateDoneAll(done)}/>
         {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateTask(task)} onRemove={(task) => this._removeTask(task)}/>}
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
@@ -47,6 +47,16 @@ export class App extends React.Component {
       return {todo: state.todo};
     });
   }
+  
+  _updateDoneAll(done) {
+    this.setState((state, props) => {
+      this.state.todo.getTasks().forEach(task => {
+        task.done = done;
+      });
+      console.log(state.todo);
+      return {todo: state.todo};
+    });
+  }
 }
 
 class TaskAddInputField extends React.Component {
@@ -60,7 +70,7 @@ class TaskAddInputField extends React.Component {
   render() {
     return (
       <div>
-        <button>done/undone tasks</button>
+        <input type="checkbox" onChange={(e) => this.props.checkDoneAll(e.target.checked)} />done/undone tasks
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -83,7 +93,7 @@ class Tasks extends React.Component {
   render() {
     return (
       <ul>
-        {this.props.tasks.map((task,i) => (<li key={i}><Task task={task} onChange={this.props.onChange} onRemove={this.props.onRemove}/></li>))}
+        {this.props.tasks.map((task,i) => (<li key={i}><Task checked={task.checked} task={task} onChange={this.props.onChange} onRemove={this.props.onRemove}/></li>))}
       </ul>
     );
   }
@@ -95,7 +105,7 @@ class Task extends React.Component {
       <div>
         <input
           type="checkbox"
-          checked={this.props.task.checked}
+          checked={this.props.checked}
           onChange={(e) => {
             this.props.task.done = e.target.checked;
             this.props.onChange(this.props.task);

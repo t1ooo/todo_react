@@ -26,12 +26,12 @@
             - remove strikethrough from task_text
             
 - mark all tasks as done/undone
-    - show all_tasks_done_button
+    + show all_tasks_done_button
         - when check:
-            - mark all tasks as done
+            + mark all tasks as done
             - cross out tasks text
         - when uncheck:
-            - mark all tasks as undone
+            + mark all tasks as undone
             - remove cross out from tasks text
 
 - delete task
