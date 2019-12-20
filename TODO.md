@@ -19,10 +19,10 @@
 - mark task as done/undone
     + show task_done_checkbox the left of a task
         - when check:
-            - mark task as done
+            + mark task as done
             - add strikethrough to task_text
         - when uncheck:
-            - mark task as undone
+            + mark task as undone
             - remove strikethrough from task_text
             
 - mark all tasks as done/undone
@@ -53,8 +53,7 @@
 
 - show tasks_left_count
     + use plural form, when items > 1
-    - increment, when mark task as done
-    - decrement, when mark task as undone
+    + increment/decrement, when mark task as done/undone
 
 - show task by type
     - show all tasks
