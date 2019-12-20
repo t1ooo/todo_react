@@ -4,7 +4,7 @@ export class Todo {
   }
 
   getUndone() {
-    return this.getTasks().filter(task=>task.done===false);
+    return this.getTasks().filter(task=>task.complete===false);
   }
 
   getTasks() {
@@ -42,7 +42,7 @@ export class Todo {
 export class Task {
   constructor(text) {
     this.text = text;
-    this.done = false;
+    this.complete = false;
     this.id = genId();
   }
 }

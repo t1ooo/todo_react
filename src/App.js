@@ -16,23 +16,23 @@ export class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateTaskDoneAll(done)}/>
+        <TaskAddInputField addTask={v => this._addTask(v)} updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}/>
           <Tasks
             tasks={this.state.todo.getTasks()}
-            onCheck={(task_id) => this._updateTaskDone(task_id)}
+            onCheck={(task_id) => this._updateTaskCompletion(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
           />
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
-        <CompletedTasksClear removeDoneTaskAll={() => this._removeDoneTaskAll()}/>
+        <CompletedTasksClear removeCompletedTaskAll={() => this._removeCompletedTaskAll()}/>
       </div>
     );
   }
 
-  _updateTaskDone(task_id) {
+  _updateTaskCompletion(task_id) {
     this.setState((state, props) => {
       state.todo.update(task_id, function(_task) {
-        _task.done = !_task.done;
+        _task.complete = !_task.complete;
         return _task;
       });
       return {todo: state.todo};
@@ -46,9 +46,9 @@ export class App extends React.Component {
     });
   }
   
-  _removeDoneTaskAll() {
+  _removeCompletedTaskAll() {
     this.setState((state, props) => {
-      state.todo.filter(task => task.done === false);
+      state.todo.filter(task => task.complete === false);
       return {todo: state.todo};
     });
   }
@@ -63,10 +63,10 @@ export class App extends React.Component {
     });
   }
 
-  _updateTaskDoneAll(done) {
+  _updateTaskCompletionAll(complete) {
     this.setState((state, props) => {
       this.state.todo.getTasks().forEach(task => {
-        task.done = done;
+        task.complete = complete;
       });
       return {todo: state.todo};
     });
@@ -84,17 +84,17 @@ class TaskAddInputField extends React.Component {
   render() {
     return (
       <div>
-        <input type="checkbox" onChange={(e) => this.props.checkDoneAll(e.target.checked)} />done/undone tasks
+        <input type="checkbox" onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)} />complete/undone tasks
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              this.props.onSubmit(this.state.value);
+              this.props.addTask(this.state.value);
               this.setState({value: ''})
             }}
           >
             <input
               value={this.state.value}
-              placeholder="What needs to be done?"
+              placeholder="What needs to be complete?"
               onChange={(event) => this.setState({value: event.target.value})}
             />
           </form>
@@ -110,7 +110,7 @@ class Tasks extends React.Component {
         {this.props.tasks.map((task) =>
           (<li key={task.id}>
             <Task
-              checked={task.done}
+              checked={task.complete}
               text={task.text}
               onCheck={() => this.props.onCheck(task.id)}
               onRemove={() => this.props.onRemove(task.id)}
@@ -171,7 +171,7 @@ class CompletedTasksClear extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.props.removeDoneTaskAll}>clear completed</button>
+        <button onClick={this.props.removeCompletedTaskAll}>clear completed</button>
       </div>
     );
   }
