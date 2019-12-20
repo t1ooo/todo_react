@@ -16,15 +16,22 @@ export class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <TaskAddInputField addTask={v => this._addTask(v)} updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}/>
+        <TaskAddInputField 
+          addTask={v => this._addTask(v)} 
+          updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}
+        />
           <Tasks
             tasks={this.state.todo.getTasks()}
             onCheck={(task_id) => this._updateTaskCompletion(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
           />
-        <TasksLeftCount num={this.state.todo.getUndone().length}/>
+        <TasksLeftCount 
+          num={this.state.todo.getUndone().length}
+        />
         <TasksShowByType />
-        <CompletedTasksClear removeCompletedTaskAll={() => this._removeCompletedTaskAll()}/>
+        <CompletedTasksClear 
+          removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
+        />
       </div>
     );
   }
@@ -84,7 +91,10 @@ class TaskAddInputField extends React.Component {
   render() {
     return (
       <div>
-        <input type="checkbox" onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)} />complete/undone tasks
+        <input 
+          type="checkbox" 
+          onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)} 
+        />complete/undone tasks
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -132,7 +142,11 @@ class Task extends React.Component {
           onChange={this.props.onCheck}
         />
         <span>{this.props.text}</span>
-        <button onClick={this.props.onRemove}>remove</button>
+        <button 
+          onClick={this.props.onRemove}
+        >
+          remove
+        </button>
       </div>
     );
   }
@@ -171,7 +185,11 @@ class CompletedTasksClear extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.props.removeCompletedTaskAll}>clear completed</button>
+        <button 
+          onClick={this.props.removeCompletedTaskAll}
+        >
+          clear completed
+        </button>
       </div>
     );
   }
