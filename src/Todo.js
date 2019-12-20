@@ -16,25 +16,23 @@ export class Todo {
   }
 
   update(task_id, callback) {
-    for(let i in this._tasks) {
-      if (this._tasks[i].id === task_id) {
-        this._tasks[i] = callback(this._tasks[i]);
-        return;
-      }
-    }
-    throw new Error("task not found");
+    const i = this._lookup(task_id);
+    this._tasks[i] = callback(this._tasks[i]);
   }
   
   remove(task_id) {
+    const i = this._lookup(task_id);
+    this._tasks.splice(i, 1);
+  }
+  
+  _lookup(task_id) {
     for(let i in this._tasks) {
       if (this._tasks[i].id === task_id) {
-        this._tasks.splice(i, 1);
-        return;
+        return i;
       }
     }
     throw new Error("task not found");
   }
-  
 }
 
 export class Task {
