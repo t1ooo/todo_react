@@ -16,8 +16,8 @@ export class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <TaskAddInputField 
-          addTask={v => this._addTask(v)} 
+        <TaskAddInputField
+          addTask={v => this._addTask(v)}
           updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}
         />
           <Tasks
@@ -25,11 +25,11 @@ export class App extends React.Component {
             onCheck={(task_id) => this._updateTaskCompletion(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
           />
-        <TasksLeftCount 
+        <TasksLeftCount
           num={this.state.todo.getUndone().length}
         />
         <TasksShowByType />
-        <CompletedTasksClear 
+        <CompletedTasksClear
           removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
         />
       </div>
@@ -52,7 +52,7 @@ export class App extends React.Component {
       return {todo: state.todo};
     });
   }
-  
+
   _removeCompletedTaskAll() {
     this.setState((state, props) => {
       state.todo.filter(task => task.complete === false);
@@ -91,9 +91,9 @@ class TaskAddInputField extends React.Component {
   render() {
     return (
       <div>
-        <input 
-          type="checkbox" 
-          onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)} 
+        <input
+          type="checkbox"
+          onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)}
         />complete/undone tasks
           <form
             onSubmit={(event) => {
@@ -142,7 +142,7 @@ class Task extends React.Component {
           onChange={this.props.onCheck}
         />
         <span>{this.props.text}</span>
-        <button 
+        <button
           onClick={this.props.onRemove}
         >
           remove
@@ -185,7 +185,7 @@ class CompletedTasksClear extends React.Component {
   render() {
     return (
       <div>
-        <button 
+        <button
           onClick={this.props.removeCompletedTaskAll}
         >
           clear completed
