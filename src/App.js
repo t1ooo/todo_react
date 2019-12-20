@@ -17,7 +17,7 @@ export class App extends React.Component {
     return (
       <div className="App">
         <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateDoneAll(done)}/>
-        {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateTask(task)} onRemove={(task) => this._removeTask(task)}/>}
+        {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateDone(task)} onRemove={(task) => this._removeTask(task)}/>}
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
         <CompletedTasksClear />
@@ -25,7 +25,7 @@ export class App extends React.Component {
     );
   }
 
-  _updateTask(task) {
+  _updateDone(task) {
     this.setState((state, props) => {
       state.todo.update(task.id, function(_task) {
         return task;
