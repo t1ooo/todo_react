@@ -10,6 +10,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       todo: new Todo(),
+      taskType: 'all',
     };
   }
 
@@ -21,19 +22,35 @@ export class App extends React.Component {
           updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}
         />
           <Tasks
-            tasks={this.state.todo.getTasks()}
+            tasks={this._getTasks()}
             onCheck={(task_id) => this._updateTaskCompletion(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
           />
         <TasksLeftCount
           num={this._getNotCompleteTaskCount()}
         />
-        <TasksShowByType />
+        <TasksShowByType 
+          setTasksType={taskType => this._setTasksType(taskType)}
+        />
         <CompletedTasksClear
           removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
         />
       </div>
     );
+  }
+  
+  _getTasks() {
+    switch(this.state.taskType) {
+      case 'all':       return this.state.todo.getTasks();
+      case 'active':    return this.state.todo.getTasks().filter(task => task.complete === false);
+      case 'completed': return this.state.todo.getTasks().filter(task => task.complete === true);
+    }
+  }
+  
+  _setTasksType(taskType) {
+    this.setState((state, props) => {
+      return {taskType: taskType};
+    });
   }
 
   _getNotCompleteTaskCount() {
@@ -177,9 +194,9 @@ class TasksShowByType extends React.Component {
   render() {
     return (
       <div>
-        <button>all</button>
-        <button>active</button>
-        <button>completed</button>
+        <button onClick={() => this.props.setTasksType('all')}>all</button>
+        <button onClick={() => this.props.setTasksType('active')}>active</button>
+        <button onClick={() => this.props.setTasksType('completed')}>completed</button>
       </div>
     );
   }

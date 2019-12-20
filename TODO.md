@@ -55,18 +55,18 @@
     + use plural form, when items > 1
     + increment/decrement, when mark task as done/undone
 
-- show task by type
-    - show all tasks
-        - show all_task_button
-        - show all tasks, when click to all_task_button
++ show task by type
+    + show all tasks
+        + show all_task_button
+        + show all tasks, when click to all_task_button
 
-    - show active tasks
-        - show active_tasks_button
-        - show active tasks, when click to active_tasks_button
+    + show active tasks
+        + show active_tasks_button
+        + show active tasks, when click to active_tasks_button
 
-    - show completed tasks
-        - show completed_tasks_button
-        - show completed tasks, when click to completed_tasks_button
+    + show completed tasks
+        + show completed_tasks_button
+        + show completed tasks, when click to completed_tasks_button
 
 - auto save tasks state between sessions
 
