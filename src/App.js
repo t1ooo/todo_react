@@ -59,6 +59,9 @@ export class App extends React.Component {
   }
 
   _addTask(text) {
+    if (text === "") {
+      return;
+    }
     this.setState((state, props) => {
       state.todo.add(new TodoTask(text));
       return {todo: state.todo};
