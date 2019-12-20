@@ -42,7 +42,7 @@
 - delete completed tasks
     + show completed_tasks_clear_button 
         - show only when at least one task is marked
-    - delete done tasks, when click completed_tasks_clear_button button
+    + delete done tasks, when click completed_tasks_clear_button button
 
 - edit task
     - when double click to task

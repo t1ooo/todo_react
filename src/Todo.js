@@ -25,6 +25,10 @@ export class Todo {
     this._tasks.splice(i, 1);
   }
   
+  filter(callback) {
+    this._tasks = this._tasks.filter(callback);
+  }
+  
   _lookup(task_id) {
     for(let i in this._tasks) {
       if (this._tasks[i].id === task_id) {

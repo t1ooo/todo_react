@@ -24,7 +24,7 @@ export class App extends React.Component {
           />
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
-        <CompletedTasksClear />
+        <CompletedTasksClear removeDoneTaskAll={() => this._removeDoneTaskAll()}/>
       </div>
     );
   }
@@ -42,6 +42,13 @@ export class App extends React.Component {
   _removeTask(task_id) {
     this.setState((state, props) => {
       state.todo.remove(task_id);
+      return {todo: state.todo};
+    });
+  }
+  
+  _removeDoneTaskAll() {
+    this.setState((state, props) => {
+      state.todo.filter(task => task.done === false);
       return {todo: state.todo};
     });
   }
@@ -164,7 +171,7 @@ class CompletedTasksClear extends React.Component {
   render() {
     return (
       <div>
-        <button>clear completed</button>
+        <button onClick={this.props.removeDoneTaskAll}>clear completed</button>
       </div>
     );
   }
