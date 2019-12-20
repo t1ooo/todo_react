@@ -37,7 +37,7 @@
 - delete task
     + show task_delete_button the right of a task
         - show only when when hover
-    - delete task, when click on task_delete_button
+    + delete task, when click on task_delete_button
    
 - delete completed tasks
     + show completed_tasks_clear_button 
@@ -69,3 +69,6 @@
         - show completed tasks, when click to completed_tasks_button
 
 - auto save tasks state between sessions
+
+--------------------------------------------------------------------------------
+- replace Task.onChange to onCheck

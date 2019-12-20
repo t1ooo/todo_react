@@ -24,6 +24,17 @@ export class Todo {
     }
     throw new Error("task not found");
   }
+  
+  remove(task_id) {
+    for(let i in this._tasks) {
+      if (this._tasks[i].id === task_id) {
+        this._tasks.splice(i, 1);
+        return;
+      }
+    }
+    throw new Error("task not found");
+  }
+  
 }
 
 export class Task {

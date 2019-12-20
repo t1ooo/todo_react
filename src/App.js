@@ -17,7 +17,7 @@ export class App extends React.Component {
     return (
       <div className="App">
         <TaskAddInputField onSubmit={v => this._addTask(v)}/>
-        {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateTask(task)}/>}
+        {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateTask(task)} onRemove={(task) => this._removeTask(task)}/>}
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
         <CompletedTasksClear />
@@ -30,6 +30,13 @@ export class App extends React.Component {
       state.todo.update(task.id, function(_task) {
         return task;
       });
+      return {todo: state.todo};
+    });
+  }
+  
+  _removeTask(task) {
+    this.setState((state, props) => {
+      state.todo.remove(task.id);
       return {todo: state.todo};
     });
   }
@@ -76,7 +83,7 @@ class Tasks extends React.Component {
   render() {
     return (
       <ul>
-        {this.props.tasks.map((task,i) => (<li key={i}><Task task={task} onChange={this.props.onChange}/></li>))}
+        {this.props.tasks.map((task,i) => (<li key={i}><Task task={task} onChange={this.props.onChange} onRemove={this.props.onRemove}/></li>))}
       </ul>
     );
   }
@@ -98,7 +105,7 @@ class Task extends React.Component {
           }}
         />
         <span>{this.props.task.text}</span>
-        <button>remove</button>
+        <button onClick={(e) => this.props.onRemove(this.props.task)}>remove</button>
       </div>
     );
   }
