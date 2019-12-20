@@ -42,8 +42,8 @@ export class App extends React.Component {
   _getTasks() {
     switch(this.state.taskType) {
       case 'all':       return this.state.todo.getTasks();
-      case 'active':    return this.state.todo.getTasks().filter(task => task.complete === false);
-      case 'completed': return this.state.todo.getTasks().filter(task => task.complete === true);
+      case 'active':    return this.state.todo.getTasks().filter(task => ! task.complete);
+      case 'completed': return this.state.todo.getTasks().filter(task => task.complete);
     }
   }
   
