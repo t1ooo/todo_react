@@ -16,12 +16,6 @@ export class Todo {
   }
 
   update(task_id, callback) {
-    /* for(let task of this._tasks) {
-      if (task.id === task_id) {
-        task = callback(task);
-        return;
-      }
-    } */
     for(let i in this._tasks) {
       if (this._tasks[i].id === task_id) {
         this._tasks[i] = callback(this._tasks[i]);
