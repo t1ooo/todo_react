@@ -16,10 +16,10 @@ export class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateDoneAll(done)}/>
+        <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateTaskDoneAll(done)}/>
           <Tasks
             tasks={this.state.todo.getTasks()}
-            onCheck={(task_id) => this._updateDone(task_id)}
+            onCheck={(task_id) => this._updateTaskDone(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
           />
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
@@ -29,7 +29,7 @@ export class App extends React.Component {
     );
   }
 
-  _updateDone(task_id) {
+  _updateTaskDone(task_id) {
     this.setState((state, props) => {
       state.todo.update(task_id, function(_task) {
         _task.done = !_task.done;
@@ -56,7 +56,7 @@ export class App extends React.Component {
     });
   }
 
-  _updateDoneAll(done) {
+  _updateTaskDoneAll(done) {
     this.setState((state, props) => {
       this.state.todo.getTasks().forEach(task => {
         task.done = done;
