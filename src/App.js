@@ -17,23 +17,11 @@ export class App extends React.Component {
     return (
       <div className="App">
         <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateDoneAll(done)}/>
-          {/*<Tasks 
-          tasks={this.state.todo.getTasks()} 
-          onChange={(task) => this._updateDone(task)} 
-          onRemove={(task) => this._removeTask(task)}
-          />*/}
-        {<ul>
-          {this.state.todo.getTasks().map((task) => 
-            (<li key={task.id}>
-              <Task 
-                checked={task.checked} 
-                text={task.text} 
-                onChange={() => this._updateDone(task.id)} 
-                onRemove={() => this._removeTask(task.id)}
-              />
-            </li>)
-          )}
-        </ul>}
+          <Tasks
+            tasks={this.state.todo.getTasks()}
+            onCheck={(task_id) => this._updateDone(task_id)}
+            onRemove={(task_id) => this._removeTask(task_id)}
+          />
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
         <CompletedTasksClear />
@@ -67,17 +55,12 @@ export class App extends React.Component {
       return {todo: state.todo};
     });
   }
-  
+
   _updateDoneAll(done) {
     this.setState((state, props) => {
       this.state.todo.getTasks().forEach(task => {
-        //task.done = done;
-        state.todo.update(task.id, function(_task) {
-          _task.done = done;
-          return _task;
-        });
+        task.done = done;
       });
-      //console.log(state.todo);
       return {todo: state.todo};
     });
   }
@@ -117,7 +100,16 @@ class Tasks extends React.Component {
   render() {
     return (
       <ul>
-        {this.props.tasks.map((task,i) => (<li key={i}><Task checked={task.checked} task={task} onChange={this.props.onChange} onRemove={this.props.onRemove}/></li>))}
+        {this.props.tasks.map((task) =>
+          (<li key={task.id}>
+            <Task
+              checked={task.done}
+              text={task.text}
+              onCheck={() => this.props.onCheck(task.id)}
+              onRemove={() => this.props.onRemove(task.id)}
+            />
+          </li>)
+        )}
       </ul>
     );
   }
@@ -130,7 +122,7 @@ class Task extends React.Component {
         <input
           type="checkbox"
           checked={this.props.checked}
-          onChange={this.props.onChange}
+          onChange={this.props.onCheck}
         />
         <span>{this.props.text}</span>
         <button onClick={this.props.onRemove}>remove</button>
