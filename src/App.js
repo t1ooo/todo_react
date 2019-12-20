@@ -26,7 +26,7 @@ export class App extends React.Component {
             onRemove={(task_id) => this._removeTask(task_id)}
           />
         <TasksLeftCount
-          num={this.state.todo.getUndone().length}
+          num={this._getNotCompleteTaskCount()}
         />
         <TasksShowByType />
         <CompletedTasksClear
@@ -34,6 +34,10 @@ export class App extends React.Component {
         />
       </div>
     );
+  }
+
+  _getNotCompleteTaskCount() {
+    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete?0:1), 0);
   }
 
   _updateTaskCompletion(task_id) {
