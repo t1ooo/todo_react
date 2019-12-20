@@ -17,7 +17,23 @@ export class App extends React.Component {
     return (
       <div className="App">
         <TaskAddInputField onSubmit={v => this._addTask(v)} checkDoneAll={(done) => this._updateDoneAll(done)}/>
-        {<Tasks tasks={this.state.todo.getTasks()} onChange={(task) => this._updateDone(task)} onRemove={(task) => this._removeTask(task)}/>}
+          {/*<Tasks 
+          tasks={this.state.todo.getTasks()} 
+          onChange={(task) => this._updateDone(task)} 
+          onRemove={(task) => this._removeTask(task)}
+          />*/}
+        {<ul>
+          {this.state.todo.getTasks().map((task) => 
+            (<li key={task.id}>
+              <Task 
+                checked={task.checked} 
+                text={task.text} 
+                onChange={() => this._updateDone(task.id)} 
+                onRemove={() => this._removeTask(task.id)}
+              />
+            </li>)
+          )}
+        </ul>}
         <TasksLeftCount num={this.state.todo.getUndone().length}/>
         <TasksShowByType />
         <CompletedTasksClear />
@@ -25,18 +41,19 @@ export class App extends React.Component {
     );
   }
 
-  _updateDone(task) {
+  _updateDone(task_id) {
     this.setState((state, props) => {
-      state.todo.update(task.id, function(_task) {
-        return task;
+      state.todo.update(task_id, function(_task) {
+        _task.done = !_task.done;
+        return _task;
       });
       return {todo: state.todo};
     });
   }
-  
-  _removeTask(task) {
+
+  _removeTask(task_id) {
     this.setState((state, props) => {
-      state.todo.remove(task.id);
+      state.todo.remove(task_id);
       return {todo: state.todo};
     });
   }
@@ -51,9 +68,13 @@ export class App extends React.Component {
   _updateDoneAll(done) {
     this.setState((state, props) => {
       this.state.todo.getTasks().forEach(task => {
-        task.done = done;
+        //task.done = done;
+        state.todo.update(task.id, function(_task) {
+          _task.done = done;
+          return _task;
+        });
       });
-      console.log(state.todo);
+      //console.log(state.todo);
       return {todo: state.todo};
     });
   }
@@ -106,16 +127,10 @@ class Task extends React.Component {
         <input
           type="checkbox"
           checked={this.props.checked}
-          onChange={(e) => {
-            this.props.task.done = e.target.checked;
-            this.props.onChange(this.props.task);
-            /* const task = clone(this.props.task);
-            task.done = e.target.checked;
-            this.props.onChange(task); */
-          }}
+          onChange={this.props.onChange}
         />
-        <span>{this.props.task.text}</span>
-        <button onClick={(e) => this.props.onRemove(this.props.task)}>remove</button>
+        <span>{this.props.text}</span>
+        <button onClick={this.props.onRemove}>remove</button>
       </div>
     );
   }
