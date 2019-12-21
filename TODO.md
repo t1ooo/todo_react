@@ -45,11 +45,9 @@
     + delete done tasks, when click completed_tasks_clear_button button
 
 - edit task
-    - when double click to task
+    - make task_text editable, when double click to task
         - remove task delete button
-        - replace task text with input field contains task text
-        - when click enter
-            - if enter is empty: delete task, else: save task
+        - delete task, if task_text is empty
 
 - show tasks_left_count
     + use plural form, when items > 1
