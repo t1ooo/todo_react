@@ -114,7 +114,7 @@ class TaskAddInputField extends React.Component {
       <div>
         <input
           type="checkbox"
-          onChange={(e) => this.props.updateTaskCompletionAll(e.target.checked)}
+          onChange={(event) => this.props.updateTaskCompletionAll(event.target.checked)}
         />complete/undone tasks
           <form
             onSubmit={(event) => {
