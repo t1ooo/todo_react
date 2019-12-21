@@ -76,7 +76,7 @@ export class App extends React.Component {
 
   _removeCompletedTaskAll() {
     this.setState((state, props) => {
-      state.todo.filter(task => task.complete === false);
+      state.todo.filter(task => !task.complete);
       return {todo: state.todo};
     });
   }
