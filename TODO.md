@@ -47,7 +47,7 @@
 - edit task
     - make task_text editable, when double click to task
         - remove task delete button
-        - delete task, if task_text is empty
+        - when press enter: delete task, if task_text is empty, else save
 
 - show tasks_left_count
     + use plural form, when items > 1
