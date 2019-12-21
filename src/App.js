@@ -25,11 +25,12 @@ export class App extends React.Component {
             tasks={this._getTasks()}
             onCheck={(task_id) => this._updateTaskCompletion(task_id)}
             onRemove={(task_id) => this._removeTask(task_id)}
+            updateTaskText={(task_id, text) => this._updateTaskText(task_id, text)}
           />
         <TasksLeftCount
           num={this._getNotCompleteTaskCount()}
         />
-        <TasksShowByType 
+        <TasksShowByType
           setTasksType={taskType => this._setTasksType(taskType)}
         />
         <CompletedTasksClear
@@ -38,7 +39,7 @@ export class App extends React.Component {
       </div>
     );
   }
-  
+
   _getTasks() {
     switch(this.state.taskType) {
       case 'all':       return this.state.todo.getTasks();
@@ -46,7 +47,7 @@ export class App extends React.Component {
       case 'completed': return this.state.todo.getTasks().filter(task => task.complete);
     }
   }
-  
+
   _setTasksType(taskType) {
     this.setState((state, props) => {
       return {taskType: taskType};
@@ -55,6 +56,20 @@ export class App extends React.Component {
 
   _getNotCompleteTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete?0:1), 0);
+  }
+
+  _updateTaskText(task_id, text) {
+    if (text === "") {
+      this._removeTask(task_id);
+      return;
+    }
+    this.setState((state, props) => {
+      state.todo.update(task_id, function(_task) {
+        _task.text = text;
+        return _task;
+      });
+      return {todo: state.todo};
+    });
   }
 
   _updateTaskCompletion(task_id) {
@@ -145,6 +160,7 @@ class Tasks extends React.Component {
               text={task.text}
               onCheck={() => this.props.onCheck(task.id)}
               onRemove={() => this.props.onRemove(task.id)}
+              updateTaskText={(text) => this.props.updateTaskText(task.id, text)}
             />
           </li>)
         )}
@@ -154,21 +170,60 @@ class Tasks extends React.Component {
 }
 
 class Task extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.text,
+      edit: false,
+    };
+  }
+
   render() {
     return (
-      <div>
+      <div className="Task">
         <input
           type="checkbox"
           checked={this.props.checked}
           onChange={this.props.onCheck}
         />
-        <span>{this.props.text}</span>
-        <button
-          onClick={this.props.onRemove}
+        {this.state.edit ?this._editForm() :this._taskBody()}
+      </div>
+    );
+  }
+
+  _handleTextEdit(event) {
+    event.preventDefault();
+    //console.log(this.state.value);
+    this.props.updateTaskText(this.state.value);
+    this.setState({edit:!this.state.edit})
+  }
+
+  _editForm() {
+    return (
+        <form className="form"
+        onSubmit={(event) => this._handleTextEdit(event)}
+      >
+        <input
+          value={this.state.value}
+          onChange={(event) => this.setState({value: event.target.value})}
+          onBlur={(event) => this._handleTextEdit(event)}
+        />
+      </form>
+    );
+  }
+  
+  _taskBody() {
+    return (
+      <span>
+        <span
+          onDoubleClick={() => this.setState({edit: !this.state.edit})}
         >
+          {this.props.text}
+        </span>
+        <button onClick={this.props.onRemove}>
           remove
         </button>
-      </div>
+      </span>
     );
   }
 }

@@ -45,9 +45,9 @@
     + delete done tasks, when click completed_tasks_clear_button button
 
 - edit task
-    - make task_text editable, when double click to task
-        - remove task delete button
-        - when press enter: delete task, if task_text is empty, else save
+    + make task_text editable, when double click to task
+        + remove task delete button
+        + when press enter or click outside task: delete task, if task_text is empty, else save
 
 - show tasks_left_count
     + use plural form, when items > 1
@@ -69,4 +69,6 @@
 - auto save tasks state between sessions
 
 --------------------------------------------------------------------------------
-- replace Task.onChange to onCheck
++ replace Task.onChange to onCheck
+- ? TaskAddInputField: move form onSubmit event to input and remove form
+- replace ' to "
