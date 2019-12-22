@@ -73,3 +73,4 @@
 - move logic from App to Toto
 + show tasks with <div> instead <li>
 + refactor strikethrough css
+- replace task types with constant
