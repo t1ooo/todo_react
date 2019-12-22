@@ -216,6 +216,7 @@ class Task extends React.Component {
     return (
       <span>
         <span
+          className={this.props.checked ?"complete" :"not-complete"}
           onDoubleClick={() => this.setState({edit: !this.state.edit})}
         >
           {this.props.text}

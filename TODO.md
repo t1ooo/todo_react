@@ -16,31 +16,31 @@
     + clear task_add_input_field after task added
     + show task at the end of task_list
 
-- mark task as done/undone
++ mark task as done/undone
     + show task_done_checkbox the left of a task
-        - when check:
+        + when check:
             + mark task as done
-            * add strikethrough to task_text
-        - when uncheck:
+            + add strikethrough to task_text
+        + when uncheck:
             + mark task as undone
-            * remove strikethrough from task_text
-            
-- mark all tasks as done/undone
+            + remove strikethrough from task_text
+
++ mark all tasks as done/undone
     + show all_tasks_done_button
-        - when check:
+        + when check:
             + mark all tasks as done
-            - cross out tasks text
-        - when uncheck:
+            + cross out tasks text
+        + when uncheck:
             + mark all tasks as undone
-            - remove cross out from tasks text
+            + remove cross out from tasks text
 
 - delete task
     + show task_delete_button the right of a task
         - show only when when hover
     + delete task, when click on task_delete_button
-   
+
 - delete completed tasks
-    + show completed_tasks_clear_button 
+    + show completed_tasks_clear_button
         - show only when at least one task is marked
     + delete done tasks, when click completed_tasks_clear_button button
 

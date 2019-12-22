@@ -1,3 +1,9 @@
 .App .Task form {
     display: inline;
 }
+
+.not-complete {}
+
+.complete {
+    text-decoration: line-through;
+}
