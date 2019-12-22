@@ -159,9 +159,9 @@ class TaskAddInputField extends React.Component {
 class Tasks extends React.Component {
   render() {
     return (
-      <ul>
+      <div className="Tasks">
         {this.props.tasks.map((task) =>
-          (<li key={task.id}>
+          (<div key={task.id}>
             <Task
               checked={task.complete}
               text={task.text}
@@ -169,9 +169,9 @@ class Tasks extends React.Component {
               onRemove={() => this.props.onRemove(task.id)}
               updateTaskText={(text) => this.props.updateTaskText(task.id, text)}
             />
-          </li>)
+          </div>)
         )}
-      </ul>
+      </div>
     );
   }
 }

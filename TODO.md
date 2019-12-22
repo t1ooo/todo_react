@@ -71,5 +71,5 @@
 - ? TaskAddInputField: move form onSubmit event to input and remove form
 + replace ' to "
 - move logic from App to Toto
-- fix ul line height, add list-style-type: none
++ show tasks with <div> instead <li>
 + refactor strikethrough css
