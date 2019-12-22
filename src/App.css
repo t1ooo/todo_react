@@ -2,7 +2,14 @@
     display: inline;
 }
 
+.Task .delete {
+    display: none;
+}
+
 .not-complete {}
+.not-complete:hover + .delete {
+    display: inline;
+}
 
 .complete {
     text-decoration: line-through;

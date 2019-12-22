@@ -228,7 +228,10 @@ class Task extends React.Component {
         >
           {this.props.text}
         </span>
-        <button onClick={this.props.onRemove}>
+        <button 
+          className="delete"
+          onClick={this.props.onRemove}
+        >
           remove
         </button>
       </span>

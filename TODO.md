@@ -36,7 +36,7 @@
 
 - delete task
     + show task_delete_button the right of a task
-        - show only when when hover
+        + show only when hover
     + delete task, when click on task_delete_button
 
 + delete completed tasks
@@ -71,3 +71,4 @@
 - ? TaskAddInputField: move form onSubmit event to input and remove form
 + replace ' to "
 - move logic from App to Toto
+- fix ul line height, add list-style-type: none
