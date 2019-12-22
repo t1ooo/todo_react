@@ -19,7 +19,7 @@ export class App extends React.Component {
     const state = tryFromJSON(localStorage.getItem('react-todo'), null);
     if (state !== null) {
       return {
-        todo: new Todo(state.todo._tasks),
+        todo: Object.setPrototypeOf(state.todo, Todo.prototype),
         taskType: state.taskType,
         completionAllChecked: state.completionAllChecked,
       };

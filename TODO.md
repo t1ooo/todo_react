@@ -75,3 +75,6 @@
 + show tasks with <div> instead <li>
 + refactor strikethrough css
 - replace task types with constant
+- refactor _newState: add props validation
+- ? replace localStorage to IndexedDB
++ refactor App._newState
