@@ -8,10 +8,6 @@ import { Todo, Task as TodoTask } from "./Todo";
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    /* this.state = {
-      todo: Todo.fromJSON(localStorage.getItem('react-todo')) || new Todo(),
-      taskType: "all",
-    }; */
     this.state = this._newState();
   }
   
@@ -62,9 +58,7 @@ export class App extends React.Component {
   }
   
   setState(callback) {
-    super.setState(callback, ()=> localStorage.setItem('react-todo', JSON.stringify(this.state)));
-    //localStorage.setItem('react-todo', JSON.stringify(this.state.todo));
-    
+    super.setState(callback, ()=> localStorage.setItem('react-todo', JSON.stringify(this.state)));    
   }
 
   _getTasks() {
@@ -225,7 +219,6 @@ class Task extends React.Component {
 
   _handleTextEdit(event) {
     event.preventDefault();
-    //console.log(this.state.value);
     this.props.updateTaskText(this.state.value);
     this.setState({edit: !this.state.edit})
   }
