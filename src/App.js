@@ -6,13 +6,15 @@ import PropTypes from "prop-types";
 import { Todo, Task as TodoTask } from "./Todo";
 
 export class App extends React.Component {
+  static _storageKey = "react-todo";
+  
   constructor(props) {
     super(props);
     this.state = this._newState();
   }
   
   _newState() {
-    const state = tryFromJSON(localStorage.getItem('react-todo'), null);
+    const state = tryFromJSON(localStorage.getItem(App._storageKey), null);
     if (state !== null) {
       return {
         todo: Object.setPrototypeOf(state.todo, Todo.prototype),
@@ -58,7 +60,7 @@ export class App extends React.Component {
   }
   
   setState(callback) {
-    super.setState(callback, ()=> localStorage.setItem('react-todo', JSON.stringify(this.state)));    
+    super.setState(callback, ()=> localStorage.setItem(App._storageKey, JSON.stringify(this.state)));    
   }
 
   _getTasks() {

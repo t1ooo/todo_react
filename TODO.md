@@ -78,3 +78,4 @@
 - refactor _newState: add props validation
 - ? replace localStorage to IndexedDB
 + refactor App._newState
++ replace storage key string to variable
