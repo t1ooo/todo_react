@@ -39,9 +39,9 @@
         - show only when when hover
     + delete task, when click on task_delete_button
 
-- delete completed tasks
++ delete completed tasks
     + show completed_tasks_clear_button
-        - show only when at least one task is completed
+        + show only when at least one task is completed
     + delete done tasks, when click completed_tasks_clear_button button
 
 + edit task

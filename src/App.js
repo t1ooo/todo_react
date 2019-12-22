@@ -33,9 +33,12 @@ export class App extends React.Component {
         <TasksShowByType
           setTasksType={taskType => this._setTasksType(taskType)}
         />
-        <CompletedTasksClear
-          removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
-        />
+        {0 < this._getCompleteTaskCount() 
+          ?(<CompletedTasksClear
+            removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
+          />)
+          : ""
+        }
       </div>
     );
   }
@@ -56,6 +59,10 @@ export class App extends React.Component {
 
   _getNotCompleteTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?0 :1), 0);
+  }
+  
+  _getCompleteTaskCount() {
+    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?1 :0), 0);
   }
 
   _updateTaskText(task_id, text) {
