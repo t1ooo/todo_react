@@ -57,11 +57,9 @@
     + show all tasks
         + show all_task_button
         + show all tasks, when click to all_task_button
-
     + show active tasks
         + show active_tasks_button
         + show active tasks, when click to active_tasks_button
-
     + show completed tasks
         + show completed_tasks_button
         + show completed tasks, when click to completed_tasks_button
@@ -71,4 +69,5 @@
 --------------------------------------------------------------------------------
 + replace Task.onChange to onCheck
 - ? TaskAddInputField: move form onSubmit event to input and remove form
-- replace ' to "
++ replace ' to "
+- move logic from App to Toto
