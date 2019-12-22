@@ -72,3 +72,4 @@
 + replace ' to "
 - move logic from App to Toto
 - fix ul line height, add list-style-type: none
++ refactor strikethrough css

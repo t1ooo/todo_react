@@ -5,11 +5,11 @@
 .Task .delete {
     display: none;
 }
-
-.not-complete {}
-.not-complete:hover + .delete {
+.Task:hover .delete {
     display: inline;
 }
+
+.not-complete {}
 
 .complete {
     text-decoration: line-through;
