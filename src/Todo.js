@@ -1,6 +1,6 @@
 export class Todo {
-  constructor() {
-    this._tasks = [];
+  constructor(tasks=[]) {
+    this._tasks = tasks;
   }
 
   getTasks() {
@@ -42,7 +42,6 @@ export class Task {
     this.id = genId();
   }
 }
-
 
 function genId() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);

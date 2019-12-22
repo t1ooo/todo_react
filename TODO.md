@@ -64,7 +64,8 @@
         + show completed_tasks_button
         + show completed tasks, when click to completed_tasks_button
 
-- auto save tasks state between sessions
++ auto save tasks state between sessions
+    + save all_tasks_done_button state
 
 --------------------------------------------------------------------------------
 + replace Task.onChange to onCheck

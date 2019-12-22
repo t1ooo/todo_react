@@ -8,9 +8,26 @@ import { Todo, Task as TodoTask } from "./Todo";
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    /* this.state = {
+      todo: Todo.fromJSON(localStorage.getItem('react-todo')) || new Todo(),
+      taskType: "all",
+    }; */
+    this.state = this._newState();
+  }
+  
+  _newState() {
+    const state = tryFromJSON(localStorage.getItem('react-todo'), null);
+    if (state !== null) {
+      return {
+        todo: new Todo(state.todo._tasks),
+        taskType: state.taskType,
+        completionAllChecked: state.completionAllChecked,
+      };
+    }
+    return {
       todo: new Todo(),
       taskType: "all",
+      completionAllChecked: false,
     };
   }
 
@@ -20,6 +37,7 @@ export class App extends React.Component {
         <TaskAddInputField
           addTask={v => this._addTask(v)}
           updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}
+          completionAllChecked={this.state.completionAllChecked}
         />
           <Tasks
             tasks={this._getTasks()}
@@ -41,6 +59,12 @@ export class App extends React.Component {
         }
       </div>
     );
+  }
+  
+  setState(callback) {
+    super.setState(callback, ()=> localStorage.setItem('react-todo', JSON.stringify(this.state)));
+    //localStorage.setItem('react-todo', JSON.stringify(this.state.todo));
+    
   }
 
   _getTasks() {
@@ -118,7 +142,7 @@ export class App extends React.Component {
       this.state.todo.getTasks().forEach(task => {
         task.complete = complete;
       });
-      return {todo: state.todo};
+      return {todo: state.todo, completionAllChecked: complete};
     });
   }
 }
@@ -137,6 +161,7 @@ class TaskAddInputField extends React.Component {
         <input
           type="checkbox"
           onChange={(event) => this.props.updateTaskCompletionAll(event.target.checked)}
+          checked={this.props.completionAllChecked}
         />complete/undone tasks
           <form
             onSubmit={(event) => {
@@ -284,4 +309,12 @@ class CompletedTasksClear extends React.Component {
 
 function clone(original) {
   return Object.assign(Object.create(original), original);
+}
+
+function tryFromJSON(data, defValue) {
+  try {
+    return JSON.parse(data)
+  } catch {
+    return defValue;
+  }
 }
