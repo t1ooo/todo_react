@@ -34,7 +34,7 @@
             + mark all tasks as undone
             + remove cross out from tasks text
 
-- delete task
++ delete task
     + show task_delete_button the right of a task
         + show only when hover
     + delete task, when click on task_delete_button
