@@ -41,7 +41,7 @@
 
 - delete completed tasks
     + show completed_tasks_clear_button
-        - show only when at least one task is marked
+        - show only when at least one task is completed
     + delete done tasks, when click completed_tasks_clear_button button
 
 + edit task
