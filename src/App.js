@@ -10,7 +10,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       todo: new Todo(),
-      taskType: 'all',
+      taskType: "all",
     };
   }
 
@@ -42,9 +42,9 @@ export class App extends React.Component {
 
   _getTasks() {
     switch(this.state.taskType) {
-      case 'all':       return this.state.todo.getTasks();
-      case 'active':    return this.state.todo.getTasks().filter(task => ! task.complete);
-      case 'completed': return this.state.todo.getTasks().filter(task => task.complete);
+      case "all":       return this.state.todo.getTasks();
+      case "active":    return this.state.todo.getTasks().filter(task => !task.complete);
+      case "completed": return this.state.todo.getTasks().filter(task => task.complete);
     }
   }
 
@@ -55,7 +55,7 @@ export class App extends React.Component {
   }
 
   _getNotCompleteTaskCount() {
-    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete?0:1), 0);
+    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?0 :1), 0);
   }
 
   _updateTaskText(task_id, text) {
@@ -135,7 +135,7 @@ class TaskAddInputField extends React.Component {
             onSubmit={(event) => {
               event.preventDefault();
               this.props.addTask(this.state.value);
-              this.setState({value: ''})
+              this.setState({value: ""})
             }}
           >
             <input
@@ -195,7 +195,7 @@ class Task extends React.Component {
     event.preventDefault();
     //console.log(this.state.value);
     this.props.updateTaskText(this.state.value);
-    this.setState({edit:!this.state.edit})
+    this.setState({edit: !this.state.edit})
   }
 
   _editForm() {
