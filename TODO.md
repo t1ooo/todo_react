@@ -20,10 +20,10 @@
     + show task_done_checkbox the left of a task
         - when check:
             + mark task as done
-            - add strikethrough to task_text
+            * add strikethrough to task_text
         - when uncheck:
             + mark task as undone
-            - remove strikethrough from task_text
+            * remove strikethrough from task_text
             
 - mark all tasks as done/undone
     + show all_tasks_done_button
