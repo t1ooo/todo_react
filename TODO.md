@@ -44,12 +44,12 @@
         - show only when at least one task is marked
     + delete done tasks, when click completed_tasks_clear_button button
 
-- edit task
++ edit task
     + make task_text editable, when double click to task
         + remove task delete button
         + when press enter or click outside task: delete task, if task_text is empty, else save
 
-- show tasks_left_count
++ show tasks_left_count
     + use plural form, when items > 1
     + increment/decrement, when mark task as done/undone
 
