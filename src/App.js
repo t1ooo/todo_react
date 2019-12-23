@@ -296,9 +296,9 @@ class TasksShowByType extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.setTasksType(ALL)}>{ALL}</button>
-        <button onClick={() => this.props.setTasksType(ACTIVE)}>{ACTIVE}</button>
-        <button onClick={() => this.props.setTasksType(COMPLETED)}>{COMPLETED}</button>
+        {[ALL, ACTIVE, COMPLETED].map(typ => 
+          <button onClick={() => this.props.setTasksType(typ)}>{typ}</button>
+        )}
       </div>
     );
   }

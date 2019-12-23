@@ -79,7 +79,7 @@
 - ? replace localStorage to IndexedDB
 + refactor App._newState
 + replace storage key string to variable
-- TasksShowByType replace to loop
++ TasksShowByType replace to loop
 + rename class name: "not-complete" -> "active", "complete" -> "completed"
 + rename method _getNotCompleteTaskCount -> _getActiveTaskCount, _getCompleteTaskCount -> _getCompletedTaskCount
 + rename Task prop complete -> completed
