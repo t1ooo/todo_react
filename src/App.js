@@ -293,6 +293,7 @@ class TasksShowByType extends React.Component {
           <button 
             onClick={() => this.props.setTasksType(typ)} 
             title={`show ${typ.toLowerCase()} tasks`}
+            key={typ}
           >
             {typ}
           </button>
