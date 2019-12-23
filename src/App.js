@@ -7,26 +7,40 @@ import { Todo, Task as TodoTask } from "./Todo";
 
 export class App extends React.Component {
   static _storageKey = "react-todo";
-  
+
   constructor(props) {
     super(props);
     this.state = this._newState();
   }
-  
+
+  // try load state from storage or return default state
   _newState() {
-    const state = tryFromJSON(localStorage.getItem(App._storageKey), null);
-    if (state !== null) {
+    try {
+      return this._loadState();
+    } catch(e) {
       return {
-        todo: Object.setPrototypeOf(state.todo, Todo.prototype),
-        taskType: state.taskType,
-        completionAllChecked: state.completionAllChecked,
-      };
+        todo: new Todo(),
+        taskType: "all",
+        completionAllChecked: false,
+      }
     }
+  }
+
+  _loadState() {
+    const stat = JSON.parse(localStorage.getItem(App._storageKey));
     return {
-      todo: new Todo(),
-      taskType: "all",
-      completionAllChecked: false,
+      todo: Object.setPrototypeOf(state.todo, Todo.prototype),
+      taskType: state.taskType,
+      completionAllChecked: state.completionAllChecked,
     };
+  }
+
+  setState(callback) {
+    super.setState(callback, () => this._saveState());
+  }
+
+  _saveState() {
+    localStorage.setItem(App._storageKey, JSON.stringify(this.state));
   }
 
   render() {
@@ -49,7 +63,7 @@ export class App extends React.Component {
         <TasksShowByType
           setTasksType={taskType => this._setTasksType(taskType)}
         />
-        {0 < this._getCompleteTaskCount() 
+        {0 < this._getCompleteTaskCount()
           ?(<CompletedTasksClear
             removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
           />)
@@ -57,10 +71,6 @@ export class App extends React.Component {
         }
       </div>
     );
-  }
-  
-  setState(callback) {
-    super.setState(callback, ()=> localStorage.setItem(App._storageKey, JSON.stringify(this.state)));    
   }
 
   _getTasks() {
@@ -80,7 +90,7 @@ export class App extends React.Component {
   _getNotCompleteTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?0 :1), 0);
   }
-  
+
   _getCompleteTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?1 :0), 0);
   }
@@ -238,7 +248,7 @@ class Task extends React.Component {
       </form>
     );
   }
-  
+
   _taskBody() {
     return (
       <span>
@@ -248,7 +258,7 @@ class Task extends React.Component {
         >
           {this.props.text}
         </span>
-        <button 
+        <button
           className="delete"
           onClick={this.props.onRemove}
         >
@@ -304,12 +314,4 @@ class CompletedTasksClear extends React.Component {
 
 function clone(original) {
   return Object.assign(Object.create(original), original);
-}
-
-function tryFromJSON(data, defValue) {
-  try {
-    return JSON.parse(data)
-  } catch {
-    return defValue;
-  }
 }
