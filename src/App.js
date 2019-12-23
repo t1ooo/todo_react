@@ -27,7 +27,7 @@ export class App extends React.Component {
       return {
         todo: new Todo(),
         taskType: ALL,
-        completionAllChecked: false,
+        completedAll: false,
       }
     }
   }
@@ -37,7 +37,7 @@ export class App extends React.Component {
     return {
       todo: Object.setPrototypeOf(state.todo, Todo.prototype),
       taskType: state.taskType,
-      completionAllChecked: state.completionAllChecked,
+      completedAll: state.completedAll,
     };
   }
 
@@ -55,7 +55,7 @@ export class App extends React.Component {
         <TaskAddInputField
           addTask={v => this._addTask(v)}
           updateTaskCompletionAll={(completed) => this._updateTaskCompletionAll(completed)}
-          completionAllChecked={this.state.completionAllChecked}
+          completedAll={this.state.completedAll}
         />
           <Tasks
             tasks={this._getTasks()}
@@ -154,7 +154,7 @@ export class App extends React.Component {
       this.state.todo.getTasks().forEach(task => {
         task.completed = completed;
       });
-      return {todo: state.todo, completionAllChecked: completed};
+      return {todo: state.todo, completedAll: completed};
     });
   }
 }
@@ -173,7 +173,7 @@ class TaskAddInputField extends React.Component {
         <input
           type="checkbox"
           onChange={(event) => this.props.updateTaskCompletionAll(event.target.checked)}
-          checked={this.props.completionAllChecked}
+          checked={this.props.completedAll}
         />complete/undone tasks
           <form
             onSubmit={(event) => {

@@ -84,4 +84,4 @@
 + rename method _getNotCompleteTaskCount -> _getActiveTaskCount, _getCompleteTaskCount -> _getCompletedTaskCount
 + rename Task prop complete -> completed
 - rename buttons
-- rename completionAllChecked -> completedAll
++ rename completionAllChecked -> completedAll
