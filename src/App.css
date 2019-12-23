@@ -14,3 +14,7 @@
 .completed {
     text-decoration: line-through;
 }
+
+.TaskAddInputField form {
+    display: inline;
+}

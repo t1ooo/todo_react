@@ -156,6 +156,7 @@ class TaskAddInputField extends React.Component {
 
   render() {
     return (
+      <div className="TaskAddInputField">
       <div>
         <input
           type="checkbox"
