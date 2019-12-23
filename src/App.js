@@ -157,11 +157,12 @@ class TaskAddInputField extends React.Component {
   render() {
     return (
       <div className="TaskAddInputField">
-      <div>
         <input
           type="checkbox"
           onChange={(event) => this.props.updateTaskCompletionAll(event.target.checked)}
           checked={this.props.completedAll}
+          title="toggle all tasks"
+        />
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -173,6 +174,7 @@ class TaskAddInputField extends React.Component {
               value={this.state.value}
               placeholder="What needs to be complete?"
               onChange={(event) => this.setState({value: event.target.value})}
+              title="add new task"
             />
           </form>
       </div>
@@ -216,6 +218,7 @@ class Task extends React.Component {
           type="checkbox"
           checked={this.props.checked}
           onChange={this.props.onCheck}
+          title="toggle task"
         />
         {this.state.edit ?this._editForm() :this._taskBody()}
       </div>
@@ -237,6 +240,7 @@ class Task extends React.Component {
           value={this.state.value}
           onChange={(event) => this.setState({value: event.target.value})}
           onBlur={(event) => this._handleTextEdit(event)}
+          title="edit task text"
         />
       </form>
     );
@@ -248,12 +252,14 @@ class Task extends React.Component {
         <span
           className={this.props.checked ?"completed" :"active"}
           onDoubleClick={() => this.setState({edit: !this.state.edit})}
+          title="double click to edit task text"
         >
           {this.props.text}
         </span>
         <button
           className="delete"
           onClick={this.props.onRemove}
+          title="delete task"
         >
           remove
         </button>
@@ -284,7 +290,12 @@ class TasksShowByType extends React.Component {
     return (
       <div>
         {[ALL, ACTIVE, COMPLETED].map(typ => 
-          <button onClick={() => this.props.setTasksType(typ)}>{typ}</button>
+          <button 
+            onClick={() => this.props.setTasksType(typ)} 
+            title={`show ${typ.toLowerCase()} tasks`}
+          >
+            {typ}
+          </button>
         )}
       </div>
     );
@@ -297,6 +308,7 @@ class CompletedTasksClear extends React.Component {
       <div>
         <button
           onClick={this.props.removeCompletedTaskAll}
+          title="clear completed tasks"
         >
           clear completed
         </button>

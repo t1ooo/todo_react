@@ -85,3 +85,4 @@
 + rename Task prop complete -> completed
 - rename buttons
 + rename completionAllChecked -> completedAll
++ add titles to html elements
