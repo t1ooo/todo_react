@@ -35,8 +35,8 @@ export class App extends React.Component {
     };
   }
 
-  setState(callback) {
-    super.setState(callback, () => this._saveState());
+  setState(updater, callback=()=>{}) {
+    super.setState(updater, () => {this._saveState(); callback();});
   }
 
   _saveState() {
