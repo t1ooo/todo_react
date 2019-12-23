@@ -71,7 +71,7 @@
 + replace Task.onChange to onCheck
 - ? TaskAddInputField: move form onSubmit event to input and remove form
 + replace ' to "
-* move logic from App to Todo
++ move logic from App to Todo
 + show tasks with <div> instead <li>
 + refactor strikethrough css
 + replace task types with constant
