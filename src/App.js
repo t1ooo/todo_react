@@ -18,6 +18,7 @@ export class App extends React.Component {
     try {
       return this._loadState();
     } catch(e) {
+      console.log(e);
       return {
         todo: new Todo(),
         taskType: "all",
