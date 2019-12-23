@@ -46,8 +46,11 @@
 
 + edit task
     + make task_text editable, when double click to task
+        + replace task text to input field
         + remove task delete button
-        + when press enter or click outside task: delete task, if task_text is empty, else save
+        + when press [enter] or click outside task: delete task, if task_text is empty, else save
+        - when press [esc]: cancel all changes
+        + replace input field to task text
 
 + show tasks_left_count
     + use plural form, when items > 1
@@ -86,3 +89,13 @@
 - rename buttons
 + rename completionAllChecked -> completedAll
 + add titles to html elements
+- bug: task not save, when double click to edit and click outside task without set cursor to input box
+    reproduce
+        double click to edit task
+        click outside task without set cursor to input field
+    expected behavior
+        task save
+        input field hide
+    actual behavior
+        task not save
+        input field not hide
