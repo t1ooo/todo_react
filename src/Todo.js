@@ -1,19 +1,37 @@
+// task types
+export const ALL = "all";
+export const ACTIVE = "active";
+export const COMPLETED = "completed";
+
 export class Todo {
   constructor(tasks=[]) {
     this._tasks = tasks;
   }
+  
+  forEach(callback) {
+    this._getTasks().forEach(callback)
+  }
 
-  getTasks() {
+  _getTasks() {
     return this._tasks;
+  }
+  
+  getTasksByType(taskType) {
+    switch(taskType) {
+      case ALL:       return this._getTasks();
+      case ACTIVE:    return this._getTasks().filter(task => !task.completed);
+      case COMPLETED: return this._getTasks().filter(task => task.completed);
+    }
+    throw new Error("bad task type");
+  }
+
+  get(task_id) {
+    const i = this._lookup(task_id);
+    return this._tasks[i];
   }
 
   add(task) {
     this._tasks.push(task);
-  }
-
-  update(task_id, callback) {
-    const i = this._lookup(task_id);
-    this._tasks[i] = callback(this._tasks[i]);
   }
   
   remove(task_id) {
@@ -21,7 +39,11 @@ export class Todo {
     this._tasks.splice(i, 1);
   }
   
-  filter(callback) {
+  removeCompleted() {
+    this._filter(task => !task.completed);
+  }
+  
+  _filter(callback) {
     this._tasks = this._tasks.filter(callback);
   }
   
