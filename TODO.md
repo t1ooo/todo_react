@@ -80,6 +80,7 @@
 + refactor App._newState
 + replace storage key string to variable
 - TasksShowByType replace to loop
-- rename class name "not-complete" to "active"
++ rename class name: "not-complete" -> "active", "complete" -> "completed"
 - rename method _getNotCompleteTaskCount to _getNactiveTaskCount
 - rename method _getCompleteTaskCount to _getCompleteTaskCount
+- rename Task prop complete -> completed

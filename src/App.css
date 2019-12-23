@@ -9,8 +9,8 @@
     display: inline;
 }
 
-.not-complete {}
+.active {}
 
-.complete {
+.completed {
     text-decoration: line-through;
 }
