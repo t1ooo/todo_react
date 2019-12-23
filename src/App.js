@@ -64,12 +64,12 @@ export class App extends React.Component {
             updateTaskText={(task_id, text) => this._updateTaskText(task_id, text)}
           />
         <TasksLeftCount
-          num={this._getNotCompleteTaskCount()}
+          num={this._getActiveTaskCount()}
         />
         <TasksShowByType
           setTasksType={taskType => this._setTasksType(taskType)}
         />
-        {0 < this._getCompleteTaskCount()
+        {0 < this._getCompletedTaskCount()
           ?(<CompletedTasksClear
             removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
           />)
@@ -93,11 +93,11 @@ export class App extends React.Component {
     });
   }
 
-  _getNotCompleteTaskCount() {
+  _getActiveTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?0 :1), 0);
   }
 
-  _getCompleteTaskCount() {
+  _getCompletedTaskCount() {
     return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?1 :0), 0);
   }
 

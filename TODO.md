@@ -81,6 +81,5 @@
 + replace storage key string to variable
 - TasksShowByType replace to loop
 + rename class name: "not-complete" -> "active", "complete" -> "completed"
-- rename method _getNotCompleteTaskCount to _getNactiveTaskCount
-- rename method _getCompleteTaskCount to _getCompleteTaskCount
++ rename method _getNotCompleteTaskCount -> _getActiveTaskCount, _getCompleteTaskCount -> _getCompletedTaskCount
 - rename Task prop complete -> completed
