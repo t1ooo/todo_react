@@ -5,6 +5,11 @@ import "./App.css";
 import PropTypes from "prop-types";
 import { Todo, Task as TodoTask } from "./Todo";
 
+// task types
+const ALL = "all";
+const ACTIVE = "active";
+const COMPLETED = "completed";
+
 export class App extends React.Component {
   static _storageKey = "react-todo";
 
@@ -21,7 +26,7 @@ export class App extends React.Component {
       console.log(e);
       return {
         todo: new Todo(),
-        taskType: "all",
+        taskType: ALL,
         completionAllChecked: false,
       }
     }
@@ -76,9 +81,9 @@ export class App extends React.Component {
 
   _getTasks() {
     switch(this.state.taskType) {
-      case "all":       return this.state.todo.getTasks();
-      case "active":    return this.state.todo.getTasks().filter(task => !task.complete);
-      case "completed": return this.state.todo.getTasks().filter(task => task.complete);
+      case ALL:       return this.state.todo.getTasks();
+      case ACTIVE:    return this.state.todo.getTasks().filter(task => !task.complete);
+      case COMPLETED: return this.state.todo.getTasks().filter(task => task.complete);
     }
   }
 
@@ -291,9 +296,9 @@ class TasksShowByType extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.setTasksType("all")}>all</button>
-        <button onClick={() => this.props.setTasksType("active")}>active</button>
-        <button onClick={() => this.props.setTasksType("completed")}>completed</button>
+        <button onClick={() => this.props.setTasksType(ALL)}>{ALL}</button>
+        <button onClick={() => this.props.setTasksType(ACTIVE)}>{ACTIVE}</button>
+        <button onClick={() => this.props.setTasksType(COMPLETED)}>{COMPLETED}</button>
       </div>
     );
   }

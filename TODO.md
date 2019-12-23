@@ -74,8 +74,12 @@
 - move logic from App to Toto
 + show tasks with <div> instead <li>
 + refactor strikethrough css
-- replace task types with constant
++ replace task types with constant
 - refactor _newState: add props validation
 - ? replace localStorage to IndexedDB
 + refactor App._newState
 + replace storage key string to variable
+- TasksShowByType replace to loop
+- rename class name "not-complete" to "active"
+- rename method _getNotCompleteTaskCount to _getNactiveTaskCount
+- rename method _getCompleteTaskCount to _getCompleteTaskCount
