@@ -38,7 +38,7 @@ export class Todo {
 export class Task {
   constructor(text) {
     this.text = text;
-    this.complete = false;
+    this.completed = false;
     this.id = genId();
   }
 }

@@ -82,4 +82,6 @@
 - TasksShowByType replace to loop
 + rename class name: "not-complete" -> "active", "complete" -> "completed"
 + rename method _getNotCompleteTaskCount -> _getActiveTaskCount, _getCompleteTaskCount -> _getCompletedTaskCount
-- rename Task prop complete -> completed
++ rename Task prop complete -> completed
+- rename buttons
+- rename completionAllChecked -> completedAll

@@ -54,7 +54,7 @@ export class App extends React.Component {
       <div className="App">
         <TaskAddInputField
           addTask={v => this._addTask(v)}
-          updateTaskCompletionAll={(complete) => this._updateTaskCompletionAll(complete)}
+          updateTaskCompletionAll={(completed) => this._updateTaskCompletionAll(completed)}
           completionAllChecked={this.state.completionAllChecked}
         />
           <Tasks
@@ -82,8 +82,8 @@ export class App extends React.Component {
   _getTasks() {
     switch(this.state.taskType) {
       case ALL:       return this.state.todo.getTasks();
-      case ACTIVE:    return this.state.todo.getTasks().filter(task => !task.complete);
-      case COMPLETED: return this.state.todo.getTasks().filter(task => task.complete);
+      case ACTIVE:    return this.state.todo.getTasks().filter(task => !task.completed);
+      case COMPLETED: return this.state.todo.getTasks().filter(task => task.completed);
     }
   }
 
@@ -94,11 +94,11 @@ export class App extends React.Component {
   }
 
   _getActiveTaskCount() {
-    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?0 :1), 0);
+    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.completed ?0 :1), 0);
   }
 
   _getCompletedTaskCount() {
-    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.complete ?1 :0), 0);
+    return this.state.todo.getTasks().reduce((acc,task) => acc+(task.completed ?1 :0), 0);
   }
 
   _updateTaskText(task_id, text) {
@@ -118,7 +118,7 @@ export class App extends React.Component {
   _updateTaskCompletion(task_id) {
     this.setState((state, props) => {
       state.todo.update(task_id, function(_task) {
-        _task.complete = !_task.complete;
+        _task.completed = !_task.completed;
         return _task;
       });
       return {todo: state.todo};
@@ -134,7 +134,7 @@ export class App extends React.Component {
 
   _removeCompletedTaskAll() {
     this.setState((state, props) => {
-      state.todo.filter(task => !task.complete);
+      state.todo.filter(task => !task.completed);
       return {todo: state.todo};
     });
   }
@@ -149,12 +149,12 @@ export class App extends React.Component {
     });
   }
 
-  _updateTaskCompletionAll(complete) {
+  _updateTaskCompletionAll(completed) {
     this.setState((state, props) => {
       this.state.todo.getTasks().forEach(task => {
-        task.complete = complete;
+        task.completed = completed;
       });
-      return {todo: state.todo, completionAllChecked: complete};
+      return {todo: state.todo, completionAllChecked: completed};
     });
   }
 }
@@ -200,7 +200,7 @@ class Tasks extends React.Component {
         {this.props.tasks.map((task) =>
           (<div key={task.id}>
             <Task
-              checked={task.complete}
+              checked={task.completed}
               text={task.text}
               onCheck={() => this.props.onCheck(task.id)}
               onRemove={() => this.props.onRemove(task.id)}
