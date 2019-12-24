@@ -46,11 +46,11 @@
 
 + edit task
     + make task_text editable, when double click to task
-        + replace task text to input field
-        + remove task delete button
+        + replace task_text and task_delete_button with input field with task_text
+        - set cursor to input field to end of task_text
         + when press [enter] or click outside task: delete task, if task_text is empty, else save
         - when press [esc]: cancel all changes
-        + replace input field to task text
+        + replace input field with task_text and task_delete_button
 
 + show tasks_left_count
     + use plural form, when items > 1
@@ -99,3 +99,8 @@
     actual behavior
         task not save
         input field not hide
+- static analyzer
+- fmt tool
+- ? flow
+- ? remove constructor
+- ? add style name
