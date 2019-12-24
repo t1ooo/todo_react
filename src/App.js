@@ -66,11 +66,10 @@ export class App extends React.Component {
             <TasksShowByType
               setTasksType={taskType => this._setTasksType(taskType)}
             />
-            {0 < this._getCompletedTaskCount()
-              ?(<CompletedTasksClear
+            {0 < this._getCompletedTaskCount() &&
+              <CompletedTasksClear
                 removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
-              />)
-              : null
+              />
             }
           </div>
         }
