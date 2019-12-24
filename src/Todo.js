@@ -21,8 +21,8 @@ export class Todo {
       case ALL:       return this._getTasks();
       case ACTIVE:    return this._getTasks().filter(task => !task.completed);
       case COMPLETED: return this._getTasks().filter(task => task.completed);
+      default:        throw new Error("bad task type");
     }
-    throw new Error("bad task type");
   }
 
   get(task_id) {
