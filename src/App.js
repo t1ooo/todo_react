@@ -52,7 +52,7 @@ export class App extends React.Component {
           updateTaskCompletionAll={(completed) => this._updateTaskCompletionAll(completed)}
           completedAll={this.state.completedAll}
         />
-        {0 < this._getTaskCount() &&
+        {0 < this._getTasksCountByType(ALL) &&
           <div>
             <Tasks
               tasks={this._getTasks()}
@@ -61,12 +61,12 @@ export class App extends React.Component {
               updateTaskText={(task_id, text) => this._updateTaskText(task_id, text)}
             />
             <TasksLeftCount
-              num={this._getActiveTaskCount()}
+              num={this._getTasksCountByType(ACTIVE)}
             />
             <TasksShowByType
               setTasksType={taskType => this._setTasksType(taskType)}
             />
-            {0 < this._getCompletedTaskCount() &&
+            {0 < this._getTasksCountByType(COMPLETED) &&
               <CompletedTasksClear
                 removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
               />
@@ -86,17 +86,9 @@ export class App extends React.Component {
       return {taskType: taskType};
     });
   }
-  
-  _getTaskCount() {
-    return this.state.todo.getTasksByType(ALL).length;
-  }
 
-  _getActiveTaskCount() {
-    return this.state.todo.getTasksByType(ACTIVE).length;
-  }
-
-  _getCompletedTaskCount() {
-    return this.state.todo.getTasksByType(COMPLETED).length;
+  _getTasksCountByType(taskType) {
+    return this.state.todo.getTasksCountByType(taskType);
   }
 
   _updateTaskText(task_id, text) {

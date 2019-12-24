@@ -24,6 +24,10 @@ export class Todo {
       default:        throw new Error("bad task type");
     }
   }
+  
+  getTasksCountByType(taskType) {
+    return this.getTasksByType(taskType).length;
+  }
 
   get(task_id) {
     const i = this._lookup(task_id);
