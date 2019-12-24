@@ -228,23 +228,36 @@ class Task extends React.Component {
   _handleTextEdit(event) {
     event.preventDefault();
     this.props.updateTaskText(this.state.value);
-    this.setState({edit: !this.state.edit})
+    this._switchEdit();
+  }
+  
+  _handleKeyDown(event) {
+    switch(event.key) {
+      case 'Enter': 
+        this._handleTextEdit(event); 
+        break;
+      case 'Escape': 
+        this._switchEdit(); 
+        break;
+      default: 
+        // do nothing
+    }
+  }
+  
+  _switchEdit() {
+    this.setState({edit: !this.state.edit});
   }
 
   _editForm() {
     return (
-        <form className="form"
-        onSubmit={(event) => this._handleTextEdit(event)}
-      >
-        <input
-          value={this.state.value}
-          onChange={(event) => this.setState({value: event.target.value})}
-          onBlur={(event) => this._handleTextEdit(event)}
-          onKeyDown={(event) => event.key==='Escape' ?this.setState({edit: !this.state.edit}) :null}
-          title="edit task text"
-          autoFocus
-        />
-      </form>
+      <input
+        value={this.state.value}
+        onChange={(event) => this.setState({value: event.target.value})}
+        onBlur={(event) => this._handleTextEdit(event)}
+        onKeyDown={(event) => this._handleKeyDown(event)}
+        title="edit task text"
+        autoFocus
+      />
     );
   }
 
