@@ -242,6 +242,7 @@ class Task extends React.Component {
           onBlur={(event) => this._handleTextEdit(event)}
           onKeyDown={(event) => event.key==='Escape' ?this.setState({edit: !this.state.edit}) :null}
           title="edit task text"
+          autoFocus
         />
       </form>
     );

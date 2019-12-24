@@ -47,7 +47,7 @@
 + edit task
     + make task_text editable, when double click to task
         + replace task_text and task_delete_button with input field with task_text
-        - set cursor to input field to end of task_text
+        + set cursor to input field to end of task_text
         + when press [enter] or click outside task: delete task, if task_text is empty, else save
         + when press [esc]: cancel all changes
         + replace input field with task_text and task_delete_button
