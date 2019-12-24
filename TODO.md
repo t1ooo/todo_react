@@ -1,11 +1,11 @@
-- show todo
-    - when there is at least one task:
++ show todo
+    + when there is at least one task:
         task_add_input_field
         task_list
         tasks_left_count
         tasks_show_by_type buttons
         completed_tasks_clear_button
-    - when there is no tasks:
+    + when there is no tasks:
         task_add_input_field
 
 + add new task
