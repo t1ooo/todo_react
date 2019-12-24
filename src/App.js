@@ -68,7 +68,7 @@ export class App extends React.Component {
           ?(<CompletedTasksClear
             removeCompletedTaskAll={() => this._removeCompletedTaskAll()}
           />)
-          : ""
+          : null
         }
       </div>
     );
