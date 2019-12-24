@@ -104,3 +104,5 @@
 - ? flow
 - ? remove constructor
 - ? add style name
+- refactor components
+
