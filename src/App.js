@@ -52,12 +52,12 @@ export class App extends React.Component {
           updateTaskCompletionAll={(completed) => this._updateTaskCompletionAll(completed)}
           completedAll={this.state.completedAll}
         />
-          <Tasks
-            tasks={this._getTasks()}
-            onCheck={(task_id) => this._updateTaskCompletion(task_id)}
-            onRemove={(task_id) => this._removeTask(task_id)}
-            updateTaskText={(task_id, text) => this._updateTaskText(task_id, text)}
-          />
+        <Tasks
+          tasks={this._getTasks()}
+          onCheck={(task_id) => this._updateTaskCompletion(task_id)}
+          onRemove={(task_id) => this._removeTask(task_id)}
+          updateTaskText={(task_id, text) => this._updateTaskText(task_id, text)}
+        />
         <TasksLeftCount
           num={this._getActiveTaskCount()}
         />
