@@ -1,20 +1,10 @@
-.App .Task form {
-    display: inline;
-}
-
-.Task .delete {
+.TaskItem .delete {
     display: none;
 }
-.Task:hover .delete {
+.TaskItem:hover .delete {
     display: inline;
 }
 
-.active {}
-
-.completed {
+.completed .text{
     text-decoration: line-through;
-}
-
-.TaskAddInputField form {
-    display: inline;
 }

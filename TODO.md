@@ -94,5 +94,5 @@
 - ? flow
 - ? remove constructor
 - ? add style name
-- refactor components: header, body, footer
++ refactor components: header, body, footer
 - write tests
