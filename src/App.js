@@ -57,7 +57,7 @@ export class App extends React.Component {
             <TodoBody
               tasks={this._getTasks()}
               onCheck={(task_id) => this._toggle(task_id)}
-              onRemove={(task_id) => this.remove(task_id)}
+              onRemove={(task_id) => this._remove(task_id)}
               edit={(task_id, text) => this._edit(task_id, text)}
             />
             <TodoFooter
@@ -104,7 +104,7 @@ export class App extends React.Component {
     });
   }
 
-  remove(task_id) {
+  _remove(task_id) {
     this.setState((state, props) => {
       state.todo.remove(task_id);
       return {todo: state.todo};
