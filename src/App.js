@@ -52,7 +52,7 @@ export class App extends React.Component {
           toggleAll={(completed) => this._toggleAll(completed)}
           toggleAllChecked={this.state.toggleAllChecked}
         />
-        {0 < this._getTasksCount(ALL) &&
+        {0 < this._getCount(ALL) &&
           <div>
             <TodoBody
               tasks={this._getTasks()}
@@ -61,8 +61,8 @@ export class App extends React.Component {
               edit={(task_id, text) => this._edit(task_id, text)}
             />
             <TodoFooter
-              count={this._getTasksCount(ACTIVE)}
-              showRemoveCompleted={0 < this._getTasksCount(COMPLETED)}
+              count={this._getCount(ACTIVE)}
+              showRemoveCompleted={0 < this._getCount(COMPLETED)}
               setTasksType={taskType => this._setTasksType(taskType)}
               removeCompleted={() => this._removeCompleted()}
             />
@@ -82,8 +82,8 @@ export class App extends React.Component {
     });
   }
 
-  _getTasksCount(taskType) {
-    return this.state.todo.getTasksCount(taskType);
+  _getCount(taskType) {
+    return this.state.todo.getCount(taskType);
   }
 
   _edit(task_id, text) {

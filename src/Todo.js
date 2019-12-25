@@ -17,7 +17,7 @@ export class Todo {
     }
   }
 
-  getTasksCount(taskType=ALL) {
+  getCount(taskType=ALL) {
     return this.getTasks(taskType).length;
   }
 
