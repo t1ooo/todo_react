@@ -89,20 +89,10 @@
 - rename buttons
 + rename completionAllChecked -> completedAll
 + add titles to html elements
-- bug: task not save, when double click to edit and click outside task without set cursor to input box
-    reproduce
-        double click to edit task
-        click outside task without set cursor to input field
-    expected behavior
-        task save
-        input field hide
-    actual behavior
-        task not save
-        input field not hide
 - static analyzer
 - fmt tool
 - ? flow
 - ? remove constructor
 - ? add style name
 - refactor components
-
+- write tests
