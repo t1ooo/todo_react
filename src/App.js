@@ -21,8 +21,8 @@ export class App extends React.Component {
       console.log(e);
       return {
         todo: new Todo(),
-        taskType: ALL,
-        completedAll: false,
+        taskType: ALL, // displayed task type
+        completedAll: false, // completed all checkbox status
       }
     }
   }
