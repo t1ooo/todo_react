@@ -224,29 +224,6 @@ class Task extends React.Component {
     );
   }
 
-  _handleTextEdit(event) {
-    event.preventDefault();
-    this.props.updateTaskText(this.state.value);
-    this._switchEdit();
-  }
-  
-  _handleKeyDown(event) {
-    switch(event.key) {
-      case 'Enter': 
-        this._handleTextEdit(event); 
-        break;
-      case 'Escape': 
-        this._switchEdit(); 
-        break;
-      default: 
-        // do nothing
-    }
-  }
-  
-  _switchEdit() {
-    this.setState({edit: !this.state.edit});
-  }
-
   _editForm() {
     return (
       <input
@@ -265,7 +242,7 @@ class Task extends React.Component {
       <span>
         <span
           className={this.props.checked ?"completed" :"active"}
-          onDoubleClick={() => this.setState({edit: !this.state.edit})}
+          onDoubleClick={() => this._switchEdit()}
           title="double click to edit task text"
         >
           {this.props.text}
@@ -279,6 +256,29 @@ class Task extends React.Component {
         </button>
       </span>
     );
+  }
+
+  _handleTextEdit(event) {
+    event.preventDefault();
+    this.props.updateTaskText(this.state.value);
+    this._switchEdit();
+  }
+
+  _handleKeyDown(event) {
+    switch(event.key) {
+      case 'Enter':
+        this._handleTextEdit(event);
+        break;
+      case 'Escape':
+        this._switchEdit();
+        break;
+      default:
+        // do nothing
+    }
+  }
+
+  _switchEdit() {
+    this.setState({edit: !this.state.edit});
   }
 }
 
@@ -303,9 +303,9 @@ class TasksShowByType extends React.Component {
   render() {
     return (
       <div>
-        {[ALL, ACTIVE, COMPLETED].map(typ => 
-          <button 
-            onClick={() => this.props.setTasksType(typ)} 
+        {[ALL, ACTIVE, COMPLETED].map(typ =>
+          <button
+            onClick={() => this.props.setTasksType(typ)}
             title={`show ${typ.toLowerCase()} tasks`}
             key={typ}
           >
