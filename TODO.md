@@ -72,7 +72,7 @@
 
 --------------------------------------------------------------------------------
 + replace Task.onChange to onCheck
-- ? TaskAddInputField: move form onSubmit event to input and remove form
++ TaskAddInputField: handle submit event with input onKeyDown instead form onSubmit
 + replace ' to "
 + move logic from App to Todo
 + show tasks with <div> instead <li>

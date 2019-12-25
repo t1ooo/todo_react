@@ -162,22 +162,31 @@ class TaskAddInputField extends React.Component {
           checked={this.props.completedAll}
           title="toggle all tasks"
         />
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              this.props.addTask(this.state.value);
-              this.setState({value: ""})
-            }}
-          >
-            <input
-              value={this.state.value}
-              placeholder="What needs to be complete?"
-              onChange={(event) => this.setState({value: event.target.value})}
-              title="add new task"
-            />
-          </form>
+        <input
+          value={this.state.value}
+          placeholder="What needs to be complete?"
+          onChange={(event) => this.setState({value: event.target.value})}
+          onKeyDown={(event) => this._handleKeyDown(event)}
+          title="add new task"
+        />
       </div>
     );
+  }
+  
+  _handleKeyDown(event) {
+    switch(event.key) {
+      case 'Enter':
+        this._submit(event);
+        break;
+      default:
+        // do nothing
+    }
+  }
+  
+  _submit(event) {
+    event.preventDefault();
+    this.props.addTask(this.state.value);
+    this.setState({value: ""})
   }
 }
 
