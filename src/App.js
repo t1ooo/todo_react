@@ -97,16 +97,14 @@ export class App extends React.Component {
       return;
     }
     this.setState((state, props) => {
-      const task = state.todo.get(task_id);
-      task.text = text;
+      state.todo.edit(task_id, text);
       return {todo: state.todo};
     });
   }
 
   _updateTaskCompletion(task_id) {
     this.setState((state, props) => {
-      const task = state.todo.get(task_id);
-      task.completed = !task.completed;
+      state.todo.toggle(task_id);
       return {todo: state.todo};
     });
   }
@@ -137,9 +135,7 @@ export class App extends React.Component {
 
   _updateTaskCompletionAll(completed) {
     this.setState((state, props) => {
-      this.state.todo.forEach(task => {
-        task.completed = completed;
-      });
+      state.todo.toggleAll(completed);
       return {todo: state.todo, completedAll: completed};
     });
   }

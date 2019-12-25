@@ -8,19 +8,11 @@ export class Todo {
     this._tasks = tasks;
   }
   
-  forEach(callback) {
-    this._getTasks().forEach(callback)
-  }
-
-  _getTasks() {
-    return this._tasks;
-  }
-  
   getTasksByType(taskType) {
     switch(taskType) {
-      case ALL:       return this._getTasks();
-      case ACTIVE:    return this._getTasks().filter(task => !task.completed);
-      case COMPLETED: return this._getTasks().filter(task => task.completed);
+      case ALL:       return this._tasks;
+      case ACTIVE:    return this._tasks.filter(task => !task.completed);
+      case COMPLETED: return this._tasks.filter(task => task.completed);
       default:        throw new Error("bad task type");
     }
   }
@@ -28,19 +20,27 @@ export class Todo {
   getTasksCountByType(taskType) {
     return this.getTasksByType(taskType).length;
   }
-
-  get(task_id) {
-    const i = this._lookup(task_id);
-    return this._tasks[i];
+  
+  toggle(task_id) {
+    const task = this._lookup(task_id);
+    task.completed = !task.completed;
+  }
+  
+  toggleAll(completed) {
+    this._tasks.forEach(task => task.completed = completed);
   }
 
   add(task) {
     this._tasks.push(task);
   }
   
+  edit(task_id, text) {
+    const task = this._lookup(task_id);
+    task.text = text;
+  }
+  
   remove(task_id) {
-    const i = this._lookup(task_id);
-    this._tasks.splice(i, 1);
+    this._filter(task => task.id !== task_id);
   }
   
   removeCompleted() {
@@ -52,9 +52,9 @@ export class Todo {
   }
   
   _lookup(task_id) {
-    for(let i in this._tasks) {
-      if (this._tasks[i].id === task_id) {
-        return i;
+    for(let task of this._tasks) {
+      if (task.id === task_id) {
+        return task;
       }
     }
     throw new Error("task not found");
