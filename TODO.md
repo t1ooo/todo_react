@@ -92,7 +92,7 @@
 - static analyzer
 - fmt tool
 - ? flow
-- ? remove constructor
++ remove constructors
 - ? add style name
 + refactor components: header, body, footer
 - write tests

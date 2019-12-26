@@ -7,11 +7,7 @@ import { Todo, Task, ALL, ACTIVE, COMPLETED } from "./Todo";
 
 export class App extends React.Component {
   static _storageKey = "react-todo";
-
-  constructor(props) {
-    super(props);
-    this.state = this._newState();
-  }
+  state = this._newState();
 
   // try load state from storage or return default state
   _newState() {
@@ -137,12 +133,9 @@ export class App extends React.Component {
 }
 
 class TodoHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-    };
-  }
+  state = {
+    value: "",
+  };
 
   render() {
     return (
@@ -202,13 +195,10 @@ function TodoBody(props) {
 }
 
 class TaskItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.props.text,
-      edit: false,
-    };
-  }
+  state = {
+    value: this.props.text,
+    edit: false,
+  };
 
   render() {
     return (
