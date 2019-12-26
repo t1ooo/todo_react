@@ -26,7 +26,7 @@ export class App extends React.Component {
   _loadState() {
     const state = JSON.parse(localStorage.getItem(App._storageKey));
     return {
-      todo: Object.setPrototypeOf(state.todo, Todo.prototype),
+      todo: new Todo(state.todo),
       taskType: state.taskType,
       toggleAllChecked: state.toggleAllChecked,
     };

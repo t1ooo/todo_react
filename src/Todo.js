@@ -5,7 +5,9 @@ export const COMPLETED = "completed";
 
 export class Todo {
   constructor(tasks=[]) {
-    this._tasks = tasks;
+    this._tasks = tasks.map(task => 
+      new Task(task.text, task.completed, task.id)
+    );
   }
 
   getTasks(taskType=ALL) {
@@ -59,13 +61,17 @@ export class Todo {
     }
     throw new Error("task not found");
   }
+  
+  toJSON() {
+    return this._tasks;
+  }
 }
 
 export class Task {
-  constructor(text) {
+  constructor(text, completed=false, id=genId()) {
     this.text = text;
-    this.completed = false;
-    this.id = genId();
+    this.completed = completed;
+    this.id = id;
   }
 }
 
