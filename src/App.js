@@ -331,7 +331,3 @@ TodoFooter.propTypes = {
 function plural(n) {
   return n===1 ? "" : "s";
 }
-
-function clone(original) {
-  return Object.assign(Object.create(original), original);
-}
