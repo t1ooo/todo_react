@@ -96,4 +96,4 @@
 - ? add style name
 + refactor components: header, body, footer
 - write tests
-- replace component class to function, if state is not used
++ replace component class with function, if state is not used

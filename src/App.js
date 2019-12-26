@@ -183,24 +183,22 @@ class TodoHeader extends React.Component {
   }
 }
 
-class TodoBody extends React.Component {
-  render() {
-    return (
-      <div className="TodoBody">
-        {this.props.tasks.map((task) =>
-          (<div key={task.id}>
-            <TaskItem
-              checked={task.completed}
-              text={task.text}
-              onCheck={() => this.props.onCheck(task.id)}
-              onRemove={() => this.props.onRemove(task.id)}
-              edit={(text) => this.props.edit(task.id, text)}
-            />
-          </div>)
-        )}
-      </div>
-    );
-  }
+function TodoBody(props) {
+  return (
+    <div className="TodoBody">
+      {props.tasks.map((task) =>
+        (<div key={task.id}>
+          <TaskItem
+            checked={task.completed}
+            text={task.text}
+            onCheck={() => props.onCheck(task.id)}
+            onRemove={() => props.onRemove(task.id)}
+            edit={(text) => props.edit(task.id, text)}
+          />
+        </div>)
+      )}
+    </div>
+  );
 }
 
 class TaskItem extends React.Component {
@@ -286,41 +284,39 @@ class TaskItem extends React.Component {
   }
 }
 
-class TodoFooter extends React.Component {
-  render() {
-    return (
-      <div className="TodoFooter">
-        <span className="count">
-          {this.props.count} item{this._plural(this.props.count)} left
-        </span>
+function TodoFooter(props) {
+  return (
+    <div className="TodoFooter">
+      <span className="count">
+        {props.count} item{plural(props.count)} left
+      </span>
 
-        {[ALL, ACTIVE, COMPLETED].map(typ =>
-          <button
-            onClick={() => this.props.setTasksType(typ)}
-            title={`show ${typ} tasks`}
-            key={typ}
-            className={`show-${typ}`}
-          >
-            {typ}
-          </button>
-        )}
+      {[ALL, ACTIVE, COMPLETED].map(typ =>
+        <button
+          onClick={() => props.setTasksType(typ)}
+          title={`show ${typ} tasks`}
+          key={typ}
+          className={`show-${typ}`}
+        >
+          {typ}
+        </button>
+      )}
 
-        {this.props.showRemoveCompleted &&
-          <button
-            onClick={this.props.removeCompleted}
-            title="remove completed tasks"
-            className="remove-completed"
-          >
-            remove completed
-          </button>
-        }
-      </div>
-    );
-  }
+      {props.showRemoveCompleted &&
+        <button
+          onClick={props.removeCompleted}
+          title="remove completed tasks"
+          className="remove-completed"
+        >
+          remove completed
+        </button>
+      }
+    </div>
+  );
+}
 
-  _plural(n) {
-    return n===1 ? "" : "s";
-  }
+function plural(n) {
+  return n===1 ? "" : "s";
 }
 
 function clone(original) {
