@@ -86,7 +86,7 @@
 + rename class name: "not-complete" -> "active", "complete" -> "completed"
 + rename method _getNotCompleteTaskCount -> _getActiveTaskCount, _getCompleteTaskCount -> _getCompletedTaskCount
 + rename Task prop complete -> completed
-- rename buttons
++ rename buttons
 + rename completionAllChecked -> completedAll
 + add titles to html elements
 - static analyzer
@@ -96,3 +96,4 @@
 - ? add style name
 + refactor components: header, body, footer
 - write tests
+- replace component class to function, if state is not used
