@@ -199,8 +199,7 @@ function TodoBody(props) {
 }
 
 TodoBody.propTypes = {
-  //tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)).isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)).isRequired,
   onCheck: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   edit: PropTypes.func.isRequired,
