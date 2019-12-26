@@ -97,3 +97,4 @@
 + refactor components: header, body, footer
 - write tests
 + replace component class with function, if state is not used
++ add propTypes

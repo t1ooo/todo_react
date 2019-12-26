@@ -133,6 +133,10 @@ export class App extends React.Component {
 }
 
 class TodoHeader extends React.Component {
+  static propTypes = {
+    toggleAll: PropTypes.func.isRequired,
+    toggleAllChecked: PropTypes.bool.isRequired,
+  };
   state = {
     value: "",
   };
@@ -194,7 +198,20 @@ function TodoBody(props) {
   );
 }
 
+TodoBody.propTypes = {
+  //tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)).isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onCheck: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+};
+
 class TaskItem extends React.Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    onCheck: PropTypes.func.isRequired,
+  };
   state = {
     value: this.props.text,
     edit: false,
@@ -304,6 +321,13 @@ function TodoFooter(props) {
     </div>
   );
 }
+
+TodoFooter.propTypes = {
+  count: PropTypes.number.isRequired,
+  setTasksType: PropTypes.func.isRequired,
+  showRemoveCompleted: PropTypes.bool.isRequired,
+  removeCompleted: PropTypes.func.isRequired,
+};
 
 function plural(n) {
   return n===1 ? "" : "s";
