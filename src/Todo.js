@@ -4,22 +4,26 @@ export const ACTIVE = "active";
 export const COMPLETED = "completed";
 
 export class Todo {
-  constructor(tasks=[]) {
-    this._tasks = tasks.map(task => 
-      new Task(task.text, task.completed, task.id)
+  constructor(tasks = []) {
+    this._tasks = tasks.map(
+      task => new Task(task.text, task.completed, task.id)
     );
   }
 
-  getTasks(taskType=ALL) {
-    switch(taskType) {
-      case ALL:       return this._tasks;
-      case ACTIVE:    return this._tasks.filter(task => !task.completed);
-      case COMPLETED: return this._tasks.filter(task => task.completed);
-      default:        throw new Error("bad task type");
+  getTasks(taskType = ALL) {
+    switch (taskType) {
+      case ALL:
+        return this._tasks;
+      case ACTIVE:
+        return this._tasks.filter(task => !task.completed);
+      case COMPLETED:
+        return this._tasks.filter(task => task.completed);
+      default:
+        throw new Error("bad task type");
     }
   }
 
-  getCount(taskType=ALL) {
+  getCount(taskType = ALL) {
     return this.getTasks(taskType).length;
   }
 
@@ -29,7 +33,7 @@ export class Todo {
   }
 
   toggleAll(completed) {
-    this._tasks.forEach(task => task.completed = completed);
+    this._tasks.forEach(task => (task.completed = completed));
   }
 
   add(task) {
@@ -54,21 +58,21 @@ export class Todo {
   }
 
   _lookup(task_id) {
-    for(let task of this._tasks) {
+    for (let task of this._tasks) {
       if (task.id === task_id) {
         return task;
       }
     }
     throw new Error("task not found");
   }
-  
+
   toJSON() {
     return this._tasks;
   }
 }
 
 export class Task {
-  constructor(text, completed=false, id=genId()) {
+  constructor(text, completed = false, id = genId()) {
     this.text = text;
     this.completed = completed;
     this.id = id;
@@ -76,5 +80,9 @@ export class Task {
 }
 
 function genId() {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2) + Date.now().toString(36)
+  );
 }

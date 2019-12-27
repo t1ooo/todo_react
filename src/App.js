@@ -3,7 +3,7 @@
 import React from "react";
 import "./App.css";
 import PropTypes from "prop-types";
-import { Todo, Task, ALL, ACTIVE, COMPLETED } from "./Todo";
+import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./Todo";
 
 export class App extends React.Component {
   static _storageKey = "react-todo";
@@ -13,13 +13,13 @@ export class App extends React.Component {
   _newState() {
     try {
       return this._loadState();
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       return {
         todo: new Todo(),
         taskType: ALL, // displayed task type
         toggleAllChecked: false, // completed all checkbox status
-      }
+      };
     }
   }
 
@@ -32,8 +32,11 @@ export class App extends React.Component {
     };
   }
 
-  setState(updater, callback=()=>{}) {
-    super.setState(updater, () => {this._saveState(); callback();});
+  setState(updater, callback = () => {}) {
+    super.setState(updater, () => {
+      this._saveState();
+      callback();
+    });
   }
 
   _saveState() {
@@ -45,15 +48,15 @@ export class App extends React.Component {
       <div className="App">
         <TodoHeader
           addTask={v => this._addTask(v)}
-          toggleAll={(completed) => this._toggleAll(completed)}
+          toggleAll={completed => this._toggleAll(completed)}
           toggleAllChecked={this.state.toggleAllChecked}
         />
-        {0 < this._getCount(ALL) &&
+        {0 < this._getCount(ALL) && (
           <div>
             <TodoBody
               tasks={this._getTasks()}
-              onCheck={(task_id) => this._toggle(task_id)}
-              onRemove={(task_id) => this._remove(task_id)}
+              onCheck={task_id => this._toggle(task_id)}
+              onRemove={task_id => this._remove(task_id)}
               edit={(task_id, text) => this._edit(task_id, text)}
             />
             <TodoFooter
@@ -63,7 +66,7 @@ export class App extends React.Component {
               removeCompleted={() => this._removeCompleted()}
             />
           </div>
-        }
+        )}
       </div>
     );
   }
@@ -146,7 +149,7 @@ class TodoHeader extends React.Component {
       <div className="TodoHeader">
         <input
           type="checkbox"
-          onChange={(event) => this.props.toggleAll(event.target.checked)}
+          onChange={event => this.props.toggleAll(event.target.checked)}
           checked={this.props.toggleAllChecked}
           title="toggle all tasks"
           className="toggle-all"
@@ -154,8 +157,8 @@ class TodoHeader extends React.Component {
         <input
           value={this.state.value}
           placeholder="What needs to be complete?"
-          onChange={(event) => this.setState({value: event.target.value})}
-          onKeyDown={(event) => this._handleKeyDown(event)}
+          onChange={event => this.setState({value: event.target.value})}
+          onKeyDown={event => this._handleKeyDown(event)}
           title="add new task"
           className="add-new-task"
         />
@@ -164,36 +167,36 @@ class TodoHeader extends React.Component {
   }
 
   _handleKeyDown(event) {
-    switch(event.key) {
-      case 'Enter':
+    switch (event.key) {
+      case "Enter":
         this._submit(event);
         break;
       default:
-        // do nothing
+      // do nothing
     }
   }
 
   _submit(event) {
     event.preventDefault();
     this.props.addTask(this.state.value);
-    this.setState({value: ""})
+    this.setState({value: ""});
   }
 }
 
 function TodoBody(props) {
   return (
     <div className="TodoBody">
-      {props.tasks.map((task) =>
-        (<div key={task.id}>
+      {props.tasks.map(task => (
+        <div key={task.id}>
           <TaskItem
             checked={task.completed}
             text={task.text}
             onCheck={() => props.onCheck(task.id)}
             onRemove={() => props.onRemove(task.id)}
-            edit={(text) => props.edit(task.id, text)}
+            edit={text => props.edit(task.id, text)}
           />
-        </div>)
-      )}
+        </div>
+      ))}
     </div>
   );
 }
@@ -226,7 +229,7 @@ class TaskItem extends React.Component {
           title="toggle task"
           className="toggle"
         />
-        {this.state.edit ?this._editForm() :this._taskBody()}
+        {this.state.edit ? this._editForm() : this._taskBody()}
       </div>
     );
   }
@@ -235,9 +238,9 @@ class TaskItem extends React.Component {
     return (
       <input
         value={this.state.value}
-        onChange={(event) => this.setState({value: event.target.value})}
-        onBlur={(event) => this._handleTextEdit(event)}
-        onKeyDown={(event) => this._handleKeyDown(event)}
+        onChange={event => this.setState({value: event.target.value})}
+        onBlur={event => this._handleTextEdit(event)}
+        onKeyDown={event => this._handleKeyDown(event)}
         title="edit task text"
         autoFocus
         className="edit"
@@ -247,7 +250,7 @@ class TaskItem extends React.Component {
 
   _taskBody() {
     return (
-      <span className={this.props.checked ?"completed" :"active"}>
+      <span className={this.props.checked ? "completed" : "active"}>
         <span
           onDoubleClick={() => this._switchEdit()}
           title="double click to edit task text"
@@ -273,15 +276,15 @@ class TaskItem extends React.Component {
   }
 
   _handleKeyDown(event) {
-    switch(event.key) {
-      case 'Enter':
+    switch (event.key) {
+      case "Enter":
         this._handleTextEdit(event);
         break;
-      case 'Escape':
+      case "Escape":
         this._switchEdit();
         break;
       default:
-        // do nothing
+      // do nothing
     }
   }
 
@@ -297,7 +300,7 @@ function TodoFooter(props) {
         {props.count} item{plural(props.count)} left
       </span>
 
-      {[ALL, ACTIVE, COMPLETED].map(typ =>
+      {[ALL, ACTIVE, COMPLETED].map(typ => (
         <button
           onClick={() => props.setTasksType(typ)}
           title={`show ${typ} tasks`}
@@ -306,9 +309,9 @@ function TodoFooter(props) {
         >
           {typ}
         </button>
-      )}
+      ))}
 
-      {props.showRemoveCompleted &&
+      {props.showRemoveCompleted && (
         <button
           onClick={props.removeCompleted}
           title="remove completed tasks"
@@ -316,7 +319,7 @@ function TodoFooter(props) {
         >
           remove completed
         </button>
-      }
+      )}
     </div>
   );
 }
@@ -329,5 +332,5 @@ TodoFooter.propTypes = {
 };
 
 function plural(n) {
-  return n===1 ? "" : "s";
+  return n === 1 ? "" : "s";
 }

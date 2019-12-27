@@ -90,7 +90,7 @@
 + rename completionAllChecked -> completedAll
 + add titles to html elements
 - static analyzer
-- fmt tool
++ fmt tool
 - ? flow
 + remove constructors
 - ? add style name
