@@ -1,16 +1,22 @@
+// @flow
+
 // task types
 export const ALL = "all";
 export const ACTIVE = "active";
 export const COMPLETED = "completed";
 
+export type TaskType = "all" | "active" | "completed";
+
 export class Todo {
-  constructor(tasks = []) {
+  _tasks: Array<Task>;
+  
+  constructor(tasks: Array<Task> = []) {
     this._tasks = tasks.map(
       task => new Task(task.text, task.completed, task.id)
     );
   }
 
-  getTasks(taskType = ALL) {
+  getTasks(taskType: TaskType = ALL): Array<Task> {
     switch (taskType) {
       case ALL:
         return this._tasks;
@@ -23,29 +29,29 @@ export class Todo {
     }
   }
 
-  getCount(taskType = ALL) {
+  getCount(taskType: TaskType = ALL): number {
     return this.getTasks(taskType).length;
   }
 
-  toggle(task_id) {
+  toggle(task_id: string) {
     const task = this._lookup(task_id);
     task.completed = !task.completed;
   }
 
-  toggleAll(completed) {
+  toggleAll(completed: bool) {
     this._tasks.forEach(task => (task.completed = completed));
   }
 
-  add(task) {
+  add(task: Task) {
     this._tasks.push(task);
   }
 
-  edit(task_id, text) {
+  edit(task_id: string, text: string) {
     const task = this._lookup(task_id);
     task.text = text;
   }
 
-  remove(task_id) {
+  remove(task_id: string) {
     this._filter(task => task.id !== task_id);
   }
 
@@ -53,11 +59,11 @@ export class Todo {
     this._filter(task => !task.completed);
   }
 
-  _filter(callback) {
+  _filter(callback: (Task) => bool) {
     this._tasks = this._tasks.filter(callback);
   }
 
-  _lookup(task_id) {
+  _lookup(task_id: string): Task {
     for (let task of this._tasks) {
       if (task.id === task_id) {
         return task;
@@ -66,20 +72,24 @@ export class Todo {
     throw new Error("task not found");
   }
 
-  toJSON() {
+  toJSON(): Array<Task> {
     return this._tasks;
   }
 }
 
 export class Task {
-  constructor(text, completed = false, id = genId()) {
+  text: string;
+  completed: bool;
+  id: string;
+
+  constructor(text: string, completed: bool = false, id: string = genId()) {
     this.text = text;
     this.completed = completed;
     this.id = id;
   }
 }
 
-function genId() {
+function genId(): string {
   return (
     Math.random()
       .toString(36)

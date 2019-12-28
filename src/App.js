@@ -1,12 +1,21 @@
+// @flow
+
 // http://todomvc.com/examples/react/#/
 
 import React from "react";
 import "./App.css";
 import PropTypes from "prop-types";
 import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./Todo";
+import type {TaskType} from "./Todo";
 
-export class App extends React.Component {
-  static _storageKey = "react-todo";
+type AppState = {
+  todo: Todo,
+  taskType: TaskType,
+  toggleAllChecked: bool,
+};
+
+export class App extends React.Component<void, AppState> {
+  static _storageKey: string = "react-todo";
   state = this._newState();
 
   // try load state from storage or return default state
@@ -24,7 +33,7 @@ export class App extends React.Component {
   }
 
   _loadState() {
-    const state = JSON.parse(localStorage.getItem(App._storageKey));
+    const state = JSON.parse(localStorage.getItem(App._storageKey) || '{}');
     return {
       todo: new Todo(state.todo),
       taskType: state.taskType,
@@ -32,10 +41,10 @@ export class App extends React.Component {
     };
   }
 
-  setState(updater, callback = () => {}) {
+  setState(updater: Object|Function, callback?: () => mixed) {
     super.setState(updater, () => {
       this._saveState();
-      callback();
+      callback && callback();
     });
   }
 
@@ -71,23 +80,23 @@ export class App extends React.Component {
     );
   }
 
-  _getTasks() {
+  _getTasks(): Array<Task> {
     return this.state.todo.getTasks(this.state.taskType);
   }
 
-  _setTasksType(taskType) {
+  _setTasksType(taskType: TaskType) {
     this.setState((state, props) => {
       return {taskType: taskType};
     });
   }
 
-  _getCount(taskType) {
+  _getCount(taskType: TaskType): number {
     return this.state.todo.getCount(taskType);
   }
 
-  _edit(task_id, text) {
+  _edit(task_id: string, text: string) {
     if (text === "") {
-      this.remove(task_id);
+      this._remove(task_id);
       return;
     }
     this.setState((state, props) => {
@@ -96,14 +105,14 @@ export class App extends React.Component {
     });
   }
 
-  _toggle(task_id) {
+  _toggle(task_id: string) {
     this.setState((state, props) => {
       state.todo.toggle(task_id);
       return {todo: state.todo};
     });
   }
 
-  _remove(task_id) {
+  _remove(task_id: string) {
     this.setState((state, props) => {
       state.todo.remove(task_id);
       return {todo: state.todo};
@@ -117,7 +126,7 @@ export class App extends React.Component {
     });
   }
 
-  _addTask(text) {
+  _addTask(text: string) {
     if (text === "") {
       return;
     }
@@ -127,7 +136,7 @@ export class App extends React.Component {
     });
   }
 
-  _toggleAll(completed) {
+  _toggleAll(completed: bool) {
     this.setState((state, props) => {
       state.todo.toggleAll(completed);
       return {todo: state.todo, toggleAllChecked: completed};
@@ -135,11 +144,17 @@ export class App extends React.Component {
   }
 }
 
-class TodoHeader extends React.Component {
-  static propTypes = {
-    toggleAll: PropTypes.func.isRequired,
-    toggleAllChecked: PropTypes.bool.isRequired,
-  };
+type TodoHeaderProps = {
+  addTask: (string) => void,
+  toggleAll: (bool) => void,
+  toggleAllChecked: bool,
+};
+
+type TodoHeaderState = {
+  value: string,
+};
+
+class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
   state = {
     value: "",
   };
@@ -183,7 +198,14 @@ class TodoHeader extends React.Component {
   }
 }
 
-function TodoBody(props) {
+type TodoBodyProps = {
+  tasks: Array<Task>,
+  onCheck: (string) => void,
+  onRemove: (string) => void,
+  edit: (string, string) => void,
+};
+
+function TodoBody(props: TodoBodyProps) {
   return (
     <div className="TodoBody">
       {props.tasks.map(task => (
@@ -201,19 +223,20 @@ function TodoBody(props) {
   );
 }
 
-TodoBody.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.instanceOf(Task)).isRequired,
-  onCheck: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  edit: PropTypes.func.isRequired,
+type TaskItemProps = {
+  text: string,
+  checked: bool,
+  onCheck: () => void,
+  onRemove: () => void,
+  edit: (string) => void,
 };
 
-class TaskItem extends React.Component {
-  static propTypes = {
-    text: PropTypes.string.isRequired,
-    checked: PropTypes.bool.isRequired,
-    onCheck: PropTypes.func.isRequired,
-  };
+type TaskItemState = {
+  value: string,
+  edit: bool,
+};
+
+class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
   state = {
     value: this.props.text,
     edit: false,
@@ -293,7 +316,14 @@ class TaskItem extends React.Component {
   }
 }
 
-function TodoFooter(props) {
+type TodoFooterProps = {
+  count: number,
+  setTasksType: (TaskType) => void,
+  showRemoveCompleted: bool,
+  removeCompleted: () => void,
+};
+
+function TodoFooter(props: TodoFooterProps) {
   return (
     <div className="TodoFooter">
       <span className="count">
@@ -323,13 +353,6 @@ function TodoFooter(props) {
     </div>
   );
 }
-
-TodoFooter.propTypes = {
-  count: PropTypes.number.isRequired,
-  setTasksType: PropTypes.func.isRequired,
-  showRemoveCompleted: PropTypes.bool.isRequired,
-  removeCompleted: PropTypes.func.isRequired,
-};
 
 function plural(n) {
   return n === 1 ? "" : "s";

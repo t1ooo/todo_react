@@ -91,10 +91,12 @@
 + add titles to html elements
 - static analyzer
 + fmt tool
-- ? flow
++ add flow types
 + remove constructors
 - ? add style name
 + refactor components: header, body, footer
 - write tests
 + replace component class with function, if state is not used
 + add propTypes
+- remove Todo._filter
+- add private props and methods
