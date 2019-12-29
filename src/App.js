@@ -185,7 +185,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
     );
   }
 
-  _handleKeyDown(event: SyntheticKeyboardEvent<HTMLButtonElement>) {
+  _handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
         this._submit(event);
@@ -195,7 +195,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
     }
   }
 
-  _submit(event: SyntheticKeyboardEvent<HTMLButtonElement>) {
+  _submit(event: KeyboardEvent) {
     event.preventDefault();
     this.props.addTask(this.state.value);
     this.setState({value: ""});
@@ -298,13 +298,13 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
     );
   }
 
-  _handleTextEdit(event: SyntheticKeyboardEvent<HTMLButtonElement>) {
+  _handleTextEdit(event: KeyboardEvent) {
     event.preventDefault();
     this.props.edit(this.state.value);
     this._switchEdit();
   }
 
-  _handleKeyDown(event: SyntheticKeyboardEvent<HTMLButtonElement>) {
+  _handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
         this._handleTextEdit(event);
