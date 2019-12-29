@@ -52,15 +52,11 @@ export class Todo {
   }
 
   remove(task_id: string) {
-    this._filter(task => task.id !== task_id);
+    this._tasks = this._tasks.filter(task => task.id !== task_id);
   }
 
   removeCompleted() {
-    this._filter(task => !task.completed);
-  }
-
-  _filter(callback: (Task) => bool) {
-    this._tasks = this._tasks.filter(callback);
+    this._tasks = this._tasks.filter(task => !task.completed);
   }
 
   _lookup(task_id: string): Task {

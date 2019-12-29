@@ -98,5 +98,6 @@
 - write tests
 + replace component class with function, if state is not used
 + add propTypes
-- remove Todo._filter
++ remove Todo._filter
 - add private props and methods
+- add style
