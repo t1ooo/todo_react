@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./Todo";
 import type {TaskType} from "./Todo";
 
+// --------------------------------------------------------------------------------
+
 type AppState = {
   todo: Todo,
   taskType: TaskType,
@@ -144,6 +146,8 @@ export class App extends React.Component<void, AppState> {
   }
 }
 
+// --------------------------------------------------------------------------------
+
 type TodoHeaderProps = {
   addTask: (string) => void,
   toggleAll: (bool) => void,
@@ -222,6 +226,8 @@ function TodoBody(props: TodoBodyProps) {
     </div>
   );
 }
+
+// --------------------------------------------------------------------------------
 
 type TaskItemProps = {
   text: string,
@@ -315,6 +321,8 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
     this.setState({edit: !this.state.edit});
   }
 }
+
+// --------------------------------------------------------------------------------
 
 type TodoFooterProps = {
   count: number,
