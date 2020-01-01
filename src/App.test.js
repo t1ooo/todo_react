@@ -32,19 +32,9 @@ it('show todo: when there is no tasks', () => {
 it('add new task', () => {
   const app = render(<App />, container);
 
-  /* 
-    // work
-    app._addTask("456"); 
-  */
-  
-  var input = document.querySelector('.add-new-task');
+  var input = container.querySelector('.add-new-task');
 
   act(() => {
-    /* input.value = "645";
-    input.focus();
-    input.click();
-    input.dispatchEvent(new KeyboardEvent('keydown', {key: "Enter", keyCode: 13, which: 13})); */
-    
     fireEvent.change(input, { target: { value: '645' } });
     fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13})
   });
