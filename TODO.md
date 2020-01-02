@@ -102,3 +102,5 @@
 + remove Todo._filter
 - add private props and methods
 - add style
+- code snippets
+- ? save App state before unload
