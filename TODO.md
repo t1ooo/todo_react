@@ -1,4 +1,5 @@
 + show todo
+    + focus on todo input field
     + when there is at least one task:
         task_add_input_field
         task_list

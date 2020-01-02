@@ -180,6 +180,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           onKeyDown={event => this._handleKeyDown(event)}
           title="add new task"
           className="add-new-task"
+          autoFocus
         />
       </div>
     );
