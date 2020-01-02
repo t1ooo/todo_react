@@ -25,7 +25,7 @@ export class App extends React.Component<void, AppState> {
     try {
       return this._loadState();
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
       return {
         todo: new Todo(),
         taskType: ALL, // displayed task type
