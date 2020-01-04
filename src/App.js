@@ -304,12 +304,6 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
     );
   }
 
-  _handleTextEdit(event: KeyboardEvent) {
-    event.preventDefault();
-    this.props.edit(this.state.value);
-    this._switchEdit();
-  }
-
   _handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
@@ -321,6 +315,12 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
       default:
       // do nothing
     }
+  }
+
+  _handleTextEdit(event: KeyboardEvent) {
+    event.preventDefault();
+    this.props.edit(this.state.value);
+    this._switchEdit();
   }
 
   _switchEdit() {
