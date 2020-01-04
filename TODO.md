@@ -51,6 +51,7 @@
         + when press [enter] or click outside task: delete task, if task_text is empty, else save
         + when press [esc]: cancel all changes
         + replace input field with task_text and task_delete_button
+        + trim text input
 
 + show tasks_left_count
     + use plural form, when items > 1
