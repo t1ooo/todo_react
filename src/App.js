@@ -256,7 +256,7 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
 
   render() {
     return (
-      <div className="TaskItem">
+      <div className="TaskItem" data-status={this.props.checked ? "completed" : "active"}>
         <input
           type="checkbox"
           checked={this.props.checked}
@@ -285,7 +285,7 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
 
   _taskBody() {
     return (
-      <span className={this.props.checked ? "completed" : "active"}>
+      <span>
         <span
           onDoubleClick={() => this._switchEdit()}
           title="double click to edit task text"

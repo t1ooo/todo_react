@@ -5,6 +5,6 @@
   display: inline;
 }
 
-.completed .text {
+.TaskItem[data-status="completed"] .text {
   text-decoration: line-through;
 }
