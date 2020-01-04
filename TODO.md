@@ -1,21 +1,20 @@
 + show todo
-    + focus on todo input field
     + when there is at least one task:
-        task_add_input_field
-        task_list
-        tasks_left_count
-        tasks_show_by_type buttons
-        completed_tasks_clear_button
+        header
+        body
+        footer
     + when there is no tasks:
-        task_add_input_field
+        header
 
 + add new task
     + show task_add_input_field
         + show placeholder "What needs to be done?"
+        + focus on todo input field
     + add task by type text to task_add_input_field and click to [enter]
     + not add task, when input field empty
     + clear task_add_input_field after task added
     + show task at the end of task_list
+    + trim text input
 
 + mark task as done/undone
     + show task_done_checkbox the left of a task
@@ -104,3 +103,9 @@
 - add style
 - code snippets
 - ? save App state before unload
+- ? test with testid https://testing-library.com/docs/guide-which-query
+- ? routing
+- ? jest-puppeteer
+- ? framework agnostic tests
+- test: toMatchSnapshot
+
