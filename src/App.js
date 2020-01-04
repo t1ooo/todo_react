@@ -100,6 +100,7 @@ export class App extends React.Component<void, AppState> {
   }
 
   _edit(task_id: string, text: string) {
+    text = text.trim();
     if (text === "") {
       this._remove(task_id);
       return;
@@ -132,6 +133,7 @@ export class App extends React.Component<void, AppState> {
   }
 
   _addTask(text: string) {
+    text = text.trim();
     if (text === "") {
       return;
     }
