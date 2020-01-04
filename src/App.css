@@ -1,10 +1,9 @@
-.TaskItem .delete {
+.TaskItem .remove {
   display: none;
 }
-.TaskItem:hover .delete {
+.TaskItem:hover .remove {
   display: inline;
 }
-
 .TaskItem[data-status="completed"] .text {
   text-decoration: line-through;
 }

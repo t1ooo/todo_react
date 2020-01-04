@@ -294,9 +294,9 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           {this.props.text}
         </span>
         <button
-          className="delete"
+          className="remove"
           onClick={this.props.onRemove}
-          title="delete task"
+          title="remove task"
         >
           remove
         </button>
