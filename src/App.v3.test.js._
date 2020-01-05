@@ -1,0 +1,175 @@
+import React from "react";
+import {/* render as reactRender, */ unmountComponentAtNode} from "react-dom";
+/* import { act } from "react-dom/test-utils"; */
+import {App} from "./App";
+import {act, render, fireEvent} from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+
+afterEach(() => {
+  //localStorage.removeItem(App._storageKey);
+  localStorage.clear();
+});
+
+describe("123", () => {
+  let ath;
+  beforeEach(() => {
+    const {container} = render(<App />);
+    ath = new AppTestHelper(container);
+  });
+
+  it("no task", () => {
+    expect(ath.header().length).toBe(1); // header should be visible
+    expect(ath.body().length).toBe(0); // body should not be visible
+    expect(ath.footer().length).toBe(0); // footer should not be visible
+  });
+
+  it("add task", () => {
+    ath.addTask("new task");
+
+    expect(ath.header().length).toBe(1);
+    expect(ath.body().length).toBe(1);
+    expect(ath.footer().length).toBe(1);
+  });
+});
+
+it("show todo", () => {
+  const {container} = render(<App />);
+  const ath = new AppTestHelper(container);
+
+  expect(ath.header().length).toBe(1); // header should be visible
+  expect(ath.body().length).toBe(0); // body should not be visible
+  expect(ath.footer().length).toBe(0); // footer should not be visible
+
+  ath.addTask("new task");
+
+  expect(ath.header().length).toBe(1);
+  expect(ath.body().length).toBe(1);
+  expect(ath.footer().length).toBe(1);
+});
+
+it("add new task", () => {
+  var {container} = render(<App />);
+  const ath = new AppTestHelper(container);
+
+  expect(ath.task().length).toBe(0);
+  //expect(isFocused(ath.input(), document)).toBe(true);
+  expect(ath.input()).toHaveFocus();
+
+  const text = "new task";
+  ath.addTask(text);
+
+  expect(ath.task().length).toBe(1);
+  expect(ath.count().textContent).toBe("1 item left");
+
+  const lastTask = ath.task().item(ath.task().length - 1);
+  expect(ath.taskText(lastTask).textContent).toBe(text);
+  expect(ath.taskToggle(lastTask).checked).toBe(false);
+
+  expect(ath.activeTask().length).toBe(1);
+  expect(ath.completedTask().length).toBe(0);
+
+  expect(ath.input().value).toBe("");
+});
+
+it("mark task as done/undone", () => {
+  const {container} = render(<App />);
+  const ath = new AppTestHelper(container);
+
+  ath.addTask("new task");
+
+  const task = ath.task().item(0);
+
+  fireEvent.click(ath.taskToggle(task));
+  expect(ath.taskToggle(task).checked).toBe(true);
+  expect(ath.count().textContent).toBe("0 items left");
+  expect(ath.removeCompleted().length).toBe(1);
+  expect(ath.activeTask().length).toBe(0);
+  expect(ath.completedTask().length).toBe(1);
+
+  fireEvent.click(ath.taskToggle(task));
+  expect(ath.taskToggle(task).checked).toBe(false);
+  expect(ath.count().textContent).toBe("1 item left");
+  expect(ath.removeCompleted().length).toBe(0);
+  expect(ath.activeTask().length).toBe(1);
+  expect(ath.completedTask().length).toBe(0);
+});
+
+it("mark all tasks as done/undone", () => {
+  const {container} = render(<App />);
+  const ath = new AppTestHelper(container);
+
+  ath.addTask(container, "new task");
+  ath.addTask(container, "new task");
+
+  const task1 = ath.task().item(0);
+  const task2 = ath.task().item(1);
+
+  fireEvent.click(ath.toggleAll());
+  expect(ath.activeTask().length).toBe(0);
+  expect(ath.completedTask().length).toBe(2);
+  expect(ath.taskToggle(task1).checked).toBe(true);
+  expect(ath.taskToggle(task2).checked).toBe(true);
+  expect(ath.toggleAll().checked).toBe(true);
+
+  fireEvent.click(ath.toggleAll());
+  expect(ath.activeTask().length).toBe(2);
+  expect(ath.completedTask().length).toBe(0);
+  expect(ath.taskToggle(task1).checked).toBe(false);
+  expect(ath.taskToggle(task2).checked).toBe(false);
+  expect(ath.toggleAll().checked).toBe(false);
+});
+
+it("delete task", () => {
+  const {container} = render(<App />);
+  const ath = new AppTestHelper(container);
+
+  ath.addTask(container, "new task");
+
+  const task = ath.task().item(0);
+  const taskDelete = ath.taskDelete(task);
+  // expect(ath.taskDelete(task).style.display).toBe("none");
+  //expect(getComputedStyle(taskDelete).getPropertyValue('display')).toBe('none');
+  //expect(taskDelete).toBeVisible();
+  //expect(taskDelete).toHaveStyle('display: none');
+
+  fireEvent.mouseOver(task);
+  //expect(getComputedStyle(taskDelete).getPropertyValue('display')).toBe('none');
+  //expect(taskDelete).toBeVisible();
+});
+
+class AppTestHelper {
+  constructor(cnt) {
+    this.cnt = cnt;
+  }
+
+  header = () => this.cnt.querySelectorAll(".TodoHeader");
+  body = () => this.cnt.querySelectorAll(".TodoBody");
+  footer = () => this.cnt.querySelectorAll(".TodoFooter");
+  task = () => this.cnt.querySelectorAll(".TaskItem");
+  input = () => this.cnt.querySelector(".add-new-task");
+  count = () => this.cnt.querySelector(".count");
+  taskText = task => task.querySelector(".text");
+  taskToggle = task => task.querySelector(".toggle");
+  taskDelete = task => task.querySelector(".delete");
+  activeTask = () => this.cnt.querySelectorAll(".active");
+  completedTask = () => this.cnt.querySelectorAll(".completed");
+  removeCompleted = () => this.cnt.querySelectorAll(".remove-completed");
+  toggleAll = () => this.cnt.querySelector(".toggle-all");
+
+  addTask = text => {
+    var input = this.input();
+    fireEvent.change(input, {target: {value: text}});
+    fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13});
+  };
+}
+
+function addTask(container, text) {
+  var input = container.querySelector(".add-new-task");
+  fireEvent.change(input, {target: {value: text}});
+  fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13});
+  return input;
+}
+
+function isFocused(el, document) {
+  return el === document.activeElement;
+}
