@@ -9,7 +9,7 @@ export type TaskType = "all" | "active" | "completed";
 
 export class Todo {
   _tasks: Array<Task>;
-  
+
   constructor(tasks: Array<Task> = []) {
     this._tasks = tasks.map(
       task => new Task(task.text, task.completed, task.id)
@@ -38,7 +38,7 @@ export class Todo {
     task.completed = !task.completed;
   }
 
-  toggleAll(completed: bool) {
+  toggleAll(completed: boolean) {
     this._tasks.forEach(task => (task.completed = completed));
   }
 
@@ -75,10 +75,10 @@ export class Todo {
 
 export class Task {
   text: string;
-  completed: bool;
+  completed: boolean;
   id: string;
 
-  constructor(text: string, completed: bool = false, id: string = genId()) {
+  constructor(text: string, completed: boolean = false, id: string = genId()) {
     this.text = text;
     this.completed = completed;
     this.id = id;
