@@ -76,7 +76,7 @@ describe("add task", () => {
   // task
   it("task should be added to the end of task list", () => {
     expect(ath.tasks().length).toBe(1);
-    expect(ath.taskText(ath.lastTask()).textContent).toBe(taskText());
+    expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
   it("task should be NOT added when text_task is empty", () => {
@@ -86,17 +86,17 @@ describe("add task", () => {
   });
 
   it("task should be NOT checked", () => {
-    expect(ath.taskToggle(ath.lastTask()).checked).toBe(false);
+    expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
   it("task should be active", () => {
     //expect(ath.activeTasks().length).toBe(1);
-    expect(ath.taskStatus(ath.lastTask())).toBe("active");
+    expect(ath.lastTask().status()).toBe("active");
   });
 
   it("task_text should be trimmed", () => {
     ath.addTask("  " + taskText() + "  ");
-    expect(ath.taskText(ath.lastTask()).textContent).toBe(taskText());
+    expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
   // tasks_left_count
@@ -110,17 +110,17 @@ describe("mark task as done", () => {
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
-    ath.toggleTask(ath.lastTask());
+    click(ath.lastTask().toggle());
   });
 
   // task
   it("task should be checked", () => {
-    expect(ath.taskToggle(ath.lastTask()).checked).toBe(true);
+    expect(ath.lastTask().toggle().checked).toBe(true);
   });
 
   it("task should be completed", () => {
     //expect(ath.completedTasks().length).toBe(1);
-    expect(ath.taskStatus(ath.lastTask())).toBe("completed");
+    expect(ath.lastTask().status()).toBe("completed");
   });
 
   // tasks_left_count
@@ -139,17 +139,17 @@ describe("mark task as undone", () => {
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
-    ath.toggleTask(ath.lastTask());
-    ath.toggleTask(ath.lastTask());
+    click(ath.lastTask().toggle());
+    click(ath.lastTask().toggle());
   });
 
   // task
   it("task should be NOT checked", () => {
-    expect(ath.taskToggle(ath.lastTask()).checked).toBe(false);
+    expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
   it("task should be active", () => {
-    expect(ath.taskStatus(ath.lastTask())).toBe("active");
+    expect(ath.lastTask().status()).toBe("active");
   });
 
   // tasks_left_count
@@ -182,7 +182,7 @@ describe("mark all task as done", () => {
   // task
   it("all task should be checked", () => {
     ath.tasks().forEach(task=>{
-      expect(ath.taskToggle(task).checked).toBe(true);
+      expect(task.toggle().checked).toBe(true);
     });
   });
 
@@ -193,7 +193,7 @@ describe("mark all task as done", () => {
 
   it("all task should be completed", () => {
     ath.tasks().forEach(task=>{
-      expect(ath.taskStatus(task)).toBe("completed");
+      expect(task.status()).toBe("completed");
     });
   });
 
@@ -228,7 +228,7 @@ describe("mark all task as undone", () => {
   // task
   it("all task should be NOT checked", () => {
     ath.tasks().forEach(task=>{
-      expect(ath.taskToggle(task).checked).toBe(false);
+      expect(task.toggle().checked).toBe(false);
     });
   });
 
@@ -239,7 +239,7 @@ describe("mark all task as undone", () => {
 
   it("all task should be active", () => {
     ath.tasks().forEach(task=>{
-      expect(ath.taskStatus(task)).toBe("active");
+      expect(task.status()).toBe("active");
     });
   });
 
@@ -262,16 +262,16 @@ describe("remove completed tasks", () => {
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
-    ath.toggleTask(ath.task(1));
-    ath.toggleTask(ath.task(3));
+    click(ath.task(1).toggle());
+    click(ath.task(3).toggle());
     click(ath.removeCompleted());
   });
 
   it("task should be removed", () => {
     expect(ath.tasks().length).toBe(3);
-    expect(ath.taskText(ath.task(0)).textContent).toBe(taskText(0));
-    expect(ath.taskText(ath.task(1)).textContent).toBe(taskText(2));
-    expect(ath.taskText(ath.task(2)).textContent).toBe(taskText(4));
+    expect(ath.task(0).text().textContent).toBe(taskText(0));
+    expect(ath.task(1).text().textContent).toBe(taskText(2));
+    expect(ath.task(2).text().textContent).toBe(taskText(4));
   });
 
   it("completed_tasks_clear_button should be NOT visible", () => {
@@ -287,27 +287,27 @@ describe("edit task", () => {
   });
 
   const editTask = (task, newText, key) => {
-    fireEvent.doubleClick(ath.taskText(task));
-    const edit = ath.taskEdit(task);
+    fireEvent.doubleClick(task.text());
+    const edit = task.edit();
     changeInput(edit, newText);
     keyDown(edit, key);
     return edit;
   };
 
   it("task_edit_input should be NOT visible before edit", () => {
-    expect(ath.lastTask()).not.toContainElement(ath.taskEdit(ath.lastTask()));
+    expect(ath.lastTask().element()).not.toContainElement(ath.lastTask().edit());
   });
 
   it("task_edit_input should be visible after double click to task", () => {
-    fireEvent.doubleClick(ath.taskText(ath.lastTask()));
-    expect(ath.lastTask()).toContainElement(ath.taskEdit(ath.lastTask()));
+    fireEvent.doubleClick(ath.lastTask().text());
+    expect(ath.lastTask().element()).toContainElement(ath.lastTask().edit());
   });
 
   it("task_edit_input should be NOT visible after edit", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText, ENTER);
-    expect(task).not.toContainElement(ath.taskEdit(task));
+    expect(task.element()).not.toContainElement(task.edit());
   });
   
   it.todo("task_text should be NOT visible, when double click to task");
@@ -318,14 +318,14 @@ describe("edit task", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText, ENTER);
-    expect(ath.taskText(task).textContent).toBe(newText);
+    expect(task.text().textContent).toBe(newText);
   });
 
   it("task_text should be trim", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, "  "+newText+"  ", ENTER);
-    expect(ath.taskText(task).textContent).toBe(newText);
+    expect(task.text().textContent).toBe(newText);
   });
 
   it("task should be remove, when type empty text and press [enter]", () => {
@@ -333,14 +333,14 @@ describe("edit task", () => {
     const newText = "";
     editTask(task, newText, ENTER);
     expect(ath.tasks().length).toBe(0);
-    expect([...ath.tasks()].indexOf(task)).toBe(-1);
+    expect(ath.tasks().indexOf(task)).toBe(-1);
   });
 
   it("task should be NOT update, when type text and press [escape]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText, ESCAPE);
-    expect(ath.taskText(task).textContent).toBe(taskText());
+    expect(task.text().textContent).toBe(taskText());
   });
 });
 
@@ -352,27 +352,27 @@ describe("show task by type", () => {
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
-    ath.toggleTask(ath.task(1));
+    click(ath.task(1).toggle());
   });
 
   it("should show active tasks, when click to active_tasks_button", () => {
     click(ath.showActive());
     expect(ath.tasks().length).toBe(2);
-    expect(ath.taskText(ath.task(0)).textContent).toBe(taskText(0));
-    expect(ath.taskText(ath.task(1)).textContent).toBe(taskText(2));
+    expect(ath.task(0).text().textContent).toBe(taskText(0));
+    expect(ath.task(1).text().textContent).toBe(taskText(2));
   });
 
   it("should show completed tasks, when click to completed_tasks_button", () => {
     click(ath.showCompleted());
-    expect(ath.taskText(ath.task(0)).textContent).toBe(taskText(1));
+    expect(ath.task(0).text().textContent).toBe(taskText(1));
   });
 
   it("should show all tasks, when click to all_task_button", () => {
     click(ath.showAll());
     expect(ath.tasks().length).toBe(3);
-    expect(ath.taskText(ath.task(0)).textContent).toBe(taskText(0));
-    expect(ath.taskText(ath.task(1)).textContent).toBe(taskText(1));
-    expect(ath.taskText(ath.task(2)).textContent).toBe(taskText(2));
+    expect(ath.task(0).text().textContent).toBe(taskText(0));
+    expect(ath.task(1).text().textContent).toBe(taskText(1));
+    expect(ath.task(2).text().textContent).toBe(taskText(2));
   });
 });
 
@@ -392,18 +392,14 @@ class AppTestHelper {
   body = () => this.cnt.querySelector(".TodoBody");
   footer = () => this.cnt.querySelector(".TodoFooter");
 
-  tasks = () => this.cnt.querySelectorAll(".TaskItem");
-  task = (i) => this.cnt.querySelectorAll(".TaskItem").item(i);
-  lastTask = (i) => this.cnt.querySelector(".TaskItem:last-child");
+  tasks = () => [...this.cnt.querySelectorAll(".TaskItem")].map(x=>new TaskTestHelper(x));
+  task = (i) => this.tasks()[i];
+  //task = (i) => new TaskTestHelper(this.cnt.querySelector(`.TaskItem:nth-child(${i+1})`));
+  //lastTask = () => new TaskTestHelper(this.cnt.querySelector(".TaskItem:last-child"));
+  lastTask = () => arrayLast(this.tasks());
 
   input = () => this.getByPlaceholderText("What needs to be complete?");
   toggleAll = () => this.getByTitle("toggle all tasks");
-
-  taskText = task => within(task).getByTitle("double click to edit task text");
-  taskToggle = task => within(task).getByTitle("toggle task");
-  taskRemove = task => within(task).getByText("remove");
-  taskStatus = task => task.getAttribute("data-status");
-  taskEdit = task => within(task).queryByTitle("edit task text");
 
   activeTasks = () => this.cnt.querySelectorAll("[data-status='active']");
   completedTasks = () => this.cnt.querySelectorAll("[data-status='completed']");
@@ -432,14 +428,16 @@ class AppTestHelper {
 
 class TaskTestHelper {
   constructor(el) {
-    this.el = within(task);
+    this.el = el;
+    this.task = within(el);
   }
 
-  text = () => this.el.getByTitle("double click to edit task text");
-  toggle = () => this.el.getByTitle("toggle task");
-  remove = () => this.el.getByText("remove");
-  status = () => task.getAttribute("data-status");
-  edit = () => this.el.queryByTitle("edit task text");
+  element = () => this.el;
+  text = () => this.task.getByTitle("double click to edit task text");
+  toggle = () => this.task.getByTitle("toggle task");
+  remove = () => this.task.getByText("remove");
+  status = () => this.el.getAttribute("data-status");
+  edit = () => this.task.queryByTitle("edit task text");
 }
 
 function click(el) {
@@ -474,4 +472,8 @@ function keyDown(el, key) {
 
 function isFocused(el, document) {
   return el === document.activeElement;
+}
+
+function arrayLast(arr) {
+  return arr[arr.length - 1];
 }
