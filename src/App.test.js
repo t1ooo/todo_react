@@ -1,7 +1,7 @@
 import React from "react";
 import {App} from "./App";
-import { within } from '@testing-library/dom'
-import {act, render, fireEvent} from "@testing-library/react";
+import {within} from '@testing-library/dom'
+import {render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 beforeEach(() => {
@@ -79,7 +79,6 @@ describe("add task", () => {
   });
 
   it("task should be active", () => {
-    //expect(ath.activeTasks().length).toBe(1);
     expect(ath.lastTask().status()).toBe("active");
   });
 
@@ -160,7 +159,7 @@ describe("mark all task as done", () => {
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
-    ath.toggleTaskAll();
+    click(ath.toggleAll());
   });
 
   // toggle all
@@ -200,8 +199,8 @@ describe("mark all task as undone", () => {
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
-    ath.toggleTaskAll();
-    ath.toggleTaskAll();
+    click(ath.toggleAll());
+    click(ath.toggleAll());
   });
 
   // toggle all
@@ -393,14 +392,6 @@ class AppTestHelper {
     fireEvent.change(input, {target: {value: text}});
     fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13});
   };
-
-  toggleTask = task => {
-    click(this.taskToggle(task));
-  };
-
-  toggleTaskAll = task => {
-    click(this.toggleAll());
-  };
 }
 
 class TaskTestHelper {
@@ -430,10 +421,6 @@ const ESCAPE = {key: "Escape", keyCode: 27, which: 27};
 
 function keyDown(el, key) {
   fireEvent.keyDown(el, key);
-}
-
-function isFocused(el, document) {
-  return el === document.activeElement;
 }
 
 function arrayLast(arr) {
