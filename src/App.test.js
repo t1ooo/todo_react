@@ -264,12 +264,10 @@ describe("edit task", () => {
     ath.addTask(taskText());
   });
 
-  const editTask = (task, newText, key) => {
+  const editTask = (task, newText, callback) => {
     fireEvent.doubleClick(task.text());
     const edit = task.edit();
     changeInput(edit, newText);
-    keyDown(edit, key);
-    return edit;
   };
 
   it("task_edit_input should be NOT visible before edit", () => {
@@ -284,7 +282,8 @@ describe("edit task", () => {
   it("task_edit_input should be NOT visible after edit", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, newText, ENTER);
+    editTask(task, newText); 
+    pressEnter(task.edit());
     expect(task.element()).not.toContainElement(task.edit());
   });
 
@@ -303,31 +302,32 @@ describe("edit task", () => {
   it("task should be update, when type text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, newText, ENTER);
+    editTask(task, newText); 
+    pressEnter(task.edit());
     expect(task.text().textContent).toBe(newText);
   });
   
   it("task should be update, when task_edit_input is blured", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    fireEvent.doubleClick(task.text());
-    const edit = task.edit();
-    changeInput(edit, newText);
-    blur(edit);
+    editTask(task, newText);
+    blur(task.edit());
     expect(task.text().textContent).toBe(newText);
   });
 
   it("task_text should be trim", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, "  "+newText+"  ", ENTER);
+    editTask(task, "  "+newText+"  ");
+    pressEnter(task.edit());
     expect(task.text().textContent).toBe(newText);
   });
 
   it("task should be remove, when type empty text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "";
-    editTask(task, newText, ENTER);
+    editTask(task, newText);
+    pressEnter(task.edit());
     expect(ath.tasks().length).toBe(0);
     expect(ath.tasks().indexOf(task)).toBe(-1);
   });
@@ -335,7 +335,8 @@ describe("edit task", () => {
   it("task should be NOT update, when type text and press [escape]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, newText, ESCAPE);
+    editTask(task, newText);
+    pressEscape(task.edit());
     expect(task.text().textContent).toBe(taskText());
   });
 });
@@ -434,8 +435,13 @@ function changeInput(el, text) {
   fireEvent.change(el, {target: {value: text}});
 }
 
-const ENTER = {key: "Enter", keyCode: 13, which: 13};
-const ESCAPE = {key: "Escape", keyCode: 27, which: 27};
+function pressEnter(el) {
+  fireEvent.keyDown(el, {key: "Enter", keyCode: 13, which: 13});
+}
+
+function pressEscape(el) {
+  fireEvent.keyDown(el, {key: "Escape", keyCode: 27, which: 27});
+}
 
 function keyDown(el, key) {
   fireEvent.keyDown(el, key);
