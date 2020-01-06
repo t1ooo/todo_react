@@ -1,25 +1,14 @@
 import React from "react";
-import {/* render as reactRender, */ unmountComponentAtNode} from "react-dom";
-/* import { act } from "react-dom/test-utils"; */
 import {App} from "./App";
 import { within } from '@testing-library/dom'
 import {act, render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 beforeEach(() => {
-  //localStorage.removeItem(App._storageKey);
   localStorage.clear();
 });
 
 const taskText = (i = 0) => `task #${i}`;
-
-/*
-check visibility:
-  expect(ath.header()).not.toBe(null);
-  expect(ath.header()).toBeInTheDocument();
-  expect(ath.header()).toBeDefined();
-  expect(ath.container()).toContainElement(ath.header());
-*/
 
 describe("no tasks", () => {
   let ath;
@@ -186,11 +175,6 @@ describe("mark all task as done", () => {
     });
   });
 
-  //test.each([() => [... ath.tasks()]])("all task should be checked", task => {
-  /* test.each(tasks)("all task should be checked", task => {
-    expect(ath.taskToggle(task).checked).toBe(true);
-  }); */
-
   it("all task should be completed", () => {
     ath.tasks().forEach(task=>{
       expect(task.status()).toBe("completed");
@@ -231,11 +215,6 @@ describe("mark all task as undone", () => {
       expect(task.toggle().checked).toBe(false);
     });
   });
-
-  //test.each([() => [... ath.tasks()]])("all task should be checked", task => {
-  /* test.each(tasks)("all task should be checked", task => {
-    expect(ath.taskToggle(task).checked).toBe(true);
-  }); */
 
   it("all task should be active", () => {
     ath.tasks().forEach(task=>{
@@ -309,7 +288,7 @@ describe("edit task", () => {
     editTask(task, newText, ENTER);
     expect(task.element()).not.toContainElement(task.edit());
   });
-  
+
   it.todo("task_text should be NOT visible, when double click to task");
 
   it.todo("cursor should be setted to input field to end of task_text");
@@ -394,8 +373,6 @@ class AppTestHelper {
 
   tasks = () => [...this.cnt.querySelectorAll(".TaskItem")].map(x=>new TaskTestHelper(x));
   task = (i) => this.tasks()[i];
-  //task = (i) => new TaskTestHelper(this.cnt.querySelector(`.TaskItem:nth-child(${i+1})`));
-  //lastTask = () => new TaskTestHelper(this.cnt.querySelector(".TaskItem:last-child"));
   lastTask = () => arrayLast(this.tasks());
 
   input = () => this.getByPlaceholderText("What needs to be complete?");
@@ -444,13 +421,6 @@ function click(el) {
   fireEvent.click(el);
 }
 
-/* function addTask(container, text) {
-  var input = container.querySelector(".add-new-task");
-  fireEvent.change(input, {target: {value: text}});
-  fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13});
-  return input;
-} */
-
 function changeInput(el, text) {
   fireEvent.change(el, {target: {value: text}});
 }
@@ -461,14 +431,6 @@ const ESCAPE = {key: "Escape", keyCode: 27, which: 27};
 function keyDown(el, key) {
   fireEvent.keyDown(el, key);
 }
-
-/* function pressEnter(el) {
-  fireEvent.keyDown(el, {key: "Enter", keyCode: 13, which: 13});
-} */
-
-/* function pressEscape(el) {
-  fireEvent.keyDown(el, {key: "Escape", keyCode: 27, which: 27});
-} */
 
 function isFocused(el, document) {
   return el === document.activeElement;
