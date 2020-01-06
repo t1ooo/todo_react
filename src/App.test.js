@@ -176,9 +176,7 @@ describe("mark all task as done", () => {
 
   // toggle all
   it("toggle_all should be checked", () => {
-    ath.tasks().forEach(task=>{
-      expect(ath.toggleAll().checked).toBe(true);
-    });
+    expect(ath.toggleAll().checked).toBe(true);
   });
 
   // task
