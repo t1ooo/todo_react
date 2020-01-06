@@ -2,6 +2,7 @@ import React from "react";
 import {/* render as reactRender, */ unmountComponentAtNode} from "react-dom";
 /* import { act } from "react-dom/test-utils"; */
 import {App} from "./App";
+import { within } from '@testing-library/dom'
 import {act, render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
@@ -23,8 +24,7 @@ check visibility:
 describe("no tasks", () => {
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
   });
 
   it("header should be visible", () => {
@@ -43,8 +43,7 @@ describe("no tasks", () => {
 describe("add task", () => {
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
   });
 
@@ -109,8 +108,7 @@ describe("add task", () => {
 describe("mark task as done", () => {
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
     ath.toggleTask(ath.lastTask());
   });
@@ -139,8 +137,7 @@ describe("mark task as done", () => {
 describe("mark task as undone", () => {
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
     ath.toggleTask(ath.lastTask());
     ath.toggleTask(ath.lastTask());
@@ -170,8 +167,7 @@ describe("mark all task as done", () => {
   const count = 5;
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
@@ -218,8 +214,7 @@ describe("mark all task as undone", () => {
   const count = 5;
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
@@ -267,8 +262,7 @@ describe("remove completed tasks", () => {
   const count = 5;
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
@@ -292,8 +286,7 @@ describe("remove completed tasks", () => {
 describe("edit task", () => {
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
   });
 
@@ -320,6 +313,8 @@ describe("edit task", () => {
     editTask(task, newText, ENTER);
     expect(task).not.toContainElement(ath.taskEdit(task));
   });
+  
+  it.todo("task_text should be NOT visible, when double click to task");
 
   it.todo("cursor should be setted to input field to end of task_text");
 
@@ -357,8 +352,7 @@ describe("show task by type", () => {
   const count = 3;
   let ath;
   beforeEach(() => {
-    const {container} = render(<App />);
-    ath = new AppTestHelper(container);
+    ath = new AppTestHelper(render(<App />));
     for(let i=0; i<count; i++) {
       ath.addTask(taskText(i));
     }
@@ -387,8 +381,13 @@ describe("show task by type", () => {
 });
 
 class AppTestHelper {
-  constructor(cnt) {
-    this.cnt = cnt;
+  constructor(renderResult) {
+    const {container, getByPlaceholderText, getByTitle, getByText, queryByText} = renderResult;
+    this.cnt = container;
+    this.getByPlaceholderText = getByPlaceholderText;
+    this.getByTitle = getByTitle;
+    this.getByText = getByText;
+    this.queryByText = queryByText;
   }
 
   container = () => this.cnt;
@@ -399,26 +398,26 @@ class AppTestHelper {
 
   tasks = () => this.cnt.querySelectorAll(".TaskItem");
   task = (i) => this.cnt.querySelectorAll(".TaskItem").item(i);
-  lastTask = () => this.tasks().item(this.tasks().length - 1);
+  lastTask = (i) => this.cnt.querySelector(".TaskItem:last-child");
 
-  input = () => this.cnt.querySelector(".add-new-task");
-  toggleAll = () => this.cnt.querySelector(".toggle-all");
+  input = () => this.getByPlaceholderText("What needs to be complete?");
+  toggleAll = () => this.getByTitle("toggle all tasks");
 
-  taskText = task => task.querySelector(".text");
-  taskToggle = task => task.querySelector(".toggle");
-  taskRemove = task => task.querySelector(".remove");
+  taskText = task => within(task).getByTitle("double click to edit task text");
+  taskToggle = task => within(task).getByTitle("toggle task");
+  taskRemove = task => within(task).getByText("remove");
   taskStatus = task => task.getAttribute("data-status");
-  taskEdit = task => task.querySelector(".edit");
+  taskEdit = task => within(task).queryByTitle("edit task text");
 
   activeTasks = () => this.cnt.querySelectorAll("[data-status='active']");
   completedTasks = () => this.cnt.querySelectorAll("[data-status='completed']");
 
   taskCount = () => this.cnt.querySelector(".count");
-  removeCompleted = () => this.cnt.querySelector(".remove-completed");
+  removeCompleted = () => this.queryByText("remove completed");
 
-  showAll = () => this.cnt.querySelector(".show-all");
-  showActive = () => this.cnt.querySelector(".show-active");
-  showCompleted = () => this.cnt.querySelector(".show-completed");
+  showAll = () => this.getByText("all");
+  showActive = () => this.getByText("active");
+  showCompleted = () => this.getByText("completed");
 
   addTask = text => {
     var input = this.input();
@@ -437,14 +436,14 @@ class AppTestHelper {
 
 class TaskTestHelper {
   constructor(el) {
-    this.el = el;
+    this.el = within(task);
   }
 
-  text = () => this.el.querySelector(".text");
-  toggle = () => this.el.querySelector(".toggle");
-  remove = () => this.el.querySelector(".remove");
-  status = () => this.el.getAttribute("data-status");
-  edit = () => this.el.querySelector(".edit");
+  text = () => this.el.getByTitle("double click to edit task text");
+  toggle = () => this.el.getByTitle("toggle task");
+  remove = () => this.el.getByText("remove");
+  status = () => task.getAttribute("data-status");
+  edit = () => this.el.queryByTitle("edit task text");
 }
 
 function click(el) {
