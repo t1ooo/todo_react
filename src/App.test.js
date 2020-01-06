@@ -294,7 +294,11 @@ describe("edit task", () => {
     expect(task.element()).not.toContainElement(task.text());
   });
 
-  it.todo("cursor should be setted to input field to end of task_text");
+  it("cursor should be set to input field",() => {
+    const task = ath.lastTask();
+    fireEvent.doubleClick(task.text());
+    expect(task.edit()).toHaveFocus();
+  });
 
   it("task should be update, when type text and press [enter]", () => {
     const task = ath.lastTask();
