@@ -306,6 +306,16 @@ describe("edit task", () => {
     editTask(task, newText, ENTER);
     expect(task.text().textContent).toBe(newText);
   });
+  
+  it("task should be update, when task_edit_input is blured", () => {
+    const task = ath.lastTask();
+    const newText = "updated task";
+    fireEvent.doubleClick(task.text());
+    const edit = task.edit();
+    changeInput(edit, newText);
+    blur(edit);
+    expect(task.text().textContent).toBe(newText);
+  });
 
   it("task_text should be trim", () => {
     const task = ath.lastTask();
@@ -429,6 +439,10 @@ const ESCAPE = {key: "Escape", keyCode: 27, which: 27};
 
 function keyDown(el, key) {
   fireEvent.keyDown(el, key);
+}
+
+function blur(el) {
+  fireEvent.blur(el);
 }
 
 function arrayLast(arr) {
