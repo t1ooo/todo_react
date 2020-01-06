@@ -288,7 +288,11 @@ describe("edit task", () => {
     expect(task.element()).not.toContainElement(task.edit());
   });
 
-  it.todo("task_text should be NOT visible, when double click to task");
+  it("task_text should be NOT visible, when double click to task", () => {
+    const task = ath.lastTask();
+    fireEvent.doubleClick(task.text());
+    expect(task.element()).not.toContainElement(task.text());
+  });
 
   it.todo("cursor should be setted to input field to end of task_text");
 
@@ -401,7 +405,7 @@ class TaskTestHelper {
   }
 
   element = () => this.el;
-  text = () => this.task.getByTitle("double click to edit task text");
+  text = () => this.task.queryByTitle("double click to edit task text");
   toggle = () => this.task.getByTitle("toggle task");
   remove = () => this.task.getByText("remove");
   status = () => this.el.getAttribute("data-status");
