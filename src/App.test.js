@@ -222,9 +222,7 @@ describe("mark all task as undone", () => {
 
   // toggle all
   it("toggle_all should be NOT checked", () => {
-    ath.tasks().forEach(task=>{
-      expect(ath.toggleAll().checked).toBe(false);
-    });
+    expect(ath.toggleAll().checked).toBe(false);
   });
 
   // task
