@@ -109,4 +109,4 @@
 - ? jest-puppeteer
 - ? framework agnostic tests
 - test: toMatchSnapshot
-
+- eslint-plugin-flowtype
