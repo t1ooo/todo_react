@@ -35,7 +35,7 @@ export class App extends React.Component<void, AppState> {
   }
 
   _loadState() {
-    const state = JSON.parse(localStorage.getItem(App._storageKey));
+    const state = JSON.parse(localStorage.getItem(App._storageKey) || "");
     if (! state) {
       throw new Error("load state error");
     }
