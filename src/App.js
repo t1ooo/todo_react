@@ -62,7 +62,7 @@ export class App extends React.Component<void, AppState> {
       <div className="App">
         <TodoHeader
           addTask={v => this._addTask(v)}
-          toggleAll={completed => this._toggleAll(completed)}
+          toggleAll={() => this._toggleAll()}
           toggleAllChecked={this.state.toggleAllChecked}
         />
         {0 < this._getCount(ALL) && (
@@ -143,8 +143,9 @@ export class App extends React.Component<void, AppState> {
     });
   }
 
-  _toggleAll(completed: bool) {
+  _toggleAll() {
     this.setState((state, props) => {
+      const completed = !state.toggleAllChecked;
       state.todo.toggleAll(completed);
       return {todo: state.todo, toggleAllChecked: completed};
     });
@@ -173,7 +174,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
       <div className="TodoHeader">
         <input
           type="checkbox"
-          onChange={event => this.props.toggleAll(event.target.checked)}
+          onChange={this.props.toggleAll}
           checked={this.props.toggleAllChecked}
           title="toggle all tasks"
           className="toggle-all"
