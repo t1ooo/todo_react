@@ -1,7 +1,7 @@
 import React from "react";
 import {App} from "./App";
 import {within} from '@testing-library/dom'
-import {render, fireEvent} from "@testing-library/react";
+import {render, fireEvent, wait} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 beforeEach(() => {
@@ -371,6 +371,22 @@ describe("show task by type", () => {
     expect(ath.task(1).text().textContent).toBe(taskText(1));
     expect(ath.task(2).text().textContent).toBe(taskText(2));
   });
+});
+
+it("restore state", async () => {
+  const app = render(<App />);
+  const ath = new AppTestHelper(app);
+  ath.addTask(taskText());
+  ath.addTask(taskText());
+  click(ath.toggleAll());
+  
+  await wait();
+  const rApp = render(<App />);
+  
+  //expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML.replace(/ checked=""/g,''));
+  expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML);
+  //expect(app.container).toMatchSnapshot(rApp.container);
+  //expect(app.container).toStrictEqual(rApp.container);
 });
 
 class AppTestHelper {
