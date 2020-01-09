@@ -1,8 +1,14 @@
+// @flow
+
+import { describe, it, expect, beforeEach } from 'jest-without-globals';
 import React from "react";
 import {App} from "./App";
+import {Todo, Task} from "./Todo";
 import {within} from '@testing-library/dom'
-import {render, fireEvent, wait} from "@testing-library/react";
+import {render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import {render as reactDomRender, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 
 beforeEach(() => {
   localStorage.clear();
@@ -232,6 +238,8 @@ describe("mark all task as undone", () => {
   });
 });
 
+it.todo("remove task");
+
 describe("remove completed tasks", () => {
   const count = 5;
   let ath;
@@ -282,7 +290,7 @@ describe("edit task", () => {
   it("task_edit_input should be NOT visible after edit", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, newText); 
+    editTask(task, newText);
     pressEnter(task.edit());
     expect(task.element()).not.toContainElement(task.edit());
   });
@@ -302,11 +310,11 @@ describe("edit task", () => {
   it("task should be update, when type text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, newText); 
+    editTask(task, newText);
     pressEnter(task.edit());
     expect(task.text().textContent).toBe(newText);
   });
-  
+
   it("task should be update, when task_edit_input is blured", () => {
     const task = ath.lastTask();
     const newText = "updated task";
@@ -373,23 +381,270 @@ describe("show task by type", () => {
   });
 });
 
-it("restore state", async () => {
+/* it("restore state", async () => {
   const app = render(<App />);
   const ath = new AppTestHelper(app);
   ath.addTask(taskText());
   ath.addTask(taskText());
   click(ath.toggleAll());
-  
-  await wait();
+
+  //await wait();
   const rApp = render(<App />);
-  
+  const rAth = new AppTestHelper(app);
+
+  expect(rAth.tasks().length).toBe(2);
+
   //expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML.replace(/ checked=""/g,''));
-  expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML);
+  //expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML);
   //expect(app.container).toMatchSnapshot(rApp.container);
   //expect(app.container).toStrictEqual(rApp.container);
+}); */
+
+describe("test state", () => {
+  let container = null;
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    unmountComponentAtNode(container);
+    container.remove();
+    container = null;
+  });
+
+  /* it("restore state", () => {
+    const app1 = reactDomRender(<App />, container);
+    act(() => {
+      //console.log(app1.state);
+      app1._addTask(taskText(0));
+      app1._addTask(taskText(1));
+      app1._addTask(taskText(2));
+      app1._toggleAll();
+    });
+
+    //console.log(JSON.stringify(app1.state));
+
+    const app2 = reactDomRender(<App />, container);
+    act(() => {
+      app2._addTask(taskText(3));
+    });
+
+    expect(app1.state).toStrictEqual(app2.state);
+  }); */
+  /* it("restore state", () => {
+    const data = {
+      todo: Todo.fromObject({_tasks:[
+        {text:"task #0", completed:true, id:"4wbqpduse0sk56fdn6a"},
+        {text:"task #1", completed:true, id:"p18qum3du4sk56fdn6j"},
+        {text:"task #2", completed:true, id:"55lfedlaiilk56fdn6q"},
+      ]}),
+      taskType: "all",
+      toggleAllChecked: true,
+    };
+    localStorage.setItem(App._storageKey, JSON.stringify(data));
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(data);
+  }); */
+  it("state equal after restore", () => {
+    const state1 = () => {
+      const app = reactDomRender(<App />, container);
+      app._addTask(taskText(0));
+      app._addTask(taskText(1));
+      app._addTask(taskText(2));
+      app._toggleAll();
+      const state = JSON.stringify(app.state);
+      return state;
+    };
+    
+    const state2 = () => {
+      const app = reactDomRender(<App />, container);
+      const state = JSON.stringify(app.state);
+      return state;
+    };
+    
+    expect(state1()).toStrictEqual(state2());
+  });
+  
+  it("state not equal after restore", () => {
+    const state1 = () => {
+      const app = reactDomRender(<App />, container);
+      app._addTask(taskText(0));
+      app._addTask(taskText(1));
+      app._addTask(taskText(2));
+      app._toggleAll();
+      const state = JSON.stringify(app.state);
+      app._addTask(taskText(3));
+      return state;
+    };
+    
+    const state2 = () => {
+      const app = reactDomRender(<App />, container);
+      const state = JSON.stringify(app.state);
+      return state;
+    };
+    
+    expect(state1()).not.toStrictEqual(state2());
+  });
+
+  it("default state, when storage item is null", () => {
+    //localStorage.clear();
+    localStorage.setItem(App._storageKey, null);
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(app._defaultState());
+  });
+
+  it("default state, when storage item is not valid", () => {
+    localStorage.setItem(App._storageKey, "bad json");
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(app._defaultState());
+  });
+
+  it("default state, when storage item is not valid: todo", () => {
+    const data = {
+      todo: "invalid todo",
+      taskType: "all",
+      toggleAllChecked: true,
+    };
+    localStorage.setItem(App._storageKey, JSON.stringify(data));
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(app._defaultState());
+  });
+
+  it.todo("default state, when storage item is not valid: todo task");
+
+  it("default state, when storage item is not valid: taskType", () => {
+    const data = {
+      todo: Todo.fromObject({_tasks:[]}),
+      taskType: "invalid taskType",
+      toggleAllChecked: true,
+    };
+    localStorage.setItem(App._storageKey, JSON.stringify(data));
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(app._defaultState());
+  });
+
+  it("default state, when storage item is not valid: toggleAllChecked", () => {
+    const data = {
+      todo: Todo.fromObject({_tasks:[]}),
+      taskType: "all",
+      toggleAllChecked: "invalid toggleAllChecked",
+    };
+    localStorage.setItem(App._storageKey, JSON.stringify(data));
+
+    const app = reactDomRender(<App />, container);
+    expect(app.state).toStrictEqual(app._defaultState());
+  });
+});
+
+/* describe("test Task", () => {
+  const defaultText = "text";
+  const defaultComleted = true;
+  const defaultId = "id";
+
+  //
+  it.each(["some task"])("no error, when text valid", (text) => {
+    new Task(text, defaultComleted, defaultId);
+  });
+
+  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+    expect(() => {
+      new Task(text, defaultComleted, defaultId);
+    }).toThrow("bad text");
+  });
+
+  //
+  it.each([true, false, undefined])("no error, when completed valid", (completed) => {
+    new Task(defaultText, completed, defaultId);
+  });
+
+  it.each(["", null])("throw error, when completed NOT valid", (completed) => {
+    expect(() => {
+      new Task(defaultText, completed, defaultId);
+    }).toThrow("bad completed");
+  });
+
+  //
+  it.each(["id", undefined])("no error, when id valid", (id) => {
+    new Task(defaultText, defaultComleted, id);
+  });
+
+  it.each(["", null])("throw error, when id NOT valid", (id) => {
+    expect(() => {
+      new Task(defaultText, defaultComleted, id);
+    }).toThrow("bad id");
+  });
+}); */
+
+describe("new Task", () => {
+  const defaultText = "text";
+  const defaultComleted = true;
+  const defaultId = "id";
+
+  //
+  it.each(["some task"])("no error, when text valid", (text) => {
+    new Task(text);
+  });
+
+  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+    expect(() => {
+      new Task(text);
+    }).toThrow("bad text");
+  });
+});
+
+describe("new Task from object", () => {
+  const defaultText = "text";
+  const defaultComleted = true;
+  const defaultId = "id";
+  const newObject = (text, completed, id) => ({text:text, completed:completed, id:id});
+
+  //
+  it.each(["some task"])("no error, when text valid", (text) => {
+    Task.fromObject(newObject(text, defaultComleted, defaultId));
+  });
+
+  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+    expect(() => {
+      Task.fromObject(newObject(text, defaultComleted, defaultId));
+    }).toThrow("bad text");
+  });
+
+  //
+  it.each([true, false])("no error, when completed valid", (completed) => {
+    Task.fromObject(newObject(defaultText, completed, defaultId));
+  });
+
+  it.each(["", null, undefined])("throw error, when completed NOT valid", (completed) => {
+    expect(() => {
+      Task.fromObject(newObject(defaultText, completed, defaultId));
+    }).toThrow("bad completed");
+  });
+
+  //
+  it.each(["id"])("no error, when id valid", (id) => {
+    Task.fromObject(newObject(defaultText, defaultComleted, id));
+  });
+
+  it.each(["", null, undefined])("throw error, when id NOT valid", (id) => {
+    expect(() => {
+      Task.fromObject(newObject(defaultText, defaultComleted, id));
+    }).toThrow("bad id");
+  });
 });
 
 class AppTestHelper {
+  cnt;
+  getByPlaceholderText;
+  getByTitle;
+  getByText;
+  queryByText;
+  
   constructor(renderResult) {
     const {container, getByPlaceholderText, getByTitle, getByText, queryByText} = renderResult;
     this.cnt = container;
@@ -430,6 +685,9 @@ class AppTestHelper {
 }
 
 class TaskTestHelper {
+  el;
+  task;
+  
   constructor(el) {
     this.el = el;
     this.task = within(el);
@@ -457,10 +715,6 @@ function pressEnter(el) {
 
 function pressEscape(el) {
   fireEvent.keyDown(el, {key: "Escape", keyCode: 27, which: 27});
-}
-
-function keyDown(el, key) {
-  fireEvent.keyDown(el, key);
 }
 
 function blur(el) {
