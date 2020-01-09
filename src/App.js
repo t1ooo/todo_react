@@ -5,8 +5,9 @@
 import React from "react";
 import "./App.css";
 import PropTypes from "prop-types";
-import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./Todo";
+import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./Todo";
 import type {TaskType} from "./Todo";
+import {isBool, isString} from "./typeof.js";
 
 // --------------------------------------------------------------------------------
 
@@ -26,23 +27,30 @@ export class App extends React.Component<void, AppState> {
       return this._loadState();
     } catch (e) {
       console.log(e.message);
-      return {
-        todo: new Todo(),
-        taskType: ALL, // displayed task type
-        toggleAllChecked: false, // completed all checkbox status
-      };
+      return this._defaultState();
     }
   }
 
   _loadState() {
     const state = JSON.parse(localStorage.getItem(App._storageKey) || "");
-    if (! state) {
-      throw new Error("load state error");
+    if (! isTaskType(state.taskType)) {
+      throw new Error("load state: bad taskType");
+    }
+    if (! isBool(state.toggleAllChecked)) {
+      throw new Error("load state: bad toggleAllChecked");
     }
     return {
-      todo: new Todo(state.todo),
+      todo: Todo.fromObject(state.todo),
       taskType: state.taskType,
       toggleAllChecked: state.toggleAllChecked,
+    };
+  }
+  
+  _defaultState() {
+    return {
+      todo: new Todo(),
+      taskType: ALL, // displayed task type
+      toggleAllChecked: false, // completed all checkbox status
     };
   }
 
