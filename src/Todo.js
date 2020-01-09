@@ -1,5 +1,7 @@
 // @flow
 
+import {isBool, isString} from "./typeof.js";
+
 // task types
 export const ALL = "all";
 export const ACTIVE = "active";
@@ -7,13 +9,20 @@ export const COMPLETED = "completed";
 
 export type TaskType = "all" | "active" | "completed";
 
-export class Todo {
-  _tasks: Array<Task>;
+export function isTaskType(taskType: mixed): bool {
+  return [ALL, ACTIVE, COMPLETED].includes(taskType);
+}
 
-  constructor(tasks: Array<Task> = []) {
-    this._tasks = tasks.map(
-      task => new Task(task.text, task.completed, task.id)
-    );
+export class Todo {
+  _tasks: Array<Task> = [];
+
+  static fromObject(o: Object): Todo {
+    if (! Array.isArray(o._tasks)) {
+      throw new Error("bad tasks");
+    }
+    const todo = new Todo();
+    todo._tasks = o._tasks.map(x => Task.fromObject(x));
+    return todo;
   }
 
   getTasks(taskType: TaskType = ALL): Array<Task> {
@@ -25,7 +34,7 @@ export class Todo {
       case COMPLETED:
         return this._tasks.filter(task => task.completed);
       default:
-        throw new Error("bad task type");
+        throw new Error("bad taskType");
     }
   }
 
@@ -68,20 +77,61 @@ export class Todo {
     throw new Error("task not found");
   }
 
-  toJSON(): Array<Task> {
+  /* toJSON(): Array<Task> {
     return this._tasks;
-  }
+  } */
 }
 
-export class Task {
+/* export class Task {
   text: string;
   completed: boolean;
   id: string;
 
   constructor(text: string, completed: boolean = false, id: string = genId()) {
+    if (! isString(text) || text === "") {
+      throw new Error("bad text");
+    }
+    if (! isBool(completed)) {
+      throw new Error("bad completed");
+    }
+    if (! isString(id) || id === "") {
+      throw new Error("bad id");
+    }
+    
     this.text = text;
     this.completed = completed;
     this.id = id;
+  }
+} */
+
+export class Task {
+  text: string;
+  completed: boolean = false;
+  id: string = genId();
+
+  constructor(text: string) {
+    if (! isString(text) || text === "") {
+      throw new Error("bad text");
+    }
+
+    this.text = text;
+  }
+  
+  static fromObject(o: Object): Task {
+    if (! isString(o.text) || o.text === "") {
+      throw new Error("bad text");
+    }
+    if (! isBool(o.completed)) {
+      throw new Error("bad completed");
+    }
+    if (! isString(o.id) || o.id === "") {
+      throw new Error("bad id");
+    }
+    
+    const task = new Task(o.text);
+    task.completed = o.completed;
+    task.id = o.id;
+    return task;
   }
 }
 
