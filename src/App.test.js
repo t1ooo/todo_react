@@ -1,6 +1,6 @@
 // @flow
 
-import { describe, it, expect, beforeEach } from 'jest-without-globals';
+import { describe, it, expect, beforeEach, afterEach } from 'jest-without-globals';
 import React from "react";
 import {App} from "./App";
 import {Todo, Task} from "./Todo";
@@ -22,15 +22,15 @@ describe("no tasks", () => {
     ath = new AppTestHelper(render(<App />));
   });
 
-  it("header should be visible", () => {
+  it("should show header", () => {
     expect(ath.container()).toContainElement(ath.header());
   });
 
-  it("body should be NOT visible", () => {
+  it("should hide body", () => {
     expect(ath.container()).not.toContainElement(ath.body());
   });
 
-  it("footer should be NOT visible", () => {
+  it("should hide footer", () => {
     expect(ath.container()).not.toContainElement(ath.footer());
   });
 });
@@ -43,15 +43,15 @@ describe("add task", () => {
   });
 
   // visibility
-  it("header should be visible", () => {
+  it("should show header", () => {
     expect(ath.container()).toContainElement(ath.header());
   });
 
-  it("body should be visible", () => {
+  it("should show body", () => {
     expect(ath.container()).toContainElement(ath.body());
   });
 
-  it("footer should be visible", () => {
+  it("should show footer", () => {
     expect(ath.container()).toContainElement(ath.footer());
   });
 
@@ -60,41 +60,41 @@ describe("add task", () => {
     expect(ath.input().placeholder).toBe("What needs to be complete?");
   });
 
-  it("task_add_input_field should be focused", () => {
+  it("should focuse on task_add_input_field ", () => {
     expect(ath.input()).toHaveFocus();
   });
 
-  it("task_add_input_field should be cleared after task added", () => {
+  it("should clear task_add_input_field after task is added", () => {
     expect(ath.input().value).toBe("");
   });
 
   // task
-  it("task should be added to the end of task list", () => {
+  it("should add task to the end of task list", () => {
     expect(ath.tasks().length).toBe(1);
     expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
-  it("task should be NOT added when text_task is empty", () => {
+  it("should not add task when text_task is empty", () => {
     const len = ath.tasks().length;
     ath.addTask("");
     expect(ath.tasks().length).toBe(len);
   });
 
-  it("task should be NOT checked", () => {
+  it("task should be unchecked", () => { // corect
     expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
-  it("task should be active", () => {
+  it("task should be active", () => { // corect
     expect(ath.lastTask().status()).toBe("active");
   });
 
-  it("task_text should be trimmed", () => {
+  it("should trim task_text", () => {
     ath.addTask("  " + taskText() + "  ");
     expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
   // tasks_left_count
-  it("tasks_left_count should be increment", () => {
+  it("should increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("1 item left");
   });
 });
@@ -108,22 +108,22 @@ describe("mark task as done", () => {
   });
 
   // task
-  it("task should be checked", () => {
+  it("task should be checked", () => { // corect
     expect(ath.lastTask().toggle().checked).toBe(true);
   });
 
-  it("task should be completed", () => {
+  it("task should be completed", () => { // corect
     //expect(ath.completedTasks().length).toBe(1);
     expect(ath.lastTask().status()).toBe("completed");
   });
 
   // tasks_left_count
-  it("tasks_left_count should be decrement", () => {
+  it("should decrement tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("0 items left");
   });
 
   // completed_tasks_clear_button
-  it("completed_tasks_clear_button should be visible", () => {
+  it("should show completed_tasks_clear_button", () => {
     expect(ath.footer()).toContainElement(ath.removeCompleted());
   });
 });
@@ -138,21 +138,21 @@ describe("mark task as undone", () => {
   });
 
   // task
-  it("task should be NOT checked", () => {
+  it("task should be unchecked", () => { // corect
     expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
-  it("task should be active", () => {
+  it("task should be active", () => {// corect
     expect(ath.lastTask().status()).toBe("active");
   });
 
   // tasks_left_count
-  it("tasks_left_count should be increment", () => {
+  it("should increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("1 item left");
   });
 
   // completed_tasks_clear_button
-  it("completed_tasks_clear_button should be NOT visible", () => {
+  it("should hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
@@ -169,30 +169,30 @@ describe("mark all task as done", () => {
   });
 
   // toggle all
-  it("toggle_all should be checked", () => {
+  it("toggle_all should be checked", () => {// corect
     expect(ath.toggleAll().checked).toBe(true);
   });
 
   // task
-  it("all task should be checked", () => {
+  it("all task should be checked", () => {// corect
     ath.tasks().forEach(task=>{
       expect(task.toggle().checked).toBe(true);
     });
   });
 
-  it("all task should be completed", () => {
+  it("all task should be completed", () => {// corect
     ath.tasks().forEach(task=>{
       expect(task.status()).toBe("completed");
     });
   });
 
   // tasks_left_count
-  it("tasks_left_count should be decrement", () => {
+  it("should decrement tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("0 items left");
   });
 
   // completed_tasks_clear_button
-  it("completed_tasks_clear_button should be visible", () => {
+  it("should show completed_tasks_clear_button", () => {
     expect(ath.footer()).toContainElement(ath.removeCompleted());
   });
 });
@@ -210,35 +210,50 @@ describe("mark all task as undone", () => {
   });
 
   // toggle all
-  it("toggle_all should be NOT checked", () => {
+  it("toggle_all should be unchecked", () => { // corect
     expect(ath.toggleAll().checked).toBe(false);
   });
 
   // task
-  it("all task should be NOT checked", () => {
+  it("all task should be unchecked", () => {// corect
     ath.tasks().forEach(task=>{
       expect(task.toggle().checked).toBe(false);
     });
   });
 
-  it("all task should be active", () => {
+  it("all task should be active", () => {// corect
     ath.tasks().forEach(task=>{
       expect(task.status()).toBe("active");
     });
   });
 
   // tasks_left_count
-  it("tasks_left_count should be increment", () => {
+  it("should increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe(`${count} items left`);
   });
 
   // completed_tasks_clear_button
-  it("completed_tasks_clear_button should be NOT visible", () => {
+  it("should hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
 
-it.todo("remove task");
+describe("remove task", () => {
+  let ath;
+  beforeEach(() => {
+    ath = new AppTestHelper(render(<App />));
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1));
+  });
+
+  // task
+  it("should remove task", () => {
+    expect(ath.tasks().length).toBe(2);
+    click(ath.lastTask().remove());
+    expect(ath.tasks().length).toBe(1);
+    expect(ath.lastTask().text().textContent).toBe(taskText(0));
+  });
+});
 
 describe("remove completed tasks", () => {
   const count = 5;
@@ -253,14 +268,14 @@ describe("remove completed tasks", () => {
     click(ath.removeCompleted());
   });
 
-  it("task should be removed", () => {
+  it("should remove task", () => {
     expect(ath.tasks().length).toBe(3);
     expect(ath.task(0).text().textContent).toBe(taskText(0));
     expect(ath.task(1).text().textContent).toBe(taskText(2));
     expect(ath.task(2).text().textContent).toBe(taskText(4));
   });
 
-  it("completed_tasks_clear_button should be NOT visible", () => {
+  it("should hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
@@ -278,16 +293,16 @@ describe("edit task", () => {
     changeInput(edit, newText);
   };
 
-  it("task_edit_input should be NOT visible before edit", () => {
+  it("should hide task_edit_input before edit", () => {
     expect(ath.lastTask().element()).not.toContainElement(ath.lastTask().edit());
   });
 
-  it("task_edit_input should be visible after double click to task", () => {
+  it("should show task_edit_input after double click to task", () => {
     fireEvent.doubleClick(ath.lastTask().text());
     expect(ath.lastTask().element()).toContainElement(ath.lastTask().edit());
   });
 
-  it("task_edit_input should be NOT visible after edit", () => {
+  it("should hide task_edit_input should after edit", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -295,19 +310,19 @@ describe("edit task", () => {
     expect(task.element()).not.toContainElement(task.edit());
   });
 
-  it("task_text should be NOT visible, when double click to task", () => {
+  it("should hide task_text, when double click to task", () => {
     const task = ath.lastTask();
     fireEvent.doubleClick(task.text());
     expect(task.element()).not.toContainElement(task.text());
   });
 
-  it("cursor should be set to input field",() => {
+  it("should set cursor to input field",() => {
     const task = ath.lastTask();
     fireEvent.doubleClick(task.text());
     expect(task.edit()).toHaveFocus();
   });
 
-  it("task should be update, when type text and press [enter]", () => {
+  it("should update task, when type text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -315,7 +330,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("task should be update, when task_edit_input is blured", () => {
+  it("should update task, when task_edit_input is blured", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -323,7 +338,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("task_text should be trim", () => {
+  it("should trim task_text", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, "  "+newText+"  ");
@@ -331,7 +346,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("task should be remove, when type empty text and press [enter]", () => {
+  it("should remove task, when type empty text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "";
     editTask(task, newText);
@@ -340,7 +355,7 @@ describe("edit task", () => {
     expect(ath.tasks().indexOf(task)).toBe(-1);
   });
 
-  it("task should be NOT update, when type text and press [escape]", () => {
+  it("should NOT update task, when type text and press [escape]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -401,16 +416,16 @@ describe("show task by type", () => {
 }); */
 
 describe("test state", () => {
-  let container = null;
+  let container;
   beforeEach(() => {
     container = document.createElement('div');
-    document.body.appendChild(container);
+    document.body && document.body.appendChild(container);
   });
 
   afterEach(() => {
     unmountComponentAtNode(container);
     container.remove();
-    container = null;
+    //container = null;
   });
 
   /* it("restore state", () => {
@@ -447,7 +462,7 @@ describe("test state", () => {
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(data);
   }); */
-  it("state equal after restore", () => {
+  it("should equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app._addTask(taskText(0));
@@ -467,7 +482,7 @@ describe("test state", () => {
     expect(state1()).toStrictEqual(state2());
   });
   
-  it("state not equal after restore", () => {
+  it("should not equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app._addTask(taskText(0));
@@ -488,22 +503,22 @@ describe("test state", () => {
     expect(state1()).not.toStrictEqual(state2());
   });
 
-  it("default state, when storage item is null", () => {
+  /* it("default state, when storage item is null", () => {
     //localStorage.clear();
     localStorage.setItem(App._storageKey, null);
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
-  });
+  }); */
 
-  it("default state, when storage item is not valid", () => {
+  it("should use default state, when storage item is not valid", () => {
     localStorage.setItem(App._storageKey, "bad json");
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it("default state, when storage item is not valid: todo", () => {
+  it("should use default state, when storage item is not valid: todo", () => {
     const data = {
       todo: "invalid todo",
       taskType: "all",
@@ -515,9 +530,9 @@ describe("test state", () => {
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it.todo("default state, when storage item is not valid: todo task");
+  it.todo("should use default state, when storage item is not valid: todo task");
 
-  it("default state, when storage item is not valid: taskType", () => {
+  it("should use default state, when storage item is not valid: taskType", () => {
     const data = {
       todo: Todo.fromObject({_tasks:[]}),
       taskType: "invalid taskType",
@@ -529,7 +544,7 @@ describe("test state", () => {
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it("default state, when storage item is not valid: toggleAllChecked", () => {
+  it("should use default state, when storage item is not valid: toggleAllChecked", () => {
     const data = {
       todo: Todo.fromObject({_tasks:[]}),
       taskType: "all",
@@ -587,11 +602,11 @@ describe("new Task", () => {
   const defaultId = "id";
 
   //
-  it.each(["some task"])("no error, when text valid", (text) => {
+  it.each(["some task"])("should no error, when text valid", (text) => {
     new Task(text);
   });
 
-  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+  it.each(["", null, undefined])("should throw error, when text NOT valid", (text) => {
     expect(() => {
       new Task(text);
     }).toThrow("bad text");
@@ -605,33 +620,33 @@ describe("new Task from object", () => {
   const newObject = (text, completed, id) => ({text:text, completed:completed, id:id});
 
   //
-  it.each(["some task"])("no error, when text valid", (text) => {
+  it.each(["some task"])("should no error, when text valid", (text) => {
     Task.fromObject(newObject(text, defaultComleted, defaultId));
   });
 
-  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+  it.each(["", null, undefined])("should throw error, when text NOT valid", (text) => {
     expect(() => {
       Task.fromObject(newObject(text, defaultComleted, defaultId));
     }).toThrow("bad text");
   });
 
   //
-  it.each([true, false])("no error, when completed valid", (completed) => {
+  it.each([true, false])("should no error, when completed valid", (completed) => {
     Task.fromObject(newObject(defaultText, completed, defaultId));
   });
 
-  it.each(["", null, undefined])("throw error, when completed NOT valid", (completed) => {
+  it.each(["", null, undefined])("should throw error, when completed NOT valid", (completed) => {
     expect(() => {
       Task.fromObject(newObject(defaultText, completed, defaultId));
     }).toThrow("bad completed");
   });
 
   //
-  it.each(["id"])("no error, when id valid", (id) => {
+  it.each(["id"])("should no error, when id valid", (id) => {
     Task.fromObject(newObject(defaultText, defaultComleted, id));
   });
 
-  it.each(["", null, undefined])("throw error, when id NOT valid", (id) => {
+  it.each(["", null, undefined])("should throw error, when id NOT valid", (id) => {
     expect(() => {
       Task.fromObject(newObject(defaultText, defaultComleted, id));
     }).toThrow("bad id");
