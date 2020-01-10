@@ -57,10 +57,9 @@ export class App extends React.Component<{}, AppState> {
     };
   }
 
-  setState(updater: Object|Function, callback?: () => mixed) {
+  setState(updater: Function) {
     super.setState(updater, () => {
       this._saveState();
-      callback && callback();
     });
   }
 
