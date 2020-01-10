@@ -25,7 +25,7 @@ export class App extends React.Component<{}, AppState> {
   state = this._newState();
 
   // try load state from storage or return default state
-  _newState() {
+  _newState(): AppState {
     try {
       return this._loadState();
     } catch (e) {
@@ -34,7 +34,7 @@ export class App extends React.Component<{}, AppState> {
     }
   }
 
-  _loadState() {
+  _loadState(): AppState {
     const state = JSON.parse(this.storage.get(App._storageKey));
     if (! isTaskType(state.taskType)) {
       throw new Error("load state: bad taskType");
@@ -48,8 +48,8 @@ export class App extends React.Component<{}, AppState> {
       toggleAllChecked: state.toggleAllChecked,
     };
   }
-  
-  _defaultState() {
+
+  _defaultState(): AppState {
     return {
       todo: new Todo(),
       taskType: ALL, // displayed task type
