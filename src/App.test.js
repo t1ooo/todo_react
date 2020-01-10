@@ -22,15 +22,15 @@ describe("no tasks", () => {
     ath = new AppTestHelper(render(<App />));
   });
 
-  it("should show header", () => {
+  it("show header", () => {
     expect(ath.container()).toContainElement(ath.header());
   });
 
-  it("should hide body", () => {
+  it("hide body", () => {
     expect(ath.container()).not.toContainElement(ath.body());
   });
 
-  it("should hide footer", () => {
+  it("hide footer", () => {
     expect(ath.container()).not.toContainElement(ath.footer());
   });
 });
@@ -43,58 +43,58 @@ describe("add task", () => {
   });
 
   // visibility
-  it("should show header", () => {
+  it("show header", () => {
     expect(ath.container()).toContainElement(ath.header());
   });
 
-  it("should show body", () => {
+  it("show body", () => {
     expect(ath.container()).toContainElement(ath.body());
   });
 
-  it("should show footer", () => {
+  it("show footer", () => {
     expect(ath.container()).toContainElement(ath.footer());
   });
 
   // task_add_input_field
-  it("task_add_input_field should has placeholder", () => {
+  it("task_add_input_field has placeholder", () => {
     expect(ath.input().placeholder).toBe("What needs to be complete?");
   });
 
-  it("should focuse on task_add_input_field ", () => {
+  it("focus on task_add_input_field", () => {
     expect(ath.input()).toHaveFocus();
   });
 
-  it("should clear task_add_input_field after task is added", () => {
+  it("clear task_add_input_field after task is added", () => {
     expect(ath.input().value).toBe("");
   });
 
   // task
-  it("should add task to the end of task list", () => {
+  it("add task to the end of task list", () => {
     expect(ath.tasks().length).toBe(1);
     expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
-  it("should not add task when text_task is empty", () => {
+  it("not add task when text_task is empty", () => {
     const len = ath.tasks().length;
     ath.addTask("");
     expect(ath.tasks().length).toBe(len);
   });
 
-  it("task should be unchecked", () => { // corect
+  it("task is unchecked", () => {
     expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
-  it("task should be active", () => { // corect
+  it("task is active", () => {
     expect(ath.lastTask().status()).toBe("active");
   });
 
-  it("should trim task_text", () => {
+  it("trim task_text", () => {
     ath.addTask("  " + taskText() + "  ");
     expect(ath.lastTask().text().textContent).toBe(taskText());
   });
 
   // tasks_left_count
-  it("should increment tasks_left_count", () => {
+  it("increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("1 item left");
   });
 });
@@ -108,22 +108,22 @@ describe("mark task as done", () => {
   });
 
   // task
-  it("task should be checked", () => { // corect
+  it("task is checked", () => {
     expect(ath.lastTask().toggle().checked).toBe(true);
   });
 
-  it("task should be completed", () => { // corect
+  it("task is completed", () => {
     //expect(ath.completedTasks().length).toBe(1);
     expect(ath.lastTask().status()).toBe("completed");
   });
 
   // tasks_left_count
-  it("should decrement tasks_left_count", () => {
+  it("decrement tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("0 items left");
   });
 
   // completed_tasks_clear_button
-  it("should show completed_tasks_clear_button", () => {
+  it("show completed_tasks_clear_button", () => {
     expect(ath.footer()).toContainElement(ath.removeCompleted());
   });
 });
@@ -138,21 +138,21 @@ describe("mark task as undone", () => {
   });
 
   // task
-  it("task should be unchecked", () => { // corect
+  it("task is unchecked", () => {
     expect(ath.lastTask().toggle().checked).toBe(false);
   });
 
-  it("task should be active", () => {// corect
+  it("task is active", () => {
     expect(ath.lastTask().status()).toBe("active");
   });
 
   // tasks_left_count
-  it("should increment tasks_left_count", () => {
+  it("increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("1 item left");
   });
 
   // completed_tasks_clear_button
-  it("should hide completed_tasks_clear_button", () => {
+  it("hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
@@ -169,30 +169,30 @@ describe("mark all task as done", () => {
   });
 
   // toggle all
-  it("toggle_all should be checked", () => {// corect
+  it("toggle_all is checked", () => {
     expect(ath.toggleAll().checked).toBe(true);
   });
 
   // task
-  it("all task should be checked", () => {// corect
+  it("all task is checked", () => {
     ath.tasks().forEach(task=>{
       expect(task.toggle().checked).toBe(true);
     });
   });
 
-  it("all task should be completed", () => {// corect
+  it("all task is completed", () => {
     ath.tasks().forEach(task=>{
       expect(task.status()).toBe("completed");
     });
   });
 
   // tasks_left_count
-  it("should decrement tasks_left_count", () => {
+  it("decrement tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe("0 items left");
   });
 
   // completed_tasks_clear_button
-  it("should show completed_tasks_clear_button", () => {
+  it("show completed_tasks_clear_button", () => {
     expect(ath.footer()).toContainElement(ath.removeCompleted());
   });
 });
@@ -210,30 +210,30 @@ describe("mark all task as undone", () => {
   });
 
   // toggle all
-  it("toggle_all should be unchecked", () => { // corect
+  it("toggle_all is unchecked", () => {
     expect(ath.toggleAll().checked).toBe(false);
   });
 
   // task
-  it("all task should be unchecked", () => {// corect
+  it("all task is unchecked", () => {
     ath.tasks().forEach(task=>{
       expect(task.toggle().checked).toBe(false);
     });
   });
 
-  it("all task should be active", () => {// corect
+  it("all task is active", () => {
     ath.tasks().forEach(task=>{
       expect(task.status()).toBe("active");
     });
   });
 
   // tasks_left_count
-  it("should increment tasks_left_count", () => {
+  it("increment tasks_left_count", () => {
     expect(ath.taskCount().textContent).toBe(`${count} items left`);
   });
 
   // completed_tasks_clear_button
-  it("should hide completed_tasks_clear_button", () => {
+  it("hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
@@ -247,7 +247,7 @@ describe("remove task", () => {
   });
 
   // task
-  it("should remove task", () => {
+  it("remove task", () => {
     expect(ath.tasks().length).toBe(2);
     click(ath.lastTask().remove());
     expect(ath.tasks().length).toBe(1);
@@ -268,14 +268,14 @@ describe("remove completed tasks", () => {
     click(ath.removeCompleted());
   });
 
-  it("should remove task", () => {
+  it("remove task", () => {
     expect(ath.tasks().length).toBe(3);
     expect(ath.task(0).text().textContent).toBe(taskText(0));
     expect(ath.task(1).text().textContent).toBe(taskText(2));
     expect(ath.task(2).text().textContent).toBe(taskText(4));
   });
 
-  it("should hide completed_tasks_clear_button", () => {
+  it("hide completed_tasks_clear_button", () => {
     expect(ath.footer()).not.toContainElement(ath.removeCompleted());
   });
 });
@@ -293,16 +293,16 @@ describe("edit task", () => {
     changeInput(edit, newText);
   };
 
-  it("should hide task_edit_input before edit", () => {
+  it("hide task_edit_input before edit", () => {
     expect(ath.lastTask().element()).not.toContainElement(ath.lastTask().edit());
   });
 
-  it("should show task_edit_input after double click to task", () => {
+  it("show task_edit_input after double click to task", () => {
     fireEvent.doubleClick(ath.lastTask().text());
     expect(ath.lastTask().element()).toContainElement(ath.lastTask().edit());
   });
 
-  it("should hide task_edit_input should after edit", () => {
+  it("hide task_edit_input after edit", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -310,19 +310,19 @@ describe("edit task", () => {
     expect(task.element()).not.toContainElement(task.edit());
   });
 
-  it("should hide task_text, when double click to task", () => {
+  it("hide task_text when double click to task", () => {
     const task = ath.lastTask();
     fireEvent.doubleClick(task.text());
     expect(task.element()).not.toContainElement(task.text());
   });
 
-  it("should set cursor to input field",() => {
+  it("set cursor to input field",() => {
     const task = ath.lastTask();
     fireEvent.doubleClick(task.text());
     expect(task.edit()).toHaveFocus();
   });
 
-  it("should update task, when type text and press [enter]", () => {
+  it("update task when type text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -330,7 +330,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("should update task, when task_edit_input is blured", () => {
+  it("update task when task_edit_input is blured", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -338,7 +338,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("should trim task_text", () => {
+  it("trim task_text", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, "  "+newText+"  ");
@@ -346,7 +346,7 @@ describe("edit task", () => {
     expect(task.text().textContent).toBe(newText);
   });
 
-  it("should remove task, when type empty text and press [enter]", () => {
+  it("remove task when type empty text and press [enter]", () => {
     const task = ath.lastTask();
     const newText = "";
     editTask(task, newText);
@@ -355,7 +355,7 @@ describe("edit task", () => {
     expect(ath.tasks().indexOf(task)).toBe(-1);
   });
 
-  it("should NOT update task, when type text and press [escape]", () => {
+  it("NOT update task when type text and press [escape]", () => {
     const task = ath.lastTask();
     const newText = "updated task";
     editTask(task, newText);
@@ -375,19 +375,19 @@ describe("show task by type", () => {
     click(ath.task(1).toggle());
   });
 
-  it("should show active tasks, when click to active_tasks_button", () => {
+  it("show active tasks when click to active_tasks_button", () => {
     click(ath.showActive());
     expect(ath.tasks().length).toBe(2);
     expect(ath.task(0).text().textContent).toBe(taskText(0));
     expect(ath.task(1).text().textContent).toBe(taskText(2));
   });
 
-  it("should show completed tasks, when click to completed_tasks_button", () => {
+  it("show completed tasks when click to completed_tasks_button", () => {
     click(ath.showCompleted());
     expect(ath.task(0).text().textContent).toBe(taskText(1));
   });
 
-  it("should show all tasks, when click to all_task_button", () => {
+  it("show all tasks when click to all_task_button", () => {
     click(ath.showAll());
     expect(ath.tasks().length).toBe(3);
     expect(ath.task(0).text().textContent).toBe(taskText(0));
@@ -462,7 +462,7 @@ describe("test state", () => {
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(data);
   }); */
-  it("should equal state after restore", () => {
+  it("equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app._addTask(taskText(0));
@@ -472,17 +472,17 @@ describe("test state", () => {
       const state = JSON.stringify(app.state);
       return state;
     };
-    
+
     const state2 = () => {
       const app = reactDomRender(<App />, container);
       const state = JSON.stringify(app.state);
       return state;
     };
-    
+
     expect(state1()).toStrictEqual(state2());
   });
-  
-  it("should not equal state after restore", () => {
+
+  it("not equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app._addTask(taskText(0));
@@ -493,17 +493,17 @@ describe("test state", () => {
       app._addTask(taskText(3));
       return state;
     };
-    
+
     const state2 = () => {
       const app = reactDomRender(<App />, container);
       const state = JSON.stringify(app.state);
       return state;
     };
-    
+
     expect(state1()).not.toStrictEqual(state2());
   });
 
-  /* it("default state, when storage item is null", () => {
+  /* it("default state when storage item is null", () => {
     //localStorage.clear();
     localStorage.setItem(App._storageKey, null);
 
@@ -511,14 +511,14 @@ describe("test state", () => {
     expect(app.state).toStrictEqual(app._defaultState());
   }); */
 
-  it("should use default state, when storage item is not valid", () => {
+  it("use default state when storage item is invalid", () => {
     localStorage.setItem(App._storageKey, "bad json");
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it("should use default state, when storage item is not valid: todo", () => {
+  it("use default state when storage item is invalid: todo", () => {
     const data = {
       todo: "invalid todo",
       taskType: "all",
@@ -530,9 +530,9 @@ describe("test state", () => {
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it.todo("should use default state, when storage item is not valid: todo task");
+  it.todo("use default state when storage item is invalid: todo task");
 
-  it("should use default state, when storage item is not valid: taskType", () => {
+  it("use default state when storage item is invalid: taskType", () => {
     const data = {
       todo: Todo.fromObject({_tasks:[]}),
       taskType: "invalid taskType",
@@ -544,7 +544,7 @@ describe("test state", () => {
     expect(app.state).toStrictEqual(app._defaultState());
   });
 
-  it("should use default state, when storage item is not valid: toggleAllChecked", () => {
+  it("use default state when storage item is invalid: toggleAllChecked", () => {
     const data = {
       todo: Todo.fromObject({_tasks:[]}),
       taskType: "all",
@@ -563,33 +563,33 @@ describe("test state", () => {
   const defaultId = "id";
 
   //
-  it.each(["some task"])("no error, when text valid", (text) => {
+  it.each(["some task"])("no error when text valid", (text) => {
     new Task(text, defaultComleted, defaultId);
   });
 
-  it.each(["", null, undefined])("throw error, when text NOT valid", (text) => {
+  it.each(["", null, undefined])("throw error when text invalid", (text) => {
     expect(() => {
       new Task(text, defaultComleted, defaultId);
     }).toThrow("bad text");
   });
 
   //
-  it.each([true, false, undefined])("no error, when completed valid", (completed) => {
+  it.each([true, false, undefined])("no error when completed valid", (completed) => {
     new Task(defaultText, completed, defaultId);
   });
 
-  it.each(["", null])("throw error, when completed NOT valid", (completed) => {
+  it.each(["", null])("throw error when completed invalid", (completed) => {
     expect(() => {
       new Task(defaultText, completed, defaultId);
     }).toThrow("bad completed");
   });
 
   //
-  it.each(["id", undefined])("no error, when id valid", (id) => {
+  it.each(["id", undefined])("no error when id valid", (id) => {
     new Task(defaultText, defaultComleted, id);
   });
 
-  it.each(["", null])("throw error, when id NOT valid", (id) => {
+  it.each(["", null])("throw error when id invalid", (id) => {
     expect(() => {
       new Task(defaultText, defaultComleted, id);
     }).toThrow("bad id");
@@ -602,11 +602,11 @@ describe("new Task", () => {
   const defaultId = "id";
 
   //
-  it.each(["some task"])("should no error, when text valid", (text) => {
+  it.each(["some task"])("no error when text is valid", (text) => {
     new Task(text);
   });
 
-  it.each(["", null, undefined])("should throw error, when text NOT valid", (text) => {
+  it.each(["", null, undefined])("throw error when text is invalid", (text) => {
     expect(() => {
       new Task(text);
     }).toThrow("bad text");
@@ -620,33 +620,33 @@ describe("new Task from object", () => {
   const newObject = (text, completed, id) => ({text:text, completed:completed, id:id});
 
   //
-  it.each(["some task"])("should no error, when text valid", (text) => {
+  it.each(["some task"])("no error when text is valid", (text) => {
     Task.fromObject(newObject(text, defaultComleted, defaultId));
   });
 
-  it.each(["", null, undefined])("should throw error, when text NOT valid", (text) => {
+  it.each(["", null, undefined])("throw error when text is invalid", (text) => {
     expect(() => {
       Task.fromObject(newObject(text, defaultComleted, defaultId));
     }).toThrow("bad text");
   });
 
   //
-  it.each([true, false])("should no error, when completed valid", (completed) => {
+  it.each([true, false])("no error when completed is valid", (completed) => {
     Task.fromObject(newObject(defaultText, completed, defaultId));
   });
 
-  it.each(["", null, undefined])("should throw error, when completed NOT valid", (completed) => {
+  it.each(["", null, undefined])("throw error when completed is invalid", (completed) => {
     expect(() => {
       Task.fromObject(newObject(defaultText, completed, defaultId));
     }).toThrow("bad completed");
   });
 
   //
-  it.each(["id"])("should no error, when id valid", (id) => {
+  it.each(["id"])("no error when id is valid", (id) => {
     Task.fromObject(newObject(defaultText, defaultComleted, id));
   });
 
-  it.each(["", null, undefined])("should throw error, when id NOT valid", (id) => {
+  it.each(["", null, undefined])("throw error when id is invalid", (id) => {
     expect(() => {
       Task.fromObject(newObject(defaultText, defaultComleted, id));
     }).toThrow("bad id");
@@ -659,7 +659,7 @@ class AppTestHelper {
   getByTitle;
   getByText;
   queryByText;
-  
+
   constructor(renderResult) {
     const {container, getByPlaceholderText, getByTitle, getByText, queryByText} = renderResult;
     this.cnt = container;
@@ -702,7 +702,7 @@ class AppTestHelper {
 class TaskTestHelper {
   el;
   task;
-  
+
   constructor(el) {
     this.el = el;
     this.task = within(el);
