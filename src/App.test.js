@@ -3,7 +3,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'jest-without-globals';
 import React from "react";
 import {App} from "./App";
-import {Todo, Task} from "./Todo";
+import {Storage} from "./storage";
+import {Todo, Task} from "./todo";
 import {within} from '@testing-library/dom'
 import {render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
