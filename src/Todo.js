@@ -21,7 +21,7 @@ export class Todo {
       throw new Error("bad tasks");
     }
     const todo = new Todo();
-    todo._tasks = tasks.map(x => Task.fromObject(x));
+    todo._tasks = tasks.map(Task.fromObject);
     return todo;
   }
 
