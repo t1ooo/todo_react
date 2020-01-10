@@ -16,12 +16,12 @@ export function isTaskType(taskType: mixed): bool {
 export class Todo {
   _tasks: Array<Task> = [];
 
-  static fromObject(o: Object): Todo {
-    if (! Array.isArray(o._tasks)) {
+  static fromObject({tasks}): Todo {
+    if (! Array.isArray(tasks)) {
       throw new Error("bad tasks");
     }
     const todo = new Todo();
-    todo._tasks = o._tasks.map(x => Task.fromObject(x));
+    todo._tasks = tasks.map(x => Task.fromObject(x));
     return todo;
   }
 
@@ -77,9 +77,9 @@ export class Todo {
     throw new Error("task not found");
   }
 
-  /* toJSON(): Array<Task> {
-    return this._tasks;
-  } */
+  toJSON(): Array<Task> {
+    return {tasks: this.tasks};
+  }
 }
 
 /* export class Task {
@@ -97,7 +97,7 @@ export class Todo {
     if (! isString(id) || id === "") {
       throw new Error("bad id");
     }
-    
+
     this.text = text;
     this.completed = completed;
     this.id = id;
@@ -113,27 +113,113 @@ export class Task {
     if (! isString(text) || text === "") {
       throw new Error("bad text");
     }
+    this.text = text;
+  }
 
+  static fromObject({text, completed, id}): Task {
+    if (! isBool(completed)) {
+      throw new Error("bad completed");
+    }
+    if (! isString(id) || id === "") {
+      throw new Error("bad id");
+    }
+
+    const task = new Task(text);
+    task.completed = completed;
+    task.id = id;
+    return task;
+  }
+}
+
+/* export class Task {
+  _text: string;
+  _completed: boolean = false;
+  _id: string = genId();
+
+  constructor(text: string) {
     this.text = text;
   }
   
-  static fromObject(o: Object): Task {
-    if (! isString(o.text) || o.text === "") {
+  get text() { return this._text; }
+  set text(val) {
+    if (! isString(val) || val === "") {
       throw new Error("bad text");
     }
-    if (! isBool(o.completed)) {
+    this._text = val;
+  }
+  
+  get completed() { return this._completed; }
+  set completed(val) {
+    if (! isBool(val)) {
       throw new Error("bad completed");
     }
-    if (! isString(o.id) || o.id === "") {
+    this._completed = val;
+  }
+  
+  get id() { return this._id; }
+  set id(val) {
+    if (! isString(val) || val === "") {
       throw new Error("bad id");
     }
-    
+    this._id = val;
+  }
+
+  static fromObject(o: Object): Task {
     const task = new Task(o.text);
     task.completed = o.completed;
     task.id = o.id;
     return task;
   }
-}
+  
+  toJSON(): Array<Task> {
+    return {
+      text: this._text,
+      completed: this._completed,
+      id: this._id,      
+    };
+  }
+} */
+
+/* export class Task {
+  _text: string;
+  _completed: boolean = false;
+  _id: string = genId();
+
+  constructor(text: string) {
+    this.setText(text);
+  }
+  
+  function getText() { return this._text; }
+  function setText(val) {
+    if (! isString(val) || val === "") {
+      throw new Error("bad text");
+    }
+    this._text = val;
+  }
+  
+  function getCompleted() { return this._completed; }
+  function setCompleted(val) {
+    if (! isBool(val)) {
+      throw new Error("bad completed");
+    }
+    this._completed = val;
+  }
+  
+  function getId() { return this._id; }
+  function setId(val) {
+    if (! isString(val) || val === "") {
+      throw new Error("bad id");
+    }
+    this._id = val;
+  }
+
+  static fromObject(o: Object): Task {
+    const task = new Task(o.text);
+    task.setCompleted(o.completed);
+    task.setId(o.id);
+    return task;
+  }
+}  */
 
 function genId(): string {
   return (
