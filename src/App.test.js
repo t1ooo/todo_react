@@ -534,7 +534,7 @@ describe("test state", () => {
 
   it("use default state when storage item is invalid: taskType", () => {
     const data = {
-      todo: Todo.fromObject({_tasks:[]}),
+      todo: Todo.fromObject({tasks:[]}),
       taskType: "invalid taskType",
       toggleAllChecked: true,
     };
@@ -546,7 +546,7 @@ describe("test state", () => {
 
   it("use default state when storage item is invalid: toggleAllChecked", () => {
     const data = {
-      todo: Todo.fromObject({_tasks:[]}),
+      todo: Todo.fromObject({tasks:[]}),
       taskType: "all",
       toggleAllChecked: "invalid toggleAllChecked",
     };
