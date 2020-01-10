@@ -77,7 +77,7 @@ export class Todo {
     throw new Error("task not found");
   }
 
-  toJSON(): Array<Task> {
+  toJSON(): Object {
     return {
       tasks: this._tasks
     };
@@ -124,7 +124,7 @@ export class Task {
     return task;
   }
 
-  toJSON(): Array<Task> {
+  toJSON(): Object {
     return {
       text: this._text,
       completed: this._completed,
