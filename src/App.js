@@ -7,8 +7,8 @@ import {Storage} from "./storage";
 import "./App.css";
 import PropTypes from "prop-types";
 import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./Todo";
-import type {TaskType} from "./Todo";
-import {isBool, isString} from "./typeof.js";
+import type {TaskType} from "./todo";
+import {isBool, isString} from "./typeof";
 
 // --------------------------------------------------------------------------------
 
