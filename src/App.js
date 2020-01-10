@@ -109,8 +109,8 @@ export class App extends React.Component<{}, AppState> {
     return this.state.todo.getCount(taskType);
   }
 
-  _edit(task_id: string, text: string) {
-    text = text.trim();
+  _edit(task_id: string, _text: string) {
+    const text = _text.trim();
     if (text === "") {
       this._remove(task_id);
       return;
@@ -142,8 +142,8 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
-  _addTask(text: string) {
-    text = text.trim();
+  _addTask(_text: string) {
+    const text = _text.trim();
     if (text === "") {
       return;
     }
