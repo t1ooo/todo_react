@@ -78,60 +78,13 @@ export class Todo {
   }
 
   toJSON(): Array<Task> {
-    return {tasks: this.tasks};
+    return {
+      tasks: this._tasks
+    };
   }
 }
-
-/* export class Task {
-  text: string;
-  completed: boolean;
-  id: string;
-
-  constructor(text: string, completed: boolean = false, id: string = genId()) {
-    if (! isString(text) || text === "") {
-      throw new Error("bad text");
-    }
-    if (! isBool(completed)) {
-      throw new Error("bad completed");
-    }
-    if (! isString(id) || id === "") {
-      throw new Error("bad id");
-    }
-
-    this.text = text;
-    this.completed = completed;
-    this.id = id;
-  }
-} */
 
 export class Task {
-  text: string;
-  completed: boolean = false;
-  id: string = genId();
-
-  constructor(text: string) {
-    if (! isString(text) || text === "") {
-      throw new Error("bad text");
-    }
-    this.text = text;
-  }
-
-  static fromObject({text, completed, id}): Task {
-    if (! isBool(completed)) {
-      throw new Error("bad completed");
-    }
-    if (! isString(id) || id === "") {
-      throw new Error("bad id");
-    }
-
-    const task = new Task(text);
-    task.completed = completed;
-    task.id = id;
-    return task;
-  }
-}
-
-/* export class Task {
   _text: string;
   _completed: boolean = false;
   _id: string = genId();
@@ -139,7 +92,7 @@ export class Task {
   constructor(text: string) {
     this.text = text;
   }
-  
+
   get text() { return this._text; }
   set text(val) {
     if (! isString(val) || val === "") {
@@ -147,7 +100,7 @@ export class Task {
     }
     this._text = val;
   }
-  
+
   get completed() { return this._completed; }
   set completed(val) {
     if (! isBool(val)) {
@@ -155,7 +108,7 @@ export class Task {
     }
     this._completed = val;
   }
-  
+
   get id() { return this._id; }
   set id(val) {
     if (! isString(val) || val === "") {
@@ -164,62 +117,21 @@ export class Task {
     this._id = val;
   }
 
-  static fromObject(o: Object): Task {
-    const task = new Task(o.text);
-    task.completed = o.completed;
-    task.id = o.id;
+  static fromObject({text, completed, id}): Task {
+    const task = new Task(text);
+    task.completed = completed;
+    task.id = id;
     return task;
   }
-  
+
   toJSON(): Array<Task> {
     return {
       text: this._text,
       completed: this._completed,
-      id: this._id,      
+      id: this._id,
     };
   }
-} */
-
-/* export class Task {
-  _text: string;
-  _completed: boolean = false;
-  _id: string = genId();
-
-  constructor(text: string) {
-    this.setText(text);
-  }
-  
-  function getText() { return this._text; }
-  function setText(val) {
-    if (! isString(val) || val === "") {
-      throw new Error("bad text");
-    }
-    this._text = val;
-  }
-  
-  function getCompleted() { return this._completed; }
-  function setCompleted(val) {
-    if (! isBool(val)) {
-      throw new Error("bad completed");
-    }
-    this._completed = val;
-  }
-  
-  function getId() { return this._id; }
-  function setId(val) {
-    if (! isString(val) || val === "") {
-      throw new Error("bad id");
-    }
-    this._id = val;
-  }
-
-  static fromObject(o: Object): Task {
-    const task = new Task(o.text);
-    task.setCompleted(o.completed);
-    task.setId(o.id);
-    return task;
-  }
-}  */
+}
 
 function genId(): string {
   return (
