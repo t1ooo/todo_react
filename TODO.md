@@ -90,7 +90,7 @@
 + rename buttons
 + rename completionAllChecked -> completedAll
 + add titles to html elements
-- static analyzer
++ static analyzer
 + fmt tool
 + add flow types
 + remove constructors
@@ -100,7 +100,8 @@
 + replace component class with function, if state is not used
 + add propTypes
 + remove Todo._filter
-- add private props and methods
+x add private props and methods
+    <!-- not testable -->
 - add style
 - code snippets
 - ? save App state before unload
@@ -109,4 +110,5 @@
 - ? jest-puppeteer
 - ? framework agnostic tests
 - test: toMatchSnapshot
-- eslint-plugin-flowtype
++ eslint-plugin-flowtype
+- ? hover inline style
