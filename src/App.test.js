@@ -11,8 +11,16 @@ import "@testing-library/jest-dom/extend-expect";
 import {render as reactDomRender, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 
+const storage = new Storage(App._storagePrefix);
+const storageSet = (val) => {
+  storage.set(App._storageKey, val);
+};
+const storageRemove = () => {
+  storage.remove(App._storageKey);
+};
+
 beforeEach(() => {
-  localStorage.clear();
+  storageRemove();
 });
 
 const taskText = (i = 0) => `task #${i}`;
@@ -458,7 +466,7 @@ describe("test state", () => {
       taskType: "all",
       toggleAllChecked: true,
     };
-    localStorage.setItem(App._storageKey, JSON.stringify(data));
+    storageSet(JSON.stringify(data));
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(data);
@@ -505,15 +513,15 @@ describe("test state", () => {
   });
 
   /* it("default state when storage item is null", () => {
-    //localStorage.clear();
-    localStorage.setItem(App._storageKey, null);
+    //storageRemove();
+    storageSet(null);
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
   }); */
 
   it("use default state when storage item is invalid", () => {
-    localStorage.setItem(App._storageKey, "bad json");
+    storageSet("bad json");
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
@@ -525,7 +533,7 @@ describe("test state", () => {
       taskType: "all",
       toggleAllChecked: true,
     };
-    localStorage.setItem(App._storageKey, JSON.stringify(data));
+    storageSet(JSON.stringify(data));
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
@@ -539,7 +547,7 @@ describe("test state", () => {
       taskType: "invalid taskType",
       toggleAllChecked: true,
     };
-    localStorage.setItem(App._storageKey, JSON.stringify(data));
+    storageSet(JSON.stringify(data));
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
@@ -551,7 +559,7 @@ describe("test state", () => {
       taskType: "all",
       toggleAllChecked: "invalid toggleAllChecked",
     };
-    localStorage.setItem(App._storageKey, JSON.stringify(data));
+    storageSet(JSON.stringify(data));
 
     const app = reactDomRender(<App />, container);
     expect(app.state).toStrictEqual(app._defaultState());
