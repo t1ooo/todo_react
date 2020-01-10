@@ -16,12 +16,12 @@ export function isTaskType(taskType: mixed): bool {
 export class Todo {
   _tasks: Array<Task> = [];
 
-  static fromObject({tasks}): Todo {
-    if (! Array.isArray(tasks)) {
+  static fromObject(o: Object): Todo {
+    if (! Array.isArray(o.tasks)) {
       throw new Error("bad tasks");
     }
     const todo = new Todo();
-    todo._tasks = tasks.map(Task.fromObject);
+    todo._tasks = o.tasks.map(Task.fromObject);
     return todo;
   }
 
@@ -94,7 +94,7 @@ export class Task {
   }
 
   get text() { return this._text; }
-  set text(val) {
+  set text(val: string) {
     if (! isString(val) || val === "") {
       throw new Error("bad text");
     }
@@ -102,7 +102,7 @@ export class Task {
   }
 
   get completed() { return this._completed; }
-  set completed(val) {
+  set completed(val: bool) {
     if (! isBool(val)) {
       throw new Error("bad completed");
     }
@@ -110,17 +110,17 @@ export class Task {
   }
 
   get id() { return this._id; }
-  set id(val) {
+  set id(val: string) {
     if (! isString(val) || val === "") {
       throw new Error("bad id");
     }
     this._id = val;
   }
 
-  static fromObject({text, completed, id}): Task {
-    const task = new Task(text);
-    task.completed = completed;
-    task.id = id;
+  static fromObject(o: Object): Task {
+    const task = new Task(o.text);
+    task.completed = o.completed;
+    task.id = o.id;
     return task;
   }
 
