@@ -6,7 +6,7 @@ import React from "react";
 import {Storage} from "./storage";
 import "./App.css";
 import PropTypes from "prop-types";
-import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./Todo";
+import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./todo";
 import type {TaskType} from "./todo";
 import {isBool, isString} from "./typeof";
 
