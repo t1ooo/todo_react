@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { describe, it, expect, beforeEach, afterEach } from 'jest-without-globals';
 import React from "react";

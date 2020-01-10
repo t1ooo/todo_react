@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 export function isString(val: mixed): bool %checks {
   return typeof val === "string";

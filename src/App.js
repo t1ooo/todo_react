@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 // http://todomvc.com/examples/react/#/
 

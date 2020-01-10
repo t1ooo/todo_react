@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import {isBool, isString} from "./typeof.js";
 

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import {isString} from "./typeof.js"
 
