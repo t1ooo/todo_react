@@ -3,6 +3,7 @@
 // http://todomvc.com/examples/react/#/
 
 import React from "react";
+import {Storage} from "./storage";
 import "./App.css";
 import PropTypes from "prop-types";
 import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./Todo";
@@ -18,7 +19,9 @@ type AppState = {
 };
 
 export class App extends React.Component<{}, AppState> {
-  static _storageKey: string = "react-todo";
+  static _storagePrefix: string = "react-todo";
+  static _storageKey: string = "data";
+  storage = new Storage(App._storagePrefix);
   state = this._newState();
 
   // try load state from storage or return default state
@@ -32,7 +35,7 @@ export class App extends React.Component<{}, AppState> {
   }
 
   _loadState() {
-    const state = JSON.parse(localStorage.getItem(App._storageKey) || "");
+    const state = JSON.parse(this.storage.get(App._storageKey));
     if (! isTaskType(state.taskType)) {
       throw new Error("load state: bad taskType");
     }
@@ -62,7 +65,7 @@ export class App extends React.Component<{}, AppState> {
   }
 
   _saveState() {
-    localStorage.setItem(App._storageKey, JSON.stringify(this.state));
+    this.storage.set(App._storageKey, JSON.stringify(this.state));
   }
 
   render() {
