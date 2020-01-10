@@ -17,7 +17,7 @@ type AppState = {
   toggleAllChecked: bool,
 };
 
-export class App extends React.Component<void, AppState> {
+export class App extends React.Component<{}, AppState> {
   static _storageKey: string = "react-todo";
   state = this._newState();
 
