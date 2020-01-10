@@ -1,7 +1,9 @@
 // @flow
 
+import {isString} from "./typeof.js"
+
 export class Storage {
-  prefix: string;
+  _prefix: string;
 
   constructor(prefix: string) {
     if (prefix === "") {
@@ -10,9 +12,9 @@ export class Storage {
     this._prefix = prefix + "/";
   }
 
-  get(key): string {
+  get(key: string): string {
     const val = localStorage.getItem(this._buildKey(key));
-    if (val === null) {
+    if (! isString(val)) {
       throw new Error("key is not exist: " + key);
     }
     return val;
@@ -21,16 +23,16 @@ export class Storage {
   set(key: string, val: string) {
     return localStorage.setItem(this._buildKey(key), val);
   }
-  
-  remove(key): string {
+
+  remove(key: string) {
     localStorage.removeItem(this._buildKey(key));
   }
 
   clear() {
     for (let i=0; i<localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key.startWith(this._prefix)) {
-        localStorage.remove(key);
+      if (isString(key) && key.startsWith(this._prefix)) {
+        localStorage.removeItem(key);
       }
     }
   }
