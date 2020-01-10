@@ -1,2 +1,2 @@
 @echo off
-flow.cmd
+flow.cmd %*
