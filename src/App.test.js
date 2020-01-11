@@ -230,16 +230,16 @@ describe("remove task", () => {
 
   // task
   it("remove task", () => {
-    expect(ath.tasks().length).toBe(2);
+    const len = ath.tasks().length;
     ath.lastTask().clickRemove();
-    expect(ath.tasks().length).toBe(1);
+    expect(ath.tasks().length).toBe(len-1);
     expect(ath.containsTask(taskText(0))).toBe(true);
     expect(ath.containsTask(taskText(1))).toBe(false);
   });
 });
 
 describe("remove completed tasks", () => {
-  const count = 5;
+  const count = 4;
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
@@ -252,12 +252,11 @@ describe("remove completed tasks", () => {
   });
 
   it("remove task", () => {
-    expect(ath.tasks().length).toBe(3);
+    expect(ath.tasks().length).toBe(2);
     expect(ath.containsTask(taskText(0))).toBe(true);
     expect(ath.containsTask(taskText(1))).toBe(false);
     expect(ath.containsTask(taskText(2))).toBe(true);
     expect(ath.containsTask(taskText(3))).toBe(false);
-    expect(ath.containsTask(taskText(4))).toBe(true);
   });
 
   it("hide completed_tasks_clear_button", () => {
