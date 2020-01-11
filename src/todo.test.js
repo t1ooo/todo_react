@@ -3,21 +3,17 @@
 import { describe, it, expect, } from 'jest-without-globals';
 import {Todo, Task} from "./todo";
 
-describe("new Task", () => {
-  it.each([
-    "some task"
-  ])("no error when text is valid: %p", (text) => {
-    new Task(text);
-  });
+describe("Todo serialization/deserialization", () => {
+  it("no error", () => {
+    const todo = new Todo();
+    todo.add("some task #0");
+    todo.add("some task #1");
+    todo.add("some task #2");
+    todo.toggleAll(true);
 
-  it.each([
-    "", 
-    null, 
-    undefined
-  ])("throw error when text is invalid: %p", (text) => {
-    expect(() => {
-      new Task(text);
-    }).toThrow("bad text");
+    const json = JSON.stringify(todo);
+    const todoFromJson = Todo.fromObject(JSON.parse(json));
+    expect(todoFromJson).toStrictEqual(todo);
   });
 });
 
@@ -27,63 +23,39 @@ describe("new Task from object", () => {
     completed: true,
     id: "id"
   };
+
   const updateObj = (key, val) => ({...defaultObj, [key]:val});
 
-  // text
-  it.each([
-    "some task"
-  ])("no error when text is valid: %p", (text) => {
-    const obj = updateObj("text", text);
-    Task.fromObject(obj);
-  });
-
-  it.each([
-    "", 
-    null, 
-    undefined
-  ])("throw error when text is invalid: %p", (text) => {
-    const obj = updateObj("text", text);
-    expect(() => {
+  const testValid = (key, table) => {
+    it.each(table)(`no error when ${key} is valid: %p`, (val) => {
+      const obj = updateObj(key, val);
       Task.fromObject(obj);
-    }).toThrow("bad text");
-  });
+    });
+  };
 
-  // completed
-  it.each([
-    true, 
-    false
-  ])("no error when completed is valid: %p", (completed) => {
-    const obj = updateObj("completed", completed);
-    Task.fromObject(obj);
-  });
+  const testInvalid = (key, table) => {
+    it.each(table)(`throw error when ${key} is invalid: %p`, (val) => {
+      const obj = updateObj(key, val);
+      expect(() => {
+        Task.fromObject(obj);
+      }).toThrow(`bad ${key}`);
+    });
+  };
 
-  it.each([
-    "", 
-    null, 
-    undefined
-  ])("throw error when completed is invalid: %p", (completed) => {
-    const obj = updateObj("completed", completed);
-    expect(() => {
-      Task.fromObject(obj);
-    }).toThrow("bad completed");
-  });
+  testValid("text", ["some task"]);
+  testValid("completed", [true, false]);
+  testValid("id", ["some id"]);
 
-  // id
-  it.each([
-    "id"
-  ])("no error when id is valid: %p", (id) => {
-    const obj = updateObj("id", id);
-    Task.fromObject(obj);
-  });
+  testInvalid("text", ["", null, undefined]);
+  testInvalid("completed", ["", null, undefined]);
+  testInvalid("id", ["", null, undefined]);
+});
 
-  it.each([
-    "", 
-    null, 
-    undefined
-  ])("throw error when id is invalid: %p", (id) => {
-    const obj = updateObj("id", id);
-    expect(() => {
-      Task.fromObject(obj);
-    }).toThrow("bad id");
+describe("Task serialization/deserialization", () => {
+  it("no error", () => {
+    const task = new Task("some text");
+    const json = JSON.stringify(task);
+    const taskFromJson = Task.fromObject(JSON.parse(json));
+    expect(taskFromJson).toStrictEqual(task);
   });
 });
