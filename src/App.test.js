@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'jest-without-global
 import React from "react";
 import {App} from "./App";
 import {Storage} from "./storage";
-import {Todo, Task} from "./todo";
+import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./todo";
 import {within} from '@testing-library/dom'
 import {render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
@@ -405,72 +405,28 @@ describe("show task by type", () => {
   });
 });
 
-/* it("restore state", async () => {
-  const app = render(<App />);
-  const ath = new AppTestHelper(app);
-  ath.addTask(taskText());
-  ath.addTask(taskText());
-  click(ath.toggleAll());
+function append() {
+  const container = document.createElement('div');
+  document.body && document.body.appendChild(container);
+  return container;
+}
 
-  //await wait();
-  const rApp = render(<App />);
-  const rAth = new AppTestHelper(app);
+function remove(container) {
+  unmountComponentAtNode(container);
+  container.remove();
+  return null;
+}
 
-  expect(rAth.tasks().length).toBe(2);
-
-  //expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML.replace(/ checked=""/g,''));
-  //expect(app.container.innerHTML).toStrictEqual(rApp.container.innerHTML);
-  //expect(app.container).toMatchSnapshot(rApp.container);
-  //expect(app.container).toStrictEqual(rApp.container);
-}); */
-
-describe("test state", () => {
+describe("restore state", () => {
   let container;
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body && document.body.appendChild(container);
+    container = append();
   });
 
   afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    //container = null;
+    container = remove(container);
   });
 
-  /* it("restore state", () => {
-    const app1 = reactDomRender(<App />, container);
-    act(() => {
-      //console.log(app1.state);
-      app1._addTask(taskText(0));
-      app1._addTask(taskText(1));
-      app1._addTask(taskText(2));
-      app1._toggleAll();
-    });
-
-    //console.log(JSON.stringify(app1.state));
-
-    const app2 = reactDomRender(<App />, container);
-    act(() => {
-      app2._addTask(taskText(3));
-    });
-
-    expect(app1.state).toStrictEqual(app2.state);
-  }); */
-  /* it("restore state", () => {
-    const data = {
-      todo: Todo.fromObject({_tasks:[
-        {text:"task #0", completed:true, id:"4wbqpduse0sk56fdn6a"},
-        {text:"task #1", completed:true, id:"p18qum3du4sk56fdn6j"},
-        {text:"task #2", completed:true, id:"55lfedlaiilk56fdn6q"},
-      ]}),
-      taskType: "all",
-      toggleAllChecked: true,
-    };
-    storageSet(JSON.stringify(data));
-
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(data);
-  }); */
   it("equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
@@ -511,59 +467,53 @@ describe("test state", () => {
 
     expect(state1()).not.toStrictEqual(state2());
   });
+});
 
-  /* it("default state when storage item is null", () => {
-    //storageRemove();
-    storageSet(null);
-
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(app._defaultState());
-  }); */
-
-  it("use default state when storage item is invalid", () => {
-    storageSet("bad json");
-
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(app._defaultState());
+describe("parse state", () => {
+  let container;
+  beforeEach(() => {
+    container = append();
   });
 
-  it("use default state when storage item is invalid: todo", () => {
-    const data = {
-      todo: "invalid todo",
-      taskType: "all",
-      toggleAllChecked: true,
-    };
-    storageSet(JSON.stringify(data));
-
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(app._defaultState());
+  afterEach(() => {
+    container = remove(container);
   });
 
-  it.todo("use default state when storage item is invalid: todo task");
+  const defaultState = {
+    todo: {tasks:[{text:"text", completed:true, id: "id"}]},
+    taskType: "all",
+    toggleAllChecked: true,
+  };
 
-  it("use default state when storage item is invalid: taskType", () => {
-    const data = {
-      todo: Todo.fromObject({tasks:[]}),
-      taskType: "invalid taskType",
-      toggleAllChecked: true,
-    };
-    storageSet(JSON.stringify(data));
+  const updateState = (key, val) => ({...defaultState, [key]:val});
 
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(app._defaultState());
-  });
+  const testValid = (key, table) => {
+    it.each(table)(`no error when ${key} is valid: %p`, (val) => {
+      const state = updateState(key, val);
+      const stateJson = JSON.stringify(state);
+      const app = reactDomRender(<App />, container);
+      app._parseState(stateJson);
+    });
+  };
 
-  it("use default state when storage item is invalid: toggleAllChecked", () => {
-    const data = {
-      todo: Todo.fromObject({tasks:[]}),
-      taskType: "all",
-      toggleAllChecked: "invalid toggleAllChecked",
-    };
-    storageSet(JSON.stringify(data));
+  const testInvalid = (key, table) => {
+    it.each(table)(`throw error when ${key} is invalid: %p`, (val) => {
+      const state = updateState(key, val);
+      const stateJson = JSON.stringify(state);
+      const app = reactDomRender(<App />, container);
+      expect(() => {
+        app._parseState(stateJson);
+      }).toThrow();
+    });
+  };
 
-    const app = reactDomRender(<App />, container);
-    expect(app.state).toStrictEqual(app._defaultState());
-  });
+  testValid("todo", [defaultState.todo]);
+  testValid("taskType", [ALL, ACTIVE, COMPLETED]);
+  testValid("toggleAllChecked", [true, false]);
+
+  testInvalid("todo", ["", null, undefined, {}, {tasks:null}]);
+  testInvalid("taskType", ["", null, undefined]);
+  testInvalid("toggleAllChecked", ["", null, undefined]);
 });
 
 class AppTestHelper {
