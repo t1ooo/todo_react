@@ -37,10 +37,10 @@ export class App extends React.Component<{}, AppState> {
   _parseState(data: string): AppState {
     const state = JSON.parse(data);
     if (! isTaskType(state.taskType)) {
-      throw new Error("load state: bad taskType");
+      throw new Error("parse state error: bad taskType");
     }
     if (! isBool(state.toggleAllChecked)) {
-      throw new Error("load state: bad toggleAllChecked");
+      throw new Error("parse state error: bad toggleAllChecked");
     }
     return {
       todo: Todo.fromObject(state.todo),
