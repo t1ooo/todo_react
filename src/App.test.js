@@ -11,16 +11,13 @@ import "@testing-library/jest-dom/extend-expect";
 import {render as reactDomRender, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 
-const storage = new Storage(App._storagePrefix);
+const storage = new Storage(App.storagePrefix);
 const storageSet = (val) => {
-  storage.set(App._storageKey, val);
-};
-const storageRemove = () => {
-  storage.remove(App._storageKey);
+  storage.set(App.storageKey, val);
 };
 
 beforeEach(() => {
-  storageRemove();
+  storage.remove(App.storageKey);
 });
 
 const taskText = (i = 0) => `task #${i}`;
@@ -430,10 +427,10 @@ describe("restore state", () => {
   it("equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
-      app._addTask(taskText(0));
-      app._addTask(taskText(1));
-      app._addTask(taskText(2));
-      app._toggleAll();
+      app.addTask(taskText(0));
+      app.addTask(taskText(1));
+      app.addTask(taskText(2));
+      app.toggleAll();
       const state = JSON.stringify(app.state);
       return state;
     };
@@ -450,12 +447,12 @@ describe("restore state", () => {
   it("not equal state after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
-      app._addTask(taskText(0));
-      app._addTask(taskText(1));
-      app._addTask(taskText(2));
-      app._toggleAll();
+      app.addTask(taskText(0));
+      app.addTask(taskText(1));
+      app.addTask(taskText(2));
+      app.toggleAll();
       const state = JSON.stringify(app.state);
-      app._addTask(taskText(3));
+      app.addTask(taskText(3));
       return state;
     };
 
@@ -489,20 +486,18 @@ describe("parse state", () => {
 
   const testValid = (key, table) => {
     it.each(table)(`no error when ${key} is valid: %p`, (val) => {
-      const state = updateState(key, val);
-      const stateJson = JSON.stringify(state);
+      const json = JSON.stringify(updateState(key, val));
       const app = reactDomRender(<App />, container);
-      app._parseState(stateJson);
+      app.parseState(json);
     });
   };
 
   const testInvalid = (key, table) => {
     it.each(table)(`throw error when ${key} is invalid: %p`, (val) => {
-      const state = updateState(key, val);
-      const stateJson = JSON.stringify(state);
+      const json = JSON.stringify(updateState(key, val));
       const app = reactDomRender(<App />, container);
       expect(() => {
-        app._parseState(stateJson);
+        app.parseState(json);
       }).toThrow();
     });
   };

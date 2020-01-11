@@ -19,22 +19,22 @@ type AppState = {
 };
 
 export class App extends React.Component<{}, AppState> {
-  static _storagePrefix: string = "react-todo";
-  static _storageKey: string = "data";
-  storage = new Storage(App._storagePrefix);
-  state = this._newState();
+  static storagePrefix: string = "react-todo";
+  static storageKey: string = "data";
+  storage = new Storage(App.storagePrefix);
+  state = this.newState();
 
   // try load state from storage or return default state
-  _newState(): AppState {
+  newState(): AppState {
     try {
-      return this._parseState(this.storage.get(App._storageKey));
+      return this.parseState(this.storage.get(App.storageKey));
     } catch (e) {
       console.log(e.message);
-      return this._defaultState();
+      return this.defaultState();
     }
   }
   
-  _parseState(data: string): AppState {
+  parseState(data: string): AppState {
     const state = JSON.parse(data);
     if (! isTaskType(state.taskType)) {
       throw new Error("parse state error: bad taskType");
@@ -49,7 +49,7 @@ export class App extends React.Component<{}, AppState> {
     };
   }
 
-  _defaultState(): AppState {
+  defaultState(): AppState {
     return {
       todo: new Todo(),
       taskType: ALL, // displayed task type
@@ -59,35 +59,35 @@ export class App extends React.Component<{}, AppState> {
 
   setState(updater: Function) {
     super.setState(updater, () => {
-      this._saveState();
+      this.saveState();
     });
   }
 
-  _saveState() {
-    this.storage.set(App._storageKey, JSON.stringify(this.state));
+  saveState() {
+    this.storage.set(App.storageKey, JSON.stringify(this.state));
   }
 
   render() {
     return (
       <div className="App">
         <TodoHeader
-          addTask={v => this._addTask(v)}
-          toggleAll={() => this._toggleAll()}
+          addTask={v => this.addTask(v)}
+          toggleAll={() => this.toggleAll()}
           toggleAllChecked={this.state.toggleAllChecked}
         />
-        {0 < this._getCount(ALL) && (
+        {0 < this.getCount(ALL) && (
           <div>
             <TodoBody
-              tasks={this._getTasks()}
-              onCheck={task_id => this._toggle(task_id)}
-              onRemove={task_id => this._remove(task_id)}
-              edit={(task_id, text) => this._edit(task_id, text)}
+              tasks={this.getTasks()}
+              onCheck={task_id => this.toggle(task_id)}
+              onRemove={task_id => this.remove(task_id)}
+              edit={(task_id, text) => this.edit(task_id, text)}
             />
             <TodoFooter
-              count={this._getCount(ACTIVE)}
-              showRemoveCompleted={0 < this._getCount(COMPLETED)}
-              setTasksType={taskType => this._setTasksType(taskType)}
-              removeCompleted={() => this._removeCompleted()}
+              count={this.getCount(ACTIVE)}
+              showRemoveCompleted={0 < this.getCount(COMPLETED)}
+              setTasksType={taskType => this.setTasksType(taskType)}
+              removeCompleted={() => this.removeCompleted()}
             />
           </div>
         )}
@@ -95,24 +95,24 @@ export class App extends React.Component<{}, AppState> {
     );
   }
 
-  _getTasks(): Array<Task> {
+  getTasks(): Array<Task> {
     return this.state.todo.getTasks(this.state.taskType);
   }
 
-  _setTasksType(taskType: TaskType) {
+  setTasksType(taskType: TaskType) {
     this.setState((state, props) => {
       return {taskType: taskType};
     });
   }
 
-  _getCount(taskType: TaskType): number {
+  getCount(taskType: TaskType): number {
     return this.state.todo.getCount(taskType);
   }
 
-  _edit(task_id: string, _text: string) {
+  edit(task_id: string, _text: string) {
     const text = _text.trim();
     if (text === "") {
-      this._remove(task_id);
+      this.remove(task_id);
       return;
     }
     this.setState((state, props) => {
@@ -121,28 +121,28 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
-  _toggle(task_id: string) {
+  toggle(task_id: string) {
     this.setState((state, props) => {
       state.todo.toggle(task_id);
       return {todo: state.todo};
     });
   }
 
-  _remove(task_id: string) {
+  remove(task_id: string) {
     this.setState((state, props) => {
       state.todo.remove(task_id);
       return {todo: state.todo};
     });
   }
 
-  _removeCompleted() {
+  removeCompleted() {
     this.setState((state, props) => {
       state.todo.removeCompleted();
       return {todo: state.todo};
     });
   }
 
-  _addTask(_text: string) {
+  addTask(_text: string) {
     const text = _text.trim();
     if (text === "") {
       return;
@@ -153,7 +153,7 @@ export class App extends React.Component<{}, AppState> {
     });
   }
 
-  _toggleAll() {
+  toggleAll() {
     this.setState((state, props) => {
       const completed = !state.toggleAllChecked;
       state.todo.toggleAll(completed);
@@ -193,7 +193,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           value={this.state.value}
           placeholder="What needs to be complete?"
           onChange={event => this.setState({value: event.target.value})}
-          onKeyDown={event => this._handleKeyDown(event)}
+          onKeyDown={event => this.handleKeyDown(event)}
           title="add new task"
           className="add-new-task"
           autoFocus
@@ -202,17 +202,17 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
     );
   }
 
-  _handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
-        this._submit(event);
+        this.submit(event);
         break;
       default:
       // do nothing
     }
   }
 
-  _submit(event: KeyboardEvent) {
+  submit(event: KeyboardEvent) {
     event.preventDefault();
     this.props.addTask(this.state.value);
     this.setState({value: ""});
@@ -275,18 +275,18 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           title="toggle task"
           className="toggle"
         />
-        {this.state.edit ? this._editForm() : this._taskBody()}
+        {this.state.edit ? this.editForm() : this.taskBody()}
       </div>
     );
   }
 
-  _editForm() {
+  editForm() {
     return (
       <input
         value={this.state.value}
         onChange={event => this.setState({value: event.target.value})}
-        onBlur={event => this._handleTextEdit(event)}
-        onKeyDown={event => this._handleKeyDown(event)}
+        onBlur={event => this.handleTextEdit(event)}
+        onKeyDown={event => this.handleKeyDown(event)}
         title="edit task text"
         autoFocus
         className="edit"
@@ -294,11 +294,11 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
     );
   }
 
-  _taskBody() {
+  taskBody() {
     return (
       <span>
         <span
-          onDoubleClick={() => this._switchEdit()}
+          onDoubleClick={() => this.switchEdit()}
           title="double click to edit task text"
           className="text"
         >
@@ -315,26 +315,26 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
     );
   }
 
-  _handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
-        this._handleTextEdit(event);
+        this.handleTextEdit(event);
         break;
       case "Escape":
-        this._switchEdit();
+        this.switchEdit();
         break;
       default:
       // do nothing
     }
   }
 
-  _handleTextEdit(event: KeyboardEvent) {
+  handleTextEdit(event: KeyboardEvent) {
     event.preventDefault();
     this.props.edit(this.state.value);
-    this._switchEdit();
+    this.switchEdit();
   }
 
-  _switchEdit() {
+  switchEdit() {
     this.setState({edit: !this.state.edit});
   }
 }
