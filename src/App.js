@@ -27,15 +27,15 @@ export class App extends React.Component<{}, AppState> {
   // try load state from storage or return default state
   _newState(): AppState {
     try {
-      return this._loadState();
+      return this._parseState(this.storage.get(App._storageKey));
     } catch (e) {
       console.log(e.message);
       return this._defaultState();
     }
   }
-
-  _loadState(): AppState {
-    const state = JSON.parse(this.storage.get(App._storageKey));
+  
+  _parseState(data: string): AppState {
+    const state = JSON.parse(data);
     if (! isTaskType(state.taskType)) {
       throw new Error("load state: bad taskType");
     }
