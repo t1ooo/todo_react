@@ -22,50 +22,36 @@ beforeEach(() => {
 
 const taskText = (i = 0) => `task #${i}`;
 
-describe("no tasks", () => {
+
+describe("show todo", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
   });
 
-  it("show header", () => {
+  it("show header when no task", () => {
     expect(ath.contains(ath.header())).toBe(true);
-  });
-
-  it("hide body", () => {
     expect(ath.contains(ath.body())).toBe(false);
+    expect(ath.contains(ath.footer())).toBe(false);
   });
 
-  it("hide footer", () => {
-    expect(ath.contains(ath.footer())).toBe(false);
+  it("show header, body, footer when add task", () => {
+    ath.addTask(taskText());
+    expect(ath.contains(ath.header())).toBe(true);
+    expect(ath.contains(ath.body())).toBe(true);
+    expect(ath.contains(ath.footer())).toBe(true);
   });
 });
 
-describe("add task", () => {
+
+describe("add new task", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
     ath.addTask(taskText());
   });
 
-  // visibility
-  it("show header", () => {
-    expect(ath.contains(ath.header())).toBe(true);
-  });
-
-  it("show body", () => {
-    expect(ath.contains(ath.body())).toBe(true);
-  });
-
-  it("show footer", () => {
-    expect(ath.contains(ath.footer())).toBe(true);
-  });
-
   // task_add_input_field
-  it("task_add_input_field has placeholder", () => {
-    expect(ath.input().placeholder).toBe("What needs to be complete?");
-  });
-
   it("focus on task_add_input_field", () => {
     expect(ath.input()).toHaveFocus();
   });
@@ -77,7 +63,7 @@ describe("add task", () => {
   // task
   it("add task to the end of task list", () => {
     expect(ath.tasks().length).toBe(1);
-    expect(ath.containsTask(taskText())).toBe(true);
+    expect(ath.lastTask().getText()).toBe(taskText());
   });
 
   it("not add task when text_task is empty", () => {
@@ -95,12 +81,8 @@ describe("add task", () => {
     ath.addTask(text);
     expect(ath.containsTask(text.trim())).toBe(true);
   });
-
-  // tasks_left_count
-  it("increment tasks_left_count", () => {
-    expect(ath.taskCount().textContent).toBe("1 item left");
-  });
 });
+
 
 describe("mark task as done", () => {
   let ath;
@@ -110,19 +92,8 @@ describe("mark task as done", () => {
     ath.lastTask().clickToggle();
   });
 
-  // task
   it("task is checked", () => {
     expect(ath.lastTask().checked()).toBe(true);
-  });
-
-  // tasks_left_count
-  it("decrement tasks_left_count", () => {
-    expect(ath.taskCount().textContent).toBe("0 items left");
-  });
-
-  // completed_tasks_clear_button
-  it("show completed_tasks_clear_button", () => {
-    expect(ath.contains(ath.removeCompleted())).toBe(true);
   });
 });
 
@@ -130,93 +101,63 @@ describe("mark task as undone", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
+    
     ath.addTask(taskText());
+    
     ath.lastTask().clickToggle();
     ath.lastTask().clickToggle();
   });
 
-  // task
   it("task is unchecked", () => {
     expect(ath.lastTask().checked()).toBe(false);
   });
-
-  // tasks_left_count
-  it("increment tasks_left_count", () => {
-    expect(ath.taskCount().textContent).toBe("1 item left");
-  });
-
-  // completed_tasks_clear_button
-  it("hide completed_tasks_clear_button", () => {
-    expect(ath.contains(ath.removeCompleted())).toBe(false);
-  });
 });
 
-describe("mark all task as done", () => {
-  const count = 5;
+
+describe("mark all tasks as done", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    for(let i=0; i<count; i++) {
-      ath.addTask(taskText(i));
-    }
+    
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1));
+    
     click(ath.toggleAll());
   });
 
-  // toggle all
   it("toggle_all is checked", () => {
     expect(ath.toggleAll().checked).toBe(true);
   });
 
   // task
-  it("all task is checked", () => {
+  it("all tasks are checked", () => {
     ath.tasks().forEach(task=>{
       expect(task.checked()).toBe(true);
     });
   });
-
-  // tasks_left_count
-  it("decrement tasks_left_count", () => {
-    expect(ath.taskCount().textContent).toBe("0 items left");
-  });
-
-  // completed_tasks_clear_button
-  it("show completed_tasks_clear_button", () => {
-    expect(ath.contains(ath.removeCompleted())).toBe(true);
-  });
 });
 
-describe("mark all task as undone", () => {
-  const count = 5;
+describe("mark all tasks as undone", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    for(let i=0; i<count; i++) {
-      ath.addTask(taskText(i));
-    }
+    
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1));
+    
     click(ath.toggleAll());
     click(ath.toggleAll());
   });
 
-  // toggle all
   it("toggle_all is unchecked", () => {
     expect(ath.toggleAll().checked).toBe(false);
   });
 
   // task
-  it("all task is unchecked", () => {
+  it("all tasks are unchecked", () => {
     ath.tasks().forEach(task=>{
       expect(task.checked()).toBe(false);
     });
-  });
-
-  // tasks_left_count
-  it("increment tasks_left_count", () => {
-    expect(ath.taskCount().textContent).toBe(`${count} items left`);
-  });
-
-  // completed_tasks_clear_button
-  it("hide completed_tasks_clear_button", () => {
-    expect(ath.contains(ath.removeCompleted())).toBe(false);
   });
 });
 
@@ -228,10 +169,10 @@ describe("remove task", () => {
     ath.addTask(taskText(1));
   });
 
-  // task
   it("remove task", () => {
     const len = ath.tasks().length;
     ath.lastTask().clickRemove();
+   
     expect(ath.tasks().length).toBe(len-1);
     expect(ath.containsTask(taskText(0))).toBe(true);
     expect(ath.containsTask(taskText(1))).toBe(false);
@@ -239,15 +180,15 @@ describe("remove task", () => {
 });
 
 describe("remove completed tasks", () => {
-  const count = 4;
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    for(let i=0; i<count; i++) {
-      ath.addTask(taskText(i));
-    }
-    ath.task(1).clickToggle();
-    ath.task(3).clickToggle();
+
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1)); ath.task(1).clickToggle();
+    ath.addTask(taskText(2));
+    ath.addTask(taskText(3)); ath.task(3).clickToggle();
+
     click(ath.removeCompleted());
   });
 
@@ -258,9 +199,25 @@ describe("remove completed tasks", () => {
     expect(ath.containsTask(taskText(2))).toBe(true);
     expect(ath.containsTask(taskText(3))).toBe(false);
   });
+});
 
-  it("hide completed_tasks_clear_button", () => {
+describe("show completed_tasks_clear button", () => {
+  let ath;
+  beforeEach(() => {
+    ath = new AppTestHelper(render(<App />));
+  });
+
+  it("hide when no completed tasks", () => {
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1));
     expect(ath.contains(ath.removeCompleted())).toBe(false);
+  });
+
+  it("show when have completed tasks", () => {
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1));
+    ath.lastTask().clickToggle();
+    expect(ath.contains(ath.removeCompleted())).toBe(true);
   });
 });
 
@@ -277,7 +234,7 @@ describe("edit task", () => {
     changeInput(edit, newText);
   };
 
-  it("hide task_edit_input before edit", () => {
+  it("hide task_edit_input by default", () => {
     const task = ath.lastTask();
     expect(task.contains(task.edit())).toBe(false);
   });
@@ -350,15 +307,42 @@ describe("edit task", () => {
   });
 });
 
+describe("show tasks_left_count", () => {
+  let ath;
+  beforeEach(() => {
+    ath = new AppTestHelper(render(<App />));
+  });
+
+  it("increment when add task", () => {
+    ath.addTask(taskText());
+    expect(ath.taskCount().textContent).toBe("1 item left");
+
+    ath.addTask(taskText());
+    expect(ath.taskCount().textContent).toBe("2 items left");
+  });
+
+  it("decrement when mark task as done", () => {
+    ath.addTask(taskText());
+    ath.addTask(taskText());
+    expect(ath.taskCount().textContent).toBe("2 items left");
+
+    ath.task(0).clickToggle();
+    expect(ath.taskCount().textContent).toBe("1 item left");
+
+    ath.task(1).clickToggle();
+    expect(ath.taskCount().textContent).toBe("0 items left");
+  });
+});
+
 describe("show task by type", () => {
   const count = 3;
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    for(let i=0; i<count; i++) {
-      ath.addTask(taskText(i));
-    }
-    ath.task(1).clickToggle();
+
+    ath.addTask(taskText(0));
+    ath.addTask(taskText(1)); ath.task(1).clickToggle();
+    ath.addTask(taskText(2));
   });
 
   it("show active tasks when click to active_tasks_button", () => {
@@ -385,6 +369,7 @@ describe("show task by type", () => {
   });
 });
 
+
 function append() {
   const container = document.createElement('div');
   document.body && document.body.appendChild(container);
@@ -407,7 +392,7 @@ describe("restore state", () => {
     container = remove(container);
   });
 
-  it("equal state after restore", () => {
+  it("equal after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app.addTask(taskText(0));
@@ -427,7 +412,7 @@ describe("restore state", () => {
     expect(state1()).toStrictEqual(state2());
   });
 
-  it("not equal state after restore", () => {
+  it("not equal after restore", () => {
     const state1 = () => {
       const app = reactDomRender(<App />, container);
       app.addTask(taskText(0));
@@ -535,7 +520,7 @@ class AppTestHelper {
     fireEvent.change(input, {target: {value: text}});
     fireEvent.keyDown(input, {key: "Enter", keyCode: 13, which: 13});
   };
-  
+
   contains = el => this.cnt.contains(el);
   containsTask = taskText => this.queryByText(taskText) !== null;
 }
@@ -551,7 +536,7 @@ class TaskTestHelper {
 
   text = () => this.task.queryByTitle("double click to edit task text");
   edit = () => this.task.queryByTitle("edit task text");
-  
+
   contains = el => this.el.contains(el);
   checked = () => this.task.getByTitle("toggle task").checked;
   clickRemove = () => click(this.task.getByText("remove"));
