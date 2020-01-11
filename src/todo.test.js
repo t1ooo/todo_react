@@ -6,9 +6,9 @@ import {Todo, Task} from "./todo";
 describe("Todo serialization/deserialization", () => {
   it("no error", () => {
     const todo = new Todo();
-    todo.add("some task #0");
-    todo.add("some task #1");
-    todo.add("some task #2");
+    todo.add(new Task("some task #0"));
+    todo.add(new Task("some task #1"));
+    todo.add(new Task("some task #2"));
     todo.toggleAll(true);
 
     const json = JSON.stringify(todo);
