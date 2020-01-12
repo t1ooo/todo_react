@@ -12,13 +12,15 @@ import {isBool, isString} from "./typeof";
 
 // --------------------------------------------------------------------------------
 
+type AppProps = {};
+
 type AppState = {
   todo: Todo,
   taskType: TaskType,
   toggleAllChecked: bool,
 };
 
-export class App extends React.Component<{}, AppState> {
+export class App extends React.Component<AppProps, AppState> {
   static storagePrefix: string = "react-todo";
   static storageKey: string = "data";
   storage = new Storage(App.storagePrefix);
@@ -57,9 +59,13 @@ export class App extends React.Component<{}, AppState> {
     };
   }
 
-  setState(updater: Function) {
+  setState(
+    updater: ?$Shape<AppState> | ((AppState, AppProps) => ?$Shape<AppState>),
+    callback?: () => mixed,
+  ) {
     super.setState(updater, () => {
       this.saveState();
+      callback && callback();
     });
   }
 
