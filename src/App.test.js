@@ -450,7 +450,7 @@ describe("parse state", () => {
     toggleAllChecked: true,
   };
 
-  const updateState = (key, val) => ({...defaultState, [key]:val});
+  const updateState = (key: string, val) => ({...defaultState, [key]:val});
 
   const testValid = (key, table) => {
     it.each(table)(`no error when ${key} is valid: %p`, (val) => {

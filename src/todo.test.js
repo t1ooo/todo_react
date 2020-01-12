@@ -24,7 +24,7 @@ describe("new Task from object", () => {
     id: "id"
   };
 
-  const updateObj = (key, val) => ({...defaultObj, [key]:val});
+  const updateObj = (key: string, val) => ({...defaultObj, [key]:val});
 
   const testValid = (key, table) => {
     it.each(table)(`no error when ${key} is valid: %p`, (val) => {
