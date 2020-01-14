@@ -103,12 +103,15 @@
 x add private props and methods
     <!-- not testable -->
 - add style
-- code snippets
 - ? save App state before unload
-- ? test with testid https://testing-library.com/docs/guide-which-query
++ ? test with testid https://testing-library.com/docs/guide-which-query
 - ? routing
 - ? jest-puppeteer
 - ? framework agnostic tests
 - test: toMatchSnapshot
 + eslint-plugin-flowtype
 - ? hover inline style
++ add app.parseState; rewrite tests
++ write new Task test
+x move types to separate declaration file
+    <!-- does not work as expected -->
