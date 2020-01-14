@@ -93,7 +93,7 @@ export class Task {
     this.text = text;
   }
 
-  get text() { return this._text; }
+  get text(): string { return this._text; }
   set text(val: string) {
     if (! isString(val) || val === "") {
       throw new Error("bad text");
@@ -101,7 +101,7 @@ export class Task {
     this._text = val;
   }
 
-  get completed() { return this._completed; }
+  get completed(): bool { return this._completed; }
   set completed(val: bool) {
     if (! isBool(val)) {
       throw new Error("bad completed");
@@ -109,7 +109,7 @@ export class Task {
     this._completed = val;
   }
 
-  get id() { return this._id; }
+  get id(): string { return this._id; }
   set id(val: string) {
     if (! isString(val) || val === "") {
       throw new Error("bad id");
