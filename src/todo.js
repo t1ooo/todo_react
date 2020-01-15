@@ -1,6 +1,7 @@
 // @flow strict
 
 import {isBool, isString} from "./typeof.js";
+import {genId} from "./genid.js";
 
 // task types
 export const ALL = "all";
@@ -131,12 +132,4 @@ export class Task {
       id: this._id,
     };
   }
-}
-
-function genId(): string {
-  return (
-    Math.random()
-      .toString(36)
-      .substring(2) + Date.now().toString(36)
-  );
 }
