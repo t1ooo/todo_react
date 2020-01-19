@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import {Todo, Task, isTaskType, ALL, ACTIVE, COMPLETED} from "./todo";
 import type {TaskType} from "./todo";
 import {isBool, isString} from "./typeof";
+import {genId} from "./genid.js";
 
 // --------------------------------------------------------------------------------
 
@@ -76,27 +77,31 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div className="App">
-        <TodoHeader
-          addTask={v => this.addTask(v)}
-          toggleAll={() => this.toggleAll()}
-          toggleAllChecked={this.state.toggleAllChecked}
-        />
-        {0 < this.getCount(ALL) && (
-          <div>
-            <TodoBody
-              tasks={this.getTasks()}
-              onCheck={task_id => this.toggle(task_id)}
-              onRemove={task_id => this.remove(task_id)}
-              edit={(task_id, text) => this.edit(task_id, text)}
-            />
-            <TodoFooter
-              count={this.getCount(ACTIVE)}
-              showRemoveCompleted={0 < this.getCount(COMPLETED)}
-              setTasksType={taskType => this.setTasksType(taskType)}
-              removeCompleted={() => this.removeCompleted()}
-            />
-          </div>
-        )}
+        <h1>Todos</h1>
+        <div className="body">
+          <TodoHeader
+            addTask={v => this.addTask(v)}
+            toggleAll={() => this.toggleAll()}
+            toggleAllChecked={this.state.toggleAllChecked}
+          />
+          {0 < this.getCount(ALL) && (
+            <div>
+              <TodoBody
+                tasks={this.getTasks()}
+                onCheck={task_id => this.toggle(task_id)}
+                onRemove={task_id => this.remove(task_id)}
+                edit={(task_id, text) => this.edit(task_id, text)}
+              />
+              <TodoFooter
+                count={this.getCount(ACTIVE)}
+                showRemoveCompleted={0 < this.getCount(COMPLETED)}
+                setTasksType={taskType => this.setTasksType(taskType)}
+                activeTasksType={this.state.taskType}
+                removeCompleted={() => this.removeCompleted()}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -181,6 +186,7 @@ type TodoHeaderState = {
 };
 
 class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
+  id = genId();
   state = {
     value: "",
   };
@@ -194,7 +200,13 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           checked={this.props.toggleAllChecked}
           title="toggle all tasks"
           className="toggle-all"
+          id={this.id} 
         />
+        <label 
+          for={this.id} 
+          className="toggle-all-label"
+          title="toggle all tasks"
+        ></label>
         <input
           value={this.state.value}
           placeholder="What needs to be complete?"
@@ -266,6 +278,7 @@ type TaskItemState = {
 };
 
 class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
+  id = genId();
   state = {
     value: this.props.text,
     edit: false,
@@ -280,7 +293,13 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           onChange={this.props.onCheck}
           title="toggle task"
           className="toggle"
+          id={this.id}
         />
+        <label 
+          for={this.id} 
+          className="toggle-label"
+          title="toggle task"
+        ></label>
         {this.state.edit ? this.editForm() : this.taskBody()}
       </div>
     );
@@ -315,7 +334,6 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           onClick={this.props.onRemove}
           title="remove task"
         >
-          remove
         </button>
       </span>
     );
@@ -350,27 +368,32 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
 type TodoFooterProps = {
   count: number,
   setTasksType: (TaskType) => void,
+  activeTasksType: string,
   showRemoveCompleted: bool,
   removeCompleted: () => void,
 };
 
 function TodoFooter(props: TodoFooterProps) {
+  const active = (typ) => (typ === props.activeTasksType ? " active" : "");
+
   return (
     <div className="TodoFooter">
       <span className="count">
         {props.count} item{plural(props.count)} left
       </span>
 
-      {[ALL, ACTIVE, COMPLETED].map(typ => (
-        <button
-          onClick={() => props.setTasksType(typ)}
-          title={`show ${typ} tasks`}
-          key={typ}
-          className={`show-${typ}`}
-        >
-          {typ}
-        </button>
-      ))}
+      <span className="show-type">
+        {[ALL, ACTIVE, COMPLETED].map(typ => (
+          <button
+            onClick={() => props.setTasksType(typ)}
+            title={`show ${typ} tasks`}
+            key={typ}
+            className={"show-" + typ + active(typ)}
+          >
+            {typ}
+          </button>
+        ))}
+      </span>
 
       {props.showRemoveCompleted && (
         <button
