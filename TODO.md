@@ -115,3 +115,4 @@ x add private props and methods
 + write new Task test
 x move types to separate declaration file
     <!-- does not work as expected -->
+- remove class toggle-label, toggle-all-label
