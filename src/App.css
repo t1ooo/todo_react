@@ -17,10 +17,9 @@ button {
 
 #root {
   display: flex;
-} 
+}
 
 .App {
-  #box-shadow: 2px 2px 2px 2px brown;
   width: 500px;
   margin-left: auto;
   margin-right: auto;
@@ -37,14 +36,12 @@ button {
 
 .TodoHeader {
   border-bottom: 1px solid #cacaca;
-  #box-shadow: inset 0px 0px 20px 5px #eee;
 }
 .TodoHeader .add-new-task {
   width: 90%;
   height: var(--item-height);
   border: none;
   font-size: inherit;
-  #margin-left: 5px;
   padding-left: 5px;
   color: var(--gray-color);
   outline: none; /* remove autofocus border*/
@@ -55,20 +52,9 @@ button {
 .TodoHeader .toggle-all {
   display: none;
 }
-/*.TodoHeader .toggle-all + label {
-  transform: rotate(89deg);
-  # position: absolute;
-  display: inline-block;
-  margin: 5px;
-}
-.TodoHeader .toggle-all-label::after {
-  content: '❯';
-}*/
 .TodoHeader .toggle-all + label::after {
-  #vertical-align: 10%;
   margin-left: 5px;
   margin-right: 5px;
-  #font-size: 20px;
   cursor: pointer;
   color: var(--gray-color);
 }
@@ -82,11 +68,8 @@ button {
 
 .TaskItem {
   border-bottom: 1px solid #cacaca;
-  #border-top: 1px solid #cacaca;
-  #font-size: 20px;
   height: var(--item-height);
   width: 100%;
-  #display: block;
 }
 .TaskItem > * {
   line-height: var(--item-height);
@@ -97,17 +80,11 @@ button {
   display: inline-block;
 }
 .TaskItem .toggle {
-  #vertical-align: -moz-middle-with-baseline;
-  #vertical-align: -45%;
   display: none;
 }
 .TaskItem .toggle + label::after {
-  #vertical-align: -40%;
   margin-left: 5px;
   cursor: pointer;
-  #margin-right: 5px;
-  #line-height: var(--item-height);
-  #vertical-align: middle;
   color: var(--gray-color);
 }
 .TaskItem .toggle + label::after {
@@ -118,13 +95,9 @@ button {
   color: var(--color-green);
 }
 .TaskItem .text {
-  #vertical-align: -moz-middle-with-baseline;
-  #vertical-align: -40%;
   width: 90%;
   display: inline-block;
   margin-left: 10px;
-  #line-height: var(--item-height);
-  #vertical-align: middle;
   color: var(--black-color);
 }
 .TaskItem[data-status="completed"] .text {
@@ -133,25 +106,19 @@ button {
 }
 
 .TaskItem .edit {
-  #vertical-align: -40%;
   width: 94%;
   height: 90%;
   border: none;
-  #font-size: 20px;
   font-size: inherit;
   font-family: inherit;
-  #margin: 0px;
   margin-left: 5px;
   padding-left: 5px;
   box-sizing: border-box;
   box-shadow: inset 0px 0px 2px 2px #eee;
-  #line-height: var(--item-height);
-  #vertical-align: middle;
   color: var(--black-color);
   outline: none; /* remove autofocus border*/
 }
 .TaskItem .remove {
-  #vertical-align: -moz-middle-with-baseline;
   vertical-align: -40%;
   position: relative;
   right: 0px;
@@ -159,7 +126,6 @@ button {
   color: var(--red-color);
   cursor: pointer;
   display: none;
-  #line-height: 45px;
   vertical-align: baseline;
 }
 .TaskItem:hover .remove {
@@ -170,32 +136,23 @@ button {
 }
 
 .TodoFooter {
-  height: var(--item-height); 
+  height: var(--item-height);
   font-size: 15px;
   width: 100%;
-  #text-align: center;
 }
 .TodoFooter > * {
   line-height: var(--item-height);
   vertical-align: middle;
 }
 .TodoFooter .count {
-  #vertical-align: -50%;
   font-size: inherit;
   float: left;
-  #line-height: var(--item-height);
-  #vertical-align: middle;
   margin-left: 10px;
   margin-right: 70px;
   color: var(--gray-color);
 }
-/* TODO: center */
 .TodoFooter [class="show-type"] {
-  #vertical-align: -50%;
   float: left;
-  #line-height: 3em;
-  #vertical-align: middle;
-  
 }
 .TodoFooter [class="show-type"] button {
   font-size: inherit;
@@ -215,17 +172,10 @@ button {
 .TodoFooter .remove-completed {
   vertical-align: -50%;
   font-size: inherit;
-  #right: -100px;
-  #position: relative;
-  #display: inline-block;
-  #margin-right: 0px;
   float: right;
-  #line-height: 3em;
-  #vertical-align: middle;
   margin-right: 10px;
   cursor: pointer;
   color: var(--gray-color);
-  #text-transform: capitalize;
 }
 .TodoFooter .remove-completed::first-letter {
   text-transform: capitalize;
