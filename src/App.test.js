@@ -493,6 +493,7 @@ class AppTestHelper {
     this.getByTitle = getByTitle;
     this.getByText = getByText;
     this.queryByText = queryByText;
+    //this.queryByLabelText = queryByLabelText;
   }
 
   container = () => this.cnt;
@@ -506,7 +507,9 @@ class AppTestHelper {
   lastTask = () => arrayLast(this.tasks());
 
   input = () => this.getByPlaceholderText("What needs to be complete?");
-  toggleAll = () => this.getByTitle("toggle all tasks");
+  /* toggleAll = () => this.getByTitle("toggle all tasks"); */
+  toggleAll = () => this.cnt.querySelector(".toggle-all");
+  /* toggleAll = () => this.queryByLabelText("☑") || this.queryByLabelText("☐"); */
 
   taskCount = () => this.cnt.querySelector(".count");
   removeCompleted = () => this.queryByText("remove completed");
@@ -538,9 +541,11 @@ class TaskTestHelper {
   edit = () => this.task.queryByTitle("edit task text");
 
   contains = el => this.el.contains(el);
-  checked = () => this.task.getByTitle("toggle task").checked;
-  clickRemove = () => click(this.task.getByText("remove"));
-  clickToggle = () => click(this.task.getByTitle("toggle task"));
+  /* checked = () => this.task.getByTitle("toggle task").checked; */
+  checked = () => this.el.querySelector(".toggle").checked;
+  /* clickRemove = () => click(this.task.getByText("remove")); */
+  clickRemove = () => click(this.el.querySelector(".remove"));
+  clickToggle = () => click(this.task.queryByTitle("toggle task"));
   getText = () => this.text().textContent;
 }
 
