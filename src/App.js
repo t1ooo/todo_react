@@ -198,7 +198,6 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           type="checkbox"
           onChange={this.props.toggleAll}
           checked={this.props.toggleAllChecked}
-          title="toggle all tasks"
           className="toggle-all"
           id={this.id} 
         />
@@ -291,7 +290,6 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           type="checkbox"
           checked={this.props.checked}
           onChange={this.props.onCheck}
-          title="toggle task"
           className="toggle"
           id={this.id}
         />
