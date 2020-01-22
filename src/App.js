@@ -203,7 +203,6 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
         />
         <label 
           htmlFor={this.id} 
-          className="toggle-all-label"
           title="toggle all tasks"
         ></label>
         <input
@@ -295,7 +294,6 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
         />
         <label 
           htmlFor={this.id} 
-          className="toggle-label"
           title="toggle task"
         ></label>
         {this.state.edit ? this.editForm() : this.taskBody()}
