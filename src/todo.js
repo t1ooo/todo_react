@@ -10,7 +10,7 @@ export const COMPLETED = "completed";
 
 export type TaskType = "all" | "active" | "completed";
 
-export function isTaskType(taskType: mixed): bool {
+export function isTaskType(taskType: mixed): boolean {
   return [ALL, ACTIVE, COMPLETED].includes(taskType);
 }
 
@@ -18,7 +18,7 @@ export class Todo {
   _tasks: Array<Task> = [];
 
   static fromObject(o: Object): Todo {
-    if (! Array.isArray(o.tasks)) {
+    if (!Array.isArray(o.tasks)) {
       throw new Error("bad tasks");
     }
     const todo = new Todo();
@@ -80,7 +80,7 @@ export class Todo {
 
   toJSON(): Object {
     return {
-      tasks: this._tasks
+      tasks: this._tasks,
     };
   }
 }
@@ -94,25 +94,31 @@ export class Task {
     this.text = text;
   }
 
-  get text(): string { return this._text; }
+  get text(): string {
+    return this._text;
+  }
   set text(val: string) {
-    if (! isString(val) || val === "") {
+    if (!isString(val) || val === "") {
       throw new Error("bad text");
     }
     this._text = val;
   }
 
-  get completed(): bool { return this._completed; }
-  set completed(val: bool) {
-    if (! isBool(val)) {
+  get completed(): boolean {
+    return this._completed;
+  }
+  set completed(val: boolean) {
+    if (!isBool(val)) {
       throw new Error("bad completed");
     }
     this._completed = val;
   }
 
-  get id(): string { return this._id; }
+  get id(): string {
+    return this._id;
+  }
   set id(val: string) {
-    if (! isString(val) || val === "") {
+    if (!isString(val) || val === "") {
       throw new Error("bad id");
     }
     this._id = val;

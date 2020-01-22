@@ -1,6 +1,6 @@
 // @flow strict
 
-import { describe, it, expect, } from 'jest-without-globals';
+import {describe, it, expect} from "jest-without-globals";
 import {Todo, Task} from "./todo";
 
 describe("Todo serialization/deserialization", () => {
@@ -21,20 +21,20 @@ describe("new Task from object", () => {
   const defaultObj = {
     text: "text",
     completed: true,
-    id: "id"
+    id: "id",
   };
 
-  const updateObj = (key: string, val) => ({...defaultObj, [key]:val});
+  const updateObj = (key: string, val) => ({...defaultObj, [key]: val});
 
   const testValid = (key, table) => {
-    it.each(table)(`no error when ${key} is valid: %p`, (val) => {
+    it.each(table)(`no error when ${key} is valid: %p`, val => {
       const obj = updateObj(key, val);
       Task.fromObject(obj);
     });
   };
 
   const testInvalid = (key, table) => {
-    it.each(table)(`throw error when ${key} is invalid: %p`, (val) => {
+    it.each(table)(`throw error when ${key} is invalid: %p`, val => {
       const obj = updateObj(key, val);
       expect(() => {
         Task.fromObject(obj);

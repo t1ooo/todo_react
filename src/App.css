@@ -1,3 +1,4 @@
+/* variables */
 :root {
   --red-color: #cc9a9a;
   --black-color: #333;
@@ -6,6 +7,9 @@
   --color-green: green;
 }
 
+/* styles */
+
+/* general */
 body {
   font-size: 20px;
 }
@@ -15,28 +19,34 @@ button {
   background-color: inherit;
 }
 
+/* app container */
 #root {
   display: flex;
 }
 
+/* app */
 .App {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
-.App h1{
+
+.App h1 {
   color: var(--red-color);
   text-transform: uppercase;
   text-align: center;
   font-size: 40px;
 }
+
 .App .body {
   box-shadow: 0px 5px 10px 1px black;
 }
 
+/* todo header */
 .TodoHeader {
   border-bottom: 1px solid #cacaca;
 }
+
 .TodoHeader .add-new-task {
   width: 90%;
   height: var(--item-height);
@@ -46,60 +56,74 @@ button {
   color: var(--gray-color);
   outline: none; /* remove autofocus border*/
 }
+
 .TodoHeader .add-new-task::placeholder {
   font-style: italic;
 }
+
 .TodoHeader .toggle-all {
   display: none;
 }
+
 .TodoHeader .toggle-all + label::after {
   margin-left: 5px;
   margin-right: 5px;
   cursor: pointer;
   color: var(--gray-color);
 }
+
 .TodoHeader .toggle-all + label::after {
-  content: '☐';
+  content: "☐";
 }
+
 .TodoHeader .toggle-all:checked + label::after {
-  content: '☑';
+  content: "☑";
   color: var(--color-green);
 }
 
+/* todo item */
 .TaskItem {
   border-bottom: 1px solid #cacaca;
   height: var(--item-height);
   width: 100%;
 }
+
 .TaskItem > * {
   line-height: var(--item-height);
   vertical-align: baseline;
 }
-.TaskItem > span  {
+
+.TaskItem > span {
   width: 90%;
   display: inline-block;
 }
+
 .TaskItem .toggle {
   display: none;
 }
+
 .TaskItem .toggle + label::after {
   margin-left: 5px;
   cursor: pointer;
   color: var(--gray-color);
 }
+
 .TaskItem .toggle + label::after {
-  content: '☐';
+  content: "☐";
 }
+
 .TaskItem .toggle:checked + label::after {
-  content: '☑';
+  content: "☑";
   color: var(--color-green);
 }
+
 .TaskItem .text {
   width: 90%;
   display: inline-block;
   margin-left: 10px;
   color: var(--black-color);
 }
+
 .TaskItem[data-status="completed"] .text {
   text-decoration: line-through;
   opacity: 0.4;
@@ -118,6 +142,7 @@ button {
   color: var(--black-color);
   outline: none; /* remove autofocus border*/
 }
+
 .TaskItem .remove {
   vertical-align: -40%;
   position: relative;
@@ -128,22 +153,27 @@ button {
   display: none;
   vertical-align: baseline;
 }
+
 .TaskItem:hover .remove {
   display: inline;
 }
+
 .TaskItem .remove::after {
-  content: '×';
+  content: "×";
 }
 
+/* todo footer */
 .TodoFooter {
   height: var(--item-height);
   font-size: 15px;
   width: 100%;
 }
+
 .TodoFooter > * {
   line-height: var(--item-height);
   vertical-align: middle;
 }
+
 .TodoFooter .count {
   font-size: inherit;
   float: left;
@@ -151,9 +181,11 @@ button {
   margin-right: 70px;
   color: var(--gray-color);
 }
+
 .TodoFooter [class="show-type"] {
   float: left;
 }
+
 .TodoFooter [class="show-type"] button {
   font-size: inherit;
   cursor: pointer;
@@ -161,14 +193,17 @@ button {
   border: 1px solid transparent; /* prevent move when add border */
   color: var(--black-color);
 }
+
 .TodoFooter [class="show-type"] button[class*=" active"] {
   border: 1px solid #555;
   border-radius: 3px;
 }
+
 .TodoFooter [class="show-type"] button:hover {
   border: 1px solid #aaa;
   border-radius: 3px;
 }
+
 .TodoFooter .remove-completed {
   vertical-align: -50%;
   font-size: inherit;
@@ -177,9 +212,11 @@ button {
   cursor: pointer;
   color: var(--gray-color);
 }
+
 .TodoFooter .remove-completed::first-letter {
   text-transform: capitalize;
 }
+
 .TodoFooter .remove-completed:hover {
   text-decoration: underline;
 }

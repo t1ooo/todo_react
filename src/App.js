@@ -18,7 +18,7 @@ type AppProps = {};
 type AppState = {
   todo: Todo,
   taskType: TaskType,
-  toggleAllChecked: bool,
+  toggleAllChecked: boolean,
 };
 
 export class App extends React.Component<AppProps, AppState> {
@@ -36,13 +36,13 @@ export class App extends React.Component<AppProps, AppState> {
       return this.defaultState();
     }
   }
-  
+
   parseState(data: string): AppState {
     const state = JSON.parse(data);
-    if (! isTaskType(state.taskType)) {
+    if (!isTaskType(state.taskType)) {
       throw new Error("parse state error: bad taskType");
     }
-    if (! isBool(state.toggleAllChecked)) {
+    if (!isBool(state.toggleAllChecked)) {
       throw new Error("parse state error: bad toggleAllChecked");
     }
     return {
@@ -62,7 +62,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   setState(
     updater: ?$Shape<AppState> | ((AppState, AppProps) => ?$Shape<AppState>),
-    callback?: () => mixed,
+    callback?: () => mixed
   ) {
     super.setState(updater, () => {
       this.saveState();
@@ -176,9 +176,9 @@ export class App extends React.Component<AppProps, AppState> {
 // --------------------------------------------------------------------------------
 
 type TodoHeaderProps = {
-  addTask: (string) => void,
-  toggleAll: (bool) => void,
-  toggleAllChecked: bool,
+  addTask: string => void,
+  toggleAll: boolean => void,
+  toggleAllChecked: boolean,
 };
 
 type TodoHeaderState = {
@@ -199,12 +199,9 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           onChange={this.props.toggleAll}
           checked={this.props.toggleAllChecked}
           className="toggle-all"
-          id={this.id} 
+          id={this.id}
         />
-        <label 
-          htmlFor={this.id} 
-          title="toggle all tasks"
-        ></label>
+        <label htmlFor={this.id} title="toggle all tasks"></label>
         <input
           value={this.state.value}
           placeholder="What needs to be complete?"
@@ -237,8 +234,8 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
 
 type TodoBodyProps = {
   tasks: Array<Task>,
-  onCheck: (string) => void,
-  onRemove: (string) => void,
+  onCheck: string => void,
+  onRemove: string => void,
   edit: (string, string) => void,
 };
 
@@ -264,15 +261,15 @@ function TodoBody(props: TodoBodyProps) {
 
 type TaskItemProps = {
   text: string,
-  checked: bool,
+  checked: boolean,
   onCheck: () => void,
   onRemove: () => void,
-  edit: (string) => void,
+  edit: string => void,
 };
 
 type TaskItemState = {
   value: string,
-  edit: bool,
+  edit: boolean,
 };
 
 class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
@@ -284,7 +281,10 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
 
   render() {
     return (
-      <div className="TaskItem" data-status={this.props.checked ? "completed" : "active"}>
+      <div
+        className="TaskItem"
+        data-status={this.props.checked ? "completed" : "active"}
+      >
         <input
           type="checkbox"
           checked={this.props.checked}
@@ -292,10 +292,7 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           className="toggle"
           id={this.id}
         />
-        <label 
-          htmlFor={this.id} 
-          title="toggle task"
-        ></label>
+        <label htmlFor={this.id} title="toggle task"></label>
         {this.state.edit ? this.editForm() : this.taskBody()}
       </div>
     );
@@ -329,8 +326,7 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           className="remove"
           onClick={this.props.onRemove}
           title="remove task"
-        >
-        </button>
+        ></button>
       </span>
     );
   }
@@ -363,14 +359,14 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
 
 type TodoFooterProps = {
   count: number,
-  setTasksType: (TaskType) => void,
+  setTasksType: TaskType => void,
   activeTasksType: string,
-  showRemoveCompleted: bool,
+  showRemoveCompleted: boolean,
   removeCompleted: () => void,
 };
 
 function TodoFooter(props: TodoFooterProps) {
-  const active = (typ) => (typ === props.activeTasksType ? " active" : "");
+  const active = typ => (typ === props.activeTasksType ? " active" : "");
 
   return (
     <div className="TodoFooter">

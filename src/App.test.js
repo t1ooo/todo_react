@@ -1,18 +1,24 @@
 // @flow strict
 
-import { describe, it, expect, beforeEach, afterEach } from 'jest-without-globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+} from "jest-without-globals";
 import React from "react";
 import {App} from "./App";
 import {Storage} from "./storage";
 import {Todo, Task, ALL, ACTIVE, COMPLETED} from "./todo";
-import {within} from '@testing-library/dom'
+import {within} from "@testing-library/dom";
 import {render, fireEvent} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import {render as reactDomRender, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import {render as reactDomRender, unmountComponentAtNode} from "react-dom";
+import {act} from "react-dom/test-utils";
 
 const storage = new Storage(App.storagePrefix);
-const storageSet = (val) => {
+const storageSet = val => {
   storage.set(App.storageKey, val);
 };
 
@@ -21,7 +27,6 @@ beforeEach(() => {
 });
 
 const taskText = (i = 0) => `task #${i}`;
-
 
 describe("show todo", () => {
   let ath;
@@ -42,7 +47,6 @@ describe("show todo", () => {
     expect(ath.contains(ath.footer())).toBe(true);
   });
 });
-
 
 describe("add new task", () => {
   let ath;
@@ -83,7 +87,6 @@ describe("add new task", () => {
   });
 });
 
-
 describe("mark task as done", () => {
   let ath;
   beforeEach(() => {
@@ -101,9 +104,9 @@ describe("mark task as undone", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    
+
     ath.addTask(taskText());
-    
+
     ath.lastTask().clickToggle();
     ath.lastTask().clickToggle();
   });
@@ -113,15 +116,14 @@ describe("mark task as undone", () => {
   });
 });
 
-
 describe("mark all tasks as done", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    
+
     ath.addTask(taskText(0));
     ath.addTask(taskText(1));
-    
+
     click(ath.toggleAll());
   });
 
@@ -131,7 +133,7 @@ describe("mark all tasks as done", () => {
 
   // task
   it("all tasks are checked", () => {
-    ath.tasks().forEach(task=>{
+    ath.tasks().forEach(task => {
       expect(task.checked()).toBe(true);
     });
   });
@@ -141,10 +143,10 @@ describe("mark all tasks as undone", () => {
   let ath;
   beforeEach(() => {
     ath = new AppTestHelper(render(<App />));
-    
+
     ath.addTask(taskText(0));
     ath.addTask(taskText(1));
-    
+
     click(ath.toggleAll());
     click(ath.toggleAll());
   });
@@ -155,7 +157,7 @@ describe("mark all tasks as undone", () => {
 
   // task
   it("all tasks are unchecked", () => {
-    ath.tasks().forEach(task=>{
+    ath.tasks().forEach(task => {
       expect(task.checked()).toBe(false);
     });
   });
@@ -172,8 +174,8 @@ describe("remove task", () => {
   it("remove task", () => {
     const len = ath.tasks().length;
     ath.lastTask().clickRemove();
-   
-    expect(ath.tasks().length).toBe(len-1);
+
+    expect(ath.tasks().length).toBe(len - 1);
     expect(ath.containsTask(taskText(0))).toBe(true);
     expect(ath.containsTask(taskText(1))).toBe(false);
   });
@@ -185,9 +187,11 @@ describe("remove completed tasks", () => {
     ath = new AppTestHelper(render(<App />));
 
     ath.addTask(taskText(0));
-    ath.addTask(taskText(1)); ath.task(1).clickToggle();
+    ath.addTask(taskText(1));
+    ath.task(1).clickToggle();
     ath.addTask(taskText(2));
-    ath.addTask(taskText(3)); ath.task(3).clickToggle();
+    ath.addTask(taskText(3));
+    ath.task(3).clickToggle();
 
     click(ath.removeCompleted());
   });
@@ -259,7 +263,7 @@ describe("edit task", () => {
     expect(task.contains(task.text())).toBe(false);
   });
 
-  it("set cursor to input field",() => {
+  it("set cursor to input field", () => {
     const task = ath.lastTask();
     fireEvent.doubleClick(task.text());
     expect(task.edit()).toHaveFocus();
@@ -284,7 +288,7 @@ describe("edit task", () => {
   it("trim task_text", () => {
     const task = ath.lastTask();
     const newText = "updated task";
-    editTask(task, "  "+newText+"  ");
+    editTask(task, "  " + newText + "  ");
     pressEnter(task.edit());
     expect(task.getText()).toBe(newText);
   });
@@ -341,7 +345,8 @@ describe("show task by type", () => {
     ath = new AppTestHelper(render(<App />));
 
     ath.addTask(taskText(0));
-    ath.addTask(taskText(1)); ath.task(1).clickToggle();
+    ath.addTask(taskText(1));
+    ath.task(1).clickToggle();
     ath.addTask(taskText(2));
   });
 
@@ -369,9 +374,8 @@ describe("show task by type", () => {
   });
 });
 
-
 function append() {
-  const container = document.createElement('div');
+  const container = document.createElement("div");
   document.body && document.body.appendChild(container);
   return container;
 }
@@ -445,15 +449,15 @@ describe("parse state", () => {
   });
 
   const defaultState = {
-    todo: {tasks:[{text:"text", completed:true, id: "id"}]},
+    todo: {tasks: [{text: "text", completed: true, id: "id"}]},
     taskType: "all",
     toggleAllChecked: true,
   };
 
-  const updateState = (key: string, val) => ({...defaultState, [key]:val});
+  const updateState = (key: string, val) => ({...defaultState, [key]: val});
 
   const testValid = (key, table) => {
-    it.each(table)(`no error when ${key} is valid: %p`, (val) => {
+    it.each(table)(`no error when ${key} is valid: %p`, val => {
       const json = JSON.stringify(updateState(key, val));
       const app = reactDomRender(<App />, container);
       app.parseState(json);
@@ -461,7 +465,7 @@ describe("parse state", () => {
   };
 
   const testInvalid = (key, table) => {
-    it.each(table)(`throw error when ${key} is invalid: %p`, (val) => {
+    it.each(table)(`throw error when ${key} is invalid: %p`, val => {
       const json = JSON.stringify(updateState(key, val));
       const app = reactDomRender(<App />, container);
       expect(() => {
@@ -474,7 +478,7 @@ describe("parse state", () => {
   testValid("taskType", [ALL, ACTIVE, COMPLETED]);
   testValid("toggleAllChecked", [true, false]);
 
-  testInvalid("todo", ["", null, undefined, {}, {tasks:null}]);
+  testInvalid("todo", ["", null, undefined, {}, {tasks: null}]);
   testInvalid("taskType", ["", null, undefined]);
   testInvalid("toggleAllChecked", ["", null, undefined]);
 });
@@ -487,7 +491,13 @@ class AppTestHelper {
   queryByText;
 
   constructor(renderResult) {
-    const {container, getByPlaceholderText, getByTitle, getByText, queryByText} = renderResult;
+    const {
+      container,
+      getByPlaceholderText,
+      getByTitle,
+      getByText,
+      queryByText,
+    } = renderResult;
     this.cnt = container;
     this.getByPlaceholderText = getByPlaceholderText;
     this.getByTitle = getByTitle;
@@ -501,8 +511,9 @@ class AppTestHelper {
   body = () => this.cnt.querySelector(".TodoBody");
   footer = () => this.cnt.querySelector(".TodoFooter");
 
-  tasks = () => [...this.cnt.querySelectorAll(".TaskItem")].map(x=>new TaskTestHelper(x));
-  task = (i) => this.tasks()[i];
+  tasks = () =>
+    [...this.cnt.querySelectorAll(".TaskItem")].map(x => new TaskTestHelper(x));
+  task = i => this.tasks()[i];
   lastTask = () => arrayLast(this.tasks());
 
   input = () => this.getByPlaceholderText("What needs to be complete?");

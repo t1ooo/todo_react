@@ -1,6 +1,6 @@
 // @flow strict
 
-import {isString} from "./typeof.js"
+import {isString} from "./typeof.js";
 
 export class Storage {
   _prefix: string;
@@ -14,7 +14,7 @@ export class Storage {
 
   get(key: string): string {
     const val = localStorage.getItem(this._buildKey(key));
-    if (! isString(val)) {
+    if (!isString(val)) {
       throw new Error("key is not exist: " + key);
     }
     return val;
@@ -29,7 +29,7 @@ export class Storage {
   }
 
   clear() {
-    for (let i=0; i<localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (isString(key) && key.startsWith(this._prefix)) {
         localStorage.removeItem(key);
