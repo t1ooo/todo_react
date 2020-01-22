@@ -202,7 +202,7 @@ class TodoHeader extends React.Component<TodoHeaderProps, TodoHeaderState> {
           id={this.id} 
         />
         <label 
-          for={this.id} 
+          htmlFor={this.id} 
           className="toggle-all-label"
           title="toggle all tasks"
         ></label>
@@ -294,7 +294,7 @@ class TaskItem extends React.Component<TaskItemProps, TaskItemState> {
           id={this.id}
         />
         <label 
-          for={this.id} 
+          htmlFor={this.id} 
           className="toggle-label"
           title="toggle task"
         ></label>
