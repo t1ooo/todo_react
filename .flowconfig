@@ -3,9 +3,20 @@
 [include]
 
 [libs]
+<PROJECT_ROOT>/flow-typed/
 
 [lints]
 
 [options]
+lazy_mode=none
+munge_underscores=true
+include_warnings=true
+exact_by_default=true
 
 [strict]
+nonstrict-import
+unclear-type
+#unsafe-getters-setters
+#untyped-import
+untyped-type-import
+sketchy-null
