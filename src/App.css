@@ -44,10 +44,13 @@ button {
   height: var(--item-height);
   border: none;
   font-size: inherit;
-  font-style: italic;
   #margin-left: 5px;
   padding-left: 5px;
   color: var(--gray-color);
+  outline: none; /* remove autofocus border*/
+}
+.TodoHeader .add-new-task::placeholder {
+  font-style: italic;
 }
 .TodoHeader .toggle-all {
   display: none;
@@ -124,6 +127,10 @@ button {
   #vertical-align: middle;
   color: var(--black-color);
 }
+.TaskItem[data-status="completed"] .text {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
 
 .TaskItem .edit {
   #vertical-align: -40%;
@@ -141,6 +148,7 @@ button {
   #line-height: var(--item-height);
   #vertical-align: middle;
   color: var(--black-color);
+  outline: none; /* remove autofocus border*/
 }
 .TaskItem .remove {
   #vertical-align: -moz-middle-with-baseline;
@@ -159,9 +167,6 @@ button {
 }
 .TaskItem .remove::after {
   content: '×';
-}
-.TaskItem[data-status="completed"] .text {
-  text-decoration: line-through;
 }
 
 .TodoFooter {
