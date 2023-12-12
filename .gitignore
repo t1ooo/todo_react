@@ -11,6 +11,9 @@
 # production
 /build
 
+# plato
+/plato
+
 # misc
 .DS_Store
 .env.local
